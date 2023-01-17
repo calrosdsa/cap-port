@@ -20,7 +20,7 @@ func NewTemplateHandler(e *echo.Echo){
 	e.POST("/upload",handler.UploadTemplateChanges)
 	e.GET("/template/token/",handler.GenerateToken)
 	e.GET("/transporte/", func(c echo.Context) error {
-		return c.File("view/transporte.html")
+		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		return c.File("view/cookies.js")
