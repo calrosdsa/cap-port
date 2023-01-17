@@ -23,7 +23,7 @@ func NewTemplateHandler(e *echo.Echo){
 		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
 	})
 	e.GET("/test/", func(c echo.Context) error {
-		return c.File("/home/portal-cautivo/cap-port/input.html")
+		return c.File("input.html")
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
