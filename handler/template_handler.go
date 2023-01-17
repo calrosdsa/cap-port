@@ -46,7 +46,7 @@ func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
 	// %s
     // {{end}}
 	// `,html)
-    fo, err := os.Create("view/"+ filename)
+    fo, err := os.Create("/home/portal-cautivo/cap-port/view/"+ filename)
     if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
     }
