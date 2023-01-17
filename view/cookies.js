@@ -95,7 +95,7 @@ function getUrlParams(search) {
   function initAuth (){
     const params = getUrlParams(window.location.search)
 
-    const url = window.location.origin +'/about/'
+    const url = window.location.origin +'/transporte/'
     if (params.code != undefined){
       console.log("inith auth")
       getUserData(params.code,url)
@@ -109,7 +109,7 @@ function getUrlParams(search) {
       setCookie("switch_url",params.switch_url,1)
     }
     const link = document.createElement('a')
-    link.href = "https://www.facebook.com/v15.0/dialog/oauth?client_id=801740780921492&redirect_uri=https://portal.teclumobility.com:4433/about/&state={st=state123abc,ds=123456789}"
+    link.href = "https://www.facebook.com/v15.0/dialog/oauth?client_id=801740780921492&redirect_uri=https://portal.teclumobility.com:4433/transporte/&state={st=state123abc,ds=123456789}"
     link.click()
     getCookie("username")
   }
