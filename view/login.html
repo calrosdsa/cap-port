@@ -3,14 +3,42 @@
 <head>
     <meta charset="utf-8">
     <title>Single file upload</title>
+    <script type="text/javascript">
+        
+    function sendRequest () {
+    console.log("sending request")
+        let form = document.createElement("form");
+        let element1 = document.createElement("input"); 
+        let element2 = document.createElement("input");  
+
+        form.method = "POST";
+        form.action = "http://192.0.2.1/login.html";   
+
+        element1.value="marca";
+        element1.name="username";
+        form.appendChild(element1);  
+
+        element2.value="201120";
+        element2.name="password";
+        form.appendChild(element2);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    // console.log(username)
+    
+    // window.location.replace(window.location.origin + '/about/') {% endcomment %}
+    }
+    </script>
 </head>
 <body>
 <h1>Upload single file with fields</h1>
 
-<form action="/login.html" method="post">
+<form action="http://192.0.2.1/login.html" method="POST">
     Name: <input type="text" name="username"><br>
     Email: <input type="password" name="password"><br>
-    <input type="submit" value="Submit">
+    <!-- <input type="submit" value="Submit"> -->
+    <button onclick="sendRequest()">Submit </button>
 </form>
 </body>
 </html>
