@@ -32,7 +32,7 @@ func NewTemplateHandler(e *echo.Echo){
 	    return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 	})
 	e.GET("/login.html/",func(c echo.Context)(error){
-	    return c.File("view/login.html")
+	    return c.File("/home/portal-cautivo/cap-port/view/login.html")
 	})
 
 }
