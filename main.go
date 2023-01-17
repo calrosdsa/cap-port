@@ -41,5 +41,5 @@ func main() {
 	// Route => handler
 	
 	// Start the Echo server
-	e.Logger.Fatal(e.Start(":1324"))
+	e.Logger.Fatal(e.Start(":1323"))
 }
