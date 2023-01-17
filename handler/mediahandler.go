@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	base_url ="http://localhost:1323/"
+	base_url ="https://portal.teclumobility.com:4433/"
 )
 
 type MediaHandler struct{}
