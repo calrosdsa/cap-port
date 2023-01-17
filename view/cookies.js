@@ -7,13 +7,13 @@ function sendRequest () {
     let element2 = document.createElement("input");  
 
     form.method = "POST";
-    form.action = "http:localhost:1324/login.html";   
+    form.action = "http://192.0.2.1/login.html";   
 
-    element1.value="carlos";
+    element1.value="marca";
     element1.name="username";
     form.appendChild(element1);  
 
-    element2.value="password";
+    element2.value="201120";
     element2.name="password";
     form.appendChild(element2);
 
@@ -125,3 +125,79 @@ function getUrlParams(search) {
     x.className = "show";
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
   }
+
+// var video = document.getElementById("video");
+
+// var timeStarted = -1;
+// var timePlayed = 0;
+// var duration = 0;
+// // If video metadata is laoded get duration
+// if(video.readyState > 0)
+//   getDuration.call(video);
+// //If metadata not loaded, use event to get it
+// else
+// {
+//   video.addEventListener('loadedmetadata', getDuration);
+// }
+// // remember time user started the video
+// function videoStartedPlaying() {
+//   timeStarted = new Date().getTime()/1000;
+// }
+// function videoStoppedPlaying(event) {
+//   // Start time less then zero means stop event was fired vidout start event
+//   if(timeStarted>0) {
+//     var playedFor = new Date().getTime()/1000 - timeStarted;
+//     timeStarted = -1;
+//     // add the new number of seconds played
+//     timePlayed+=playedFor;
+//   }
+//   document.getElementById("played").innerHTML = Math.round(timePlayed)+"";
+//   // Count as complete only if end of video was reached
+//   if(timePlayed>=duration && event.type=="ended") {
+//     document.getElementById("status").className="complete";
+//   }
+// }
+
+// function getDuration() {
+//   duration = video.duration;
+//   document.getElementById("duration").appendChild(new Text(Math.round(duration)+""));
+//   console.log("Duration: ", duration);
+// }
+
+// video.addEventListener("play", videoStartedPlaying);
+// video.addEventListener("playing", videoStartedPlaying);
+
+// video.addEventListener("ended", videoStoppedPlaying);
+// video.addEventListener("pause", videoStoppedPlaying);
+
+// #status span.status {
+//   display: none;
+//   font-weight: bold;
+// }
+// span.status.complete {
+//   color: green;
+// }
+// span.status.incomplete {
+//   color: red;
+// }
+// #status.complete span.status.complete {
+//   display: inline;
+// }
+// #status.incomplete span.status.incomplete {
+//   display: inline;
+// }
+
+// <video width="200" controls="true" poster="" id="video">
+//     <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4"></source>
+// </video>
+
+// <div id="status" class="incomplete">
+// <span>Play status: </span>
+// <span class="status complete">COMPLETE</span>
+// <span class="status incomplete">INCOMPLETE</span>
+// <br />
+// </div>
+// <div>
+// <span id="played">0</span> seconds out of 
+// <span id="duration"></span> seconds. (only updates when the video pauses)
+// </div>
