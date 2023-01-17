@@ -1,0 +1,115 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"html/template"
+	"io"
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/labstack/echo/v4/middleware"
+
+	"portal/handler"
+
+	"github.com/labstack/echo/v4"
+)
+
+// Define the template registry struct
+type TemplateRegistry struct {
+	templates map[string]*template.Template
+}
+
+// Implement e.Renderer interface
+func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	tmpl, ok := t.templates[name]
+	if !ok {
+		err := errors.New("Template not found -> " + name)
+		return err
+	}
+	return tmpl.ExecuteTemplate(w, "base.html", data)
+}
+
+func upload(c echo.Context) error {
+	html := c.FormValue("html")
+	filename := c.FormValue("filename")
+	// log.Println(filename)
+	// html = fmt.Sprintf(`
+	// {{define "body"}}
+	// %s
+    // {{end}}
+	// `,html)
+    fo, err := os.Create(filename)
+    if err != nil {
+		log.Println(err)
+    }
+    defer func() {
+        if err := fo.Close(); err != nil {
+            log.Println(err)
+        }
+    }()
+	fo.WriteString(html)
+
+    
+
+	return c.HTML(http.StatusOK, fmt.Sprintf("<p>File %s uploaded successfully with fields</p>","heehhh"))
+}
+
+
+
+
+func main() {
+	// Echo instance
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"*"},
+		// AllowMethods: []string{"*"},
+	}))
+	// Instantiate a template registry with an array of template set
+	// Ref: https://gist.github.com/rand99/808e6e9702c00ce64803d94abff65678
+	templates := make(map[string]*template.Template)
+	// templates["home.html"] = template.Must(template.ParseFiles("view/home.html", "view/base.html"))
+	templates["about.html"] = template.Must(template.ParseFiles("view/about.html", "view/base.html"))
+	e.Renderer = &TemplateRegistry{
+		templates: templates,
+	}
+	handler.NewMediaHandler(e)
+	// Route => handler
+	e.POST("/upload", upload)
+	e.GET("/about/", handler.AboutHandler)
+  e.GET("htmlcode/",func(c echo.Context) error {
+    return c.File("view/about.html")
+  })
+	e.GET("/file", func(c echo.Context) error {
+		return c.Attachment("videoplayback.mp4", "videoplayback.mp4")
+	})
+	e.GET("view/cookies.js", func(c echo.Context) error {
+		return c.File("view/cookies.js")
+	})
+	e.GET("transporte/", func(c echo.Context) error {
+		return c.File("view/transporte.html")
+	})
+
+	// Start the Echo server
+	e.Logger.Fatal(e.Start(":1323"))
+}
+
+
+package handler
+
+import (
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+)
+
+func AboutHandler(c echo.Context) error {
+	// Please note the the second parameter "about.html" is the template name and should
+	// be equal to one of the keys in the TemplateRegistry array defined in main.go
+	return c.Render(http.StatusOK, "about.html", map[string]interface{}{
+		"name": "About",
+	})
+}
