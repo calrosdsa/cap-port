@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"portal/handler"
-	"github.com/spf13/viper"
+	// "github.com/spf13/viper"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,17 +12,17 @@ import (
 // Define the template registry struct
 
 
-func init() {
-	viper.SetConfigFile(`.env`)
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
+// func init() {
+// 	viper.SetConfigFile(`.env`)
+// 	err := viper.ReadInConfig()
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	// if viper.GetBool(`debug`) {
-	// 	log.Println("Service RUN on DEBUG mode")
-	// }
-}
+// 	// if viper.GetBool(`debug`) {
+// 	// 	log.Println("Service RUN on DEBUG mode")
+// 	// }
+// }
 
 
 func main() {
