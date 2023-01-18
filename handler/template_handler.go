@@ -59,10 +59,8 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
     fmt.Println(r.Response.Body)
     fmt.Println(r.Body)
-    fmt.Println(r.GetBody())
 
     resp, _ := client.Do(r)
-    fmt.Println(resp)
     fmt.Println(resp.Status)
     fmt.Println(resp.Request.Body)
     fmt.Println(resp.Request.Response)
