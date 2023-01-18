@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strings"
+	// "strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -58,15 +58,15 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	u, _ := url.ParseRequestURI(apiUrl)
     urlStr := u.String()
 	// client := &http.Client{}
-    r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode()))
-    r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+    // r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode()))
+    // r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
+	r,_ := http.PostForm(urlStr, data)
     // var res map[string]interface{}
-
     // json.NewDecoder(r.Body).Decode(&res)
 
     // fmt.Println(res)
-	reqBody, err := ioutil.ReadAll(r.Response.Body)
+	reqBody, err := ioutil.ReadAll(r.Body)
     if err != nil {
         log.Fatal(err)
     }
