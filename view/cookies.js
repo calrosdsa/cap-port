@@ -1,11 +1,16 @@
 let username;
 async function sendRequest () {
   
-  const switch_url = getCookie("switch_url")
-  const username = getCookie("username")
-  await fetch('https://teclu.com/ApiFb_validatelike.php?name='+username)
-  .then(res=>res.json())
-  .then(res=>console.log(res))
+  const switch_url = getCookie("switch_url");
+  const username = getCookie("username");
+  const response =  await fetch('https://teclu.com/ApiFb_validatelike.php?name='+username);
+  const movies = await response.json();
+  movies.then(res=>console.log(res))
+  // .then(res=>{
+  //   console.log(res)
+  //   return res.json()
+  // })
+  // .then(res=>console.log(res))
   console.log("switch_url",switch_url)
   console.log(username)
   // const url = "http://192.0.2.1/login.html"
