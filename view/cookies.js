@@ -1,25 +1,41 @@
 let username;
 
 function sendRequest () {
-   console.log("sending request")
-    let form = document.createElement("form");
-    let element1 = document.createElement("input"); 
-    let element2 = document.createElement("input");  
+  console.log("sending request")
+  let form = document.createElement("form");
+  let element1 = document.createElement("input"); 
+  let element2 = document.createElement("input");  
+  let element3 = document.createElement("input")
+  let element4 = document.createElement("input")
 
-    form.method = "POST";
-    form.action = "http://192.0.2.1/login.html";   
+  form.method = "post";
+  form.action = "http://portal.teclumobility.com:8181/login.html";   
+  form.id= "login-form"
+  element1.value="marca";
+  element1.type = "text"
+  element1.name="username";
+  form.appendChild(element1);  
+  
+  element2.value="201120";
+  element2.type = "password"
+  element2.required
+  element2.name="password";
+  form.appendChild(element2);
 
-    element1.value="marca";
-    element1.name="username";
-    form.appendChild(element1);  
+  element3.value="4";
+  element3.type = "hidden";
+  element3.name="buttonClicked";
+  element3.size = "16";
+  element3.maxLength = "15";
+  form.appendChild(element3);
 
-    element2.value="201120";
-    element2.name="password";
-    form.appendChild(element2);
-
-    document.body.appendChild(form);
-
-    form.submit();
+  // element3.value="Log in"
+  // element3.type ="submit"
+  // form.appendChild(element3)
+  document.body.appendChild(form);
+  
+  // element3.click()
+  form.submit();
   // console.log(username)
   
   // window.location.replace(window.location.origin + '/about/') {% endcomment %}

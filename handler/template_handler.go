@@ -30,8 +30,7 @@ func NewTemplateHandler(e *echo.Echo){
 	})
 	e.POST("/login.html",func(c echo.Context)(error){
 		log.Println(c.FormValue("username"))
-		log.Println(c.FormValue("password"))
-
+		log.Println(c.FormValue("password"))	
 	    return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 	})
 	e.GET("/login.html/",func(c echo.Context)(error){
