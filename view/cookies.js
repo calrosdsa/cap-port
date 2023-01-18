@@ -1,8 +1,36 @@
 let username;
 
-function getAccessNetwork () {
-  return awa
+function getAccess(){
+    let form = document.createElement("form");
+  let element1 = document.createElement("input"); 
+  let element2 = document.createElement("input");  
+  let element3 = document.createElement("input")
+
+  form.method = "post";
+  form.action = "http://192.0.2.1/login.html";   
+  form.id= "login-form"
+  element1.value="marca";
+  element1.type = "text"
+  element1.name="username";
+  form.appendChild(element1);  
+  
+  element2.value="201120";
+  element2.type = "password"
+  element2.required
+  element2.name="password";
+  form.appendChild(element2);
+
+  element3.value="4";
+  element3.type = "hidden";
+  element3.name="buttonClicked";
+  element3.size = "16";
+  element3.maxLength = "15";
+  form.appendChild(element3);
+  document.body.appendChild(form);
+  
+  form.submit();
 }
+
 async function sendRequest () {
   const background = document.querySelector("#fondo")
   const loader = document.querySelector("#loader")
@@ -16,49 +44,26 @@ async function sendRequest () {
     console.log(res)
     return res.json()
   })
-  .then(res=>console.log("like",res))
+  .then(res=>{
+    if(res){
+      getAccess()
+    }else if(!res){
+      myFunction()
+    }else{
+      sendRequest()
+}})
   console.log("switch_url",switch_url)
   // const url = "http://192.0.2.1/login.html"
-  await fetch ("/get-access",{
-    method:'POST',
-    body:new URLSearchParams(`username=${username}&password=201120&url=${switch_url}`)
-  }).then(res=>{
-    console.log(res)
-    return res.json()
-  })
-  .then(res=>res)
+  // await fetch ("/get-access",{
+  //   method:'POST',
+  //   body:new URLSearchParams(`username=${username}&password=201120&url=${switch_url}`)
+  // }).then(res=>{
+  //   console.log(res)
+  //   return res.json()
+  // })
+  // .then(res=>res)
   background.className = ""
   loader.className = "hidden"
-  // let form = document.createElement("form");
-  // let element1 = document.createElement("input"); 
-  // let element2 = document.createElement("input");  
-  // let element3 = document.createElement("input")
-  // let element4 = document.createElement("input")
-
-  // form.method = "post";
-  // form.action = "http://portal.teclumobility.com:8181/login.html";   
-  // form.id= "login-form"
-  // element1.value="marca";
-  // element1.type = "text"
-  // element1.name="username";
-  // form.appendChild(element1);  
-  
-  // element2.value="201120";
-  // element2.type = "password"
-  // element2.required
-  // element2.name="password";
-  // form.appendChild(element2);
-
-  // element3.value="4";
-  // element3.type = "hidden";
-  // element3.name="buttonClicked";
-  // element3.size = "16";
-  // element3.maxLength = "15";
-  // form.appendChild(element3);
-  // document.body.appendChild(form);
-  
-  // form.submit();
-
   // console.log(username)
   
   // window.location.replace(window.location.origin + '/about/') {% endcomment %}
