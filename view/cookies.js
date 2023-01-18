@@ -3,16 +3,16 @@ async function sendRequest () {
   
   const switch_url = getCookie("switch_url");
   const username = getCookie("username");
-  const response =  await fetch('https://teclu.com/ApiFb_validatelike.php?name='+username);
-  const movies = await response.json();
-  movies.then(res=>console.log(res))
-  // .then(res=>{
-  //   console.log(res)
-  //   return res.json()
-  // })
-  // .then(res=>console.log(res))
-  console.log("switch_url",switch_url)
   console.log(username)
+  
+  const response = await axios.get('https://teclu.com/ApiFb_validatelike.php?name='+username)
+  console.log(response.data)  
+  // .then(res=>{
+    //   console.log(res)
+    //   return res.json()
+    // })
+    // .then(res=>console.log(res))
+    console.log("switch_url",switch_url)
   // const url = "http://192.0.2.1/login.html"
   await fetch ("/get-access",{
     method:'POST',
