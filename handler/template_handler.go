@@ -66,7 +66,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     // json.NewDecoder(r.Body).Decode(&res)
 
     // fmt.Println(res)
-	reqBody, err := ioutil.ReadAll(r.Body)
+	reqBody, err := ioutil.ReadAll(r.Response.Body)
     if err != nil {
         log.Fatal(err)
     }
