@@ -56,7 +56,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     data.Set("password", password)
 	u, _ := url.ParseRequestURI(apiUrl)
     urlStr := u.String()
-	client := &http.Client{}
+	// client := &http.Client{}
     r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
     r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	
@@ -65,10 +65,9 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     json.NewDecoder(r.Body).Decode(&res)
 
     fmt.Println(res["form"])
-    resp, _ := client.Do(r)
-    fmt.Println(resp.Status)
+    // resp, _ := client.Do(r)
 
-	return c.JSON(http.StatusOK, resp.Body)
+	return c.JSON(http.StatusOK, "sasa")
 }
 
 func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
