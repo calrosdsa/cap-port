@@ -57,13 +57,11 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	client := &http.Client{}
     r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
     r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-    fmt.Println(r.Response.Body)
     fmt.Println(r.Body)
 
     resp, _ := client.Do(r)
     fmt.Println(resp.Status)
     fmt.Println(resp.Request.Body)
-    fmt.Println(resp.Request.Response)
 
 	return c.JSON(http.StatusOK, resp.Body)
 }
