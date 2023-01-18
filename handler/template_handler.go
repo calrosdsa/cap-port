@@ -49,7 +49,7 @@ func NewTemplateHandler(e *echo.Echo){
 func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	// log.Println(c.FormValue("username"))
 	// log.Println(c.FormValue("password"))
-	apiUrl := "http://portal.teclumobility.com:8181/login.html"
+	apiUrl := c.FormValue("url")
 	username :=c.FormValue("username")
 	password :=c.FormValue("password")
 	data := url.Values{}

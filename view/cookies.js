@@ -1,10 +1,11 @@
 let username;
 
-function sendRequest () {
+function sendRequest (username,password,url) {
   console.log("sending request")
+  // const url = "http://192.0.2.1/login.html"
   fetch ("/get-access",{
     method:'POST',
-    body:new URLSearchParams("username=Carlos&password=12ab34cd")
+    body:new URLSearchParams(`username=${username}&password=${password}&url=${url}`)
   }).then(res=>{
     console.log(res)
     return res.json()
@@ -76,6 +77,7 @@ function getUrlParams(search) {
   const getUserData = async(code,url)=>{
     console.log('code',code)
     console.log('url',url)
+    const switch_url = getCookie("switch_url")
     let access_token;
     const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`
     console.log(facebookUrl)
@@ -94,7 +96,7 @@ function getUrlParams(search) {
     })
     console.log(username)
     const buttonLogin = document.querySelector("#buttonLogin");
-    buttonLogin.onclick = sendRequest
+    buttonLogin.onclick = sendRequest(username,"201120",switch_url)
     // buttonLogin.className = "text-white font-semibold flex h-10 px-2 mt-4 sm:px-2 mx-1 rounded-2xl bg-[#039be5]  items-center cursor-pointer relative"
     buttonLogin.textContent = "Countinuar Navegando"
     const name = username.replace(/ /g,"_").replaceAll(".","")
