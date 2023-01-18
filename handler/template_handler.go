@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -30,13 +33,34 @@ func NewTemplateHandler(e *echo.Echo){
 	})
 	e.POST("/login.html",func(c echo.Context)(error){
 		log.Println(c.FormValue("username"))
-		log.Println(c.FormValue("password"))	
+		log.Println(c.FormValue("password"))		
 	    return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 	})
+	e.POST("/get-access",handler.GetAccessNetwork)
 	e.GET("/login.html/",func(c echo.Context)(error){
 	    return c.File("/home/portal-cautivo/cap-port/view/login.html")
 	})
 
+}
+
+func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
+	log.Println(c.FormValue("username"))
+	log.Println(c.FormValue("password"))
+	apiUrl := "http://portal.teclumobility.com:8181/login.html"
+	username :=c.FormValue("username")
+	password :=c.FormValue("password")
+	data := url.Values{}
+    data.Set("username", username)
+    data.Set("password", password)
+	u, _ := url.ParseRequestURI(apiUrl)
+    urlStr := u.String()
+	client := &http.Client{}
+    r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
+    r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+    resp, _ := client.Do(r)
+    fmt.Println(resp.Status)
+	return c.JSON(http.StatusOK, resp.Body)
 }
 
 func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
