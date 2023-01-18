@@ -1,7 +1,11 @@
 let username;
-
 function sendRequest () {
+  
   const switch_url = getCookie("switch_url")
+  const username = getCookie("username")
+  fetch('https://teclu.com/ApiFb_validatelike.php?name='+username)
+  .then(res=>res.json())
+  .then(res=>console.log(res))
   console.log("switch_url",switch_url)
   console.log(username)
   // const url = "http://192.0.2.1/login.html"
@@ -83,7 +87,6 @@ function getUrlParams(search) {
     const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`
     console.log(facebookUrl)
     try{
-
       await fetch(facebookUrl).then((response)=>{
         return response.json();
     }).then((data)=>{
@@ -92,10 +95,10 @@ function getUrlParams(search) {
     await fetch(`https://graph.facebook.com/v15.0/me?fields=id%2Cname&access_token=${access_token}`).then((response)=>{
       return response.json();
     }).then((data)=>{
+      setCookie("username",data.name,1)
       username = data.name
       console.log(data)
     })
-    console.log(username)
     const buttonLogin = document.querySelector("#buttonLogin");
     buttonLogin.onclick = sendRequest
     // buttonLogin.className = "text-white font-semibold flex h-10 px-2 mt-4 sm:px-2 mx-1 rounded-2xl bg-[#039be5]  items-center cursor-pointer relative"
