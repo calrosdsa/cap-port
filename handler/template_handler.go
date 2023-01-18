@@ -44,7 +44,7 @@ func NewTemplateHandler(e *echo.Echo){
 		// log.Println(c.FormValue("password"))		
 	    return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 	})
-	e.POST("/get-access",handler.GetAccessNetwork)
+	e.GET("/get-access",handler.GetAccessNetwork)
 	e.GET("/login.html/",func(c echo.Context)(error){
 	    return c.File("/home/portal-cautivo/cap-port/view/login.html")
 	})
