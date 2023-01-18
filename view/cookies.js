@@ -1,6 +1,9 @@
 let username;
 async function sendRequest () {
-  
+  const background = document.querySelector("#fondo")
+  const loader = document.querySelector("#loader")
+  background.className = "filter brightness-75 relative"
+  loader.className = "block"
   const switch_url = getCookie("switch_url")
   const username = getCookie("username")
   console.log(username)
@@ -20,6 +23,8 @@ async function sendRequest () {
     return res.json()
   })
   .then(res=>console.log(res))
+  background.className = ""
+  loader.className = "hidden"
   // let form = document.createElement("form");
   // let element1 = document.createElement("input"); 
   // let element2 = document.createElement("input");  

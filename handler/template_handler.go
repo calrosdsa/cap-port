@@ -28,11 +28,16 @@ func NewTemplateHandler(e *echo.Echo){
 	e.GET("/transporte/", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
 	})
+	e.GET("/transporte2/", func(c echo.Context) error {
+		return c.File("view/transporte.html")
+	})
 	e.GET("/test/", func(c echo.Context) error {
 		return c.File("input.html")
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
+		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
 		return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
+
 	})
 	e.POST("/login.html",func(c echo.Context)(error){
 		// log.Println(c.FormValue("username"))
