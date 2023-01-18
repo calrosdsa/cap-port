@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -58,12 +59,12 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	client := &http.Client{}
     r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
     r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-        fmt.Println(err)
-    }
-    fmt.Println(string(body))
+	
+    var res map[string]interface{}
+
+    json.NewDecoder(r.Body).Decode(&res)
+
+    fmt.Println(res["form"])
     resp, _ := client.Do(r)
     fmt.Println(resp.Status)
 
