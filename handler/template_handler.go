@@ -58,19 +58,23 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	u, _ := url.ParseRequestURI(apiUrl)
     urlStr := u.String()
 	// client := &http.Client{}
-    r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
+    r, _:= http.Post(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
     r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	
+	// resp, err := http.Get("https://httpbin.org/get")
+
     // var res map[string]interface{}
 
     // json.NewDecoder(r.Body).Decode(&res)
 
     // fmt.Println(res)
-	reqBody, err := ioutil.ReadAll(r.Response.Body)
+	reqBody, err := ioutil.ReadAll(r.Body)
+	
     if err != nil {
-        log.Fatal(err)
+		log.Fatal(err)
     }
-    fmt.Printf("%s", reqBody)
+	bodyString := string(reqBody)
+	fmt.Println(bodyString)
+    // fmt.Println("%s", reqBody)
     // resp, _ := client.Do(r)
 
 	return c.JSON(http.StatusOK, "sasa")
