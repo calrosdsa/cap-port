@@ -64,7 +64,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 
     json.NewDecoder(r.Body).Decode(&res)
 
-    fmt.Println(res["form"])
+    fmt.Println(res)
     // resp, _ := client.Do(r)
 
 	return c.JSON(http.StatusOK, "sasa")
