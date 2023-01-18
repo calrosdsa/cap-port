@@ -61,12 +61,11 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-        log.Fatal(err)
+        fmt.Println(err)
     }
     fmt.Println(string(body))
     resp, _ := client.Do(r)
     fmt.Println(resp.Status)
-    fmt.Println(resp.Request.Body)
 
 	return c.JSON(http.StatusOK, resp.Body)
 }
