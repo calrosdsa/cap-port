@@ -73,7 +73,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     fmt.Println(string(reqBody))
     // resp, _ := client.Do(r)
 
-	return c.JSON(http.StatusOK, "sasa")
+	return c.JSON(http.StatusOK, reqBody)
 }
 
 func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
