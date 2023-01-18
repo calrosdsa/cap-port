@@ -1,12 +1,14 @@
 let username;
+function validateLike(username) {
+  return axios.get('https://teclu.com/ApiFb_validatelike.php?name='+username).then(res=>res.data)
+}
+
 async function sendRequest () {
-  
   const switch_url = getCookie("switch_url");
   const username = getCookie("username");
   console.log(username)
   
-  const response = await axios.get('https://teclu.com/ApiFb_validatelike.php?name='+username)
-  console.log(response.data)  
+  await validateLike()
   // .then(res=>{
     //   console.log(res)
     //   return res.json()
@@ -14,14 +16,14 @@ async function sendRequest () {
     // .then(res=>console.log(res))
     console.log("switch_url",switch_url)
   // const url = "http://192.0.2.1/login.html"
-  await fetch ("/get-access",{
-    method:'POST',
-    body:new URLSearchParams(`username=${username}&password=201120&url=${switch_url}`)
-  }).then(res=>{
-    console.log(res)
-    return res.json()
-  })
-  .then(res=>console.log(res))
+  // await fetch ("/get-access",{
+  //   method:'POST',
+  //   body:new URLSearchParams(`username=${username}&password=201120&url=${switch_url}`)
+  // }).then(res=>{
+  //   console.log(res)
+  //   return res.json()
+  // })
+  // .then(res=>console.log(res))
   // let form = document.createElement("form");
   // let element1 = document.createElement("input"); 
   // let element2 = document.createElement("input");  
