@@ -32,8 +32,8 @@ func NewTemplateHandler(e *echo.Echo){
 		return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
 	})
 	e.POST("/login.html",func(c echo.Context)(error){
-		log.Println(c.FormValue("username"))
-		log.Println(c.FormValue("password"))		
+		// log.Println(c.FormValue("username"))
+		// log.Println(c.FormValue("password"))		
 	    return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 	})
 	e.POST("/get-access",handler.GetAccessNetwork)
@@ -44,8 +44,8 @@ func NewTemplateHandler(e *echo.Echo){
 }
 
 func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
-	log.Println(c.FormValue("username"))
-	log.Println(c.FormValue("password"))
+	// log.Println(c.FormValue("username"))
+	// log.Println(c.FormValue("password"))
 	apiUrl := "http://portal.teclumobility.com:8181/login.html"
 	username :=c.FormValue("username")
 	password :=c.FormValue("password")
@@ -57,7 +57,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	client := &http.Client{}
     r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode())) // URL-encoded payload
     r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-    fmt.Println(r.Body)
+    fmt.Println(r.Response.Body)
 
     resp, _ := client.Do(r)
     fmt.Println(resp.Status)
