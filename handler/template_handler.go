@@ -75,10 +75,11 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     if err != nil {
         log.Fatal(err)
     }
-    fmt.Println(string(reqBody))
+	dataB := string(reqBody)
+    fmt.Println(dataB)
     // resp, _ := client.Do(r)
 
-	return c.JSON(http.StatusOK, "ok")
+	return c.JSON(http.StatusOK, dataB)
 }
 
 func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
