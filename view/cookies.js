@@ -1,4 +1,8 @@
 let username;
+
+function getAccessNetwork () {
+  return awa
+}
 async function sendRequest () {
   const background = document.querySelector("#fondo")
   const loader = document.querySelector("#loader")
@@ -22,7 +26,7 @@ async function sendRequest () {
     console.log(res)
     return res.json()
   })
-  .then(res=>console.log(res))
+  .then(res=>res)
   background.className = ""
   loader.className = "hidden"
   // let form = document.createElement("form");

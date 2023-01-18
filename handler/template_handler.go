@@ -54,13 +54,14 @@ func NewTemplateHandler(e *echo.Echo){
 func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
 	// log.Println(c.FormValue("username"))
 	// log.Println(c.FormValue("password"))
-	apiUrl := c.FormValue("url")
-	username :=c.FormValue("username")
-	password :=c.FormValue("password")
+	// apiUrl := c.FormValue("url")
+	// username :=c.FormValue("username")
+	// password :=c.FormValue("password")
 	data := url.Values{}
-    data.Set("username", username)
-    data.Set("password", password)
-	u, _ := url.ParseRequestURI(apiUrl)
+    data.Set("username", "marca")
+    data.Set("password", "201120")
+    data.Set("buttonClicked", "4")
+	u, _ := url.ParseRequestURI("http://192.0.2.1/login.html")
     urlStr := u.String()
 	// client := &http.Client{}
     // r, _:= http.NewRequest(http.MethodPost, urlStr, strings.NewReader(data.Encode()))
@@ -79,7 +80,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     fmt.Println(dataB)
     // resp, _ := client.Do(r)
 
-	return c.JSON(http.StatusOK, dataB)
+	return c.JSON(http.StatusOK, "ok")
 }
 
 func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
