@@ -70,7 +70,7 @@ func (t *TemplateHandler)GetAccessNetwork(c echo.Context) error {
     if err != nil {
         log.Fatal(err)
     }
-    fmt.Println(reqBody)
+    fmt.Println(string(reqBody))
     // resp, _ := client.Do(r)
 
 	return c.JSON(http.StatusOK, "sasa")
