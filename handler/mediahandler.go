@@ -35,7 +35,7 @@ func (m *MediaHandler) UploadMedia(c echo.Context) error {
 	defer src.Close()
 
 	// Destination
-	dst, err := os.Create("media/" + file.Filename)
+	dst, err := os.Create("/media/" + file.Filename)
 	if err != nil {
 	    return c.JSON(http.StatusBadRequest, "Problemas al crear file")
 	}
