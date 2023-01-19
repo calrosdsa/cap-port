@@ -30,22 +30,22 @@ func (m *MediaHandler) UploadMedia(c echo.Context) error {
 	}
 	src, err := file.Open()
 	if err != nil {
-		return err
+	    return c.JSON(http.StatusBadRequest, "Fail to open file")
 	}
 	defer src.Close()
 
 	// Destination
 	dst, err := os.Create("media/" + file.Filename)
 	if err != nil {
-		return err
+	    return c.JSON(http.StatusBadRequest, "Problemas al crear file")
 	}
 	defer dst.Close()
 
 	// Copy
 	if _, err = io.Copy(dst, src); err != nil {
-		return err
+	    return c.JSON(http.StatusBadRequest, "Fail to copy file")
 	}
-	return c.HTML(http.StatusOK, base_url + file.Filename)
+	return c.JSON(http.StatusOK, base_url + file.Filename)
 }
 
 func (m *MediaHandler) DeleteMedia(c echo.Context) error {
