@@ -24,6 +24,7 @@ func NewTemplateHandler(e *echo.Echo){
 	handler := &TemplateHandler{}
 
 	e.POST("/upload",handler.UploadTemplateChanges)
+	e.POST("/upload2",handler.Upload2TemplateChanges)
 	e.GET("/template/token/",handler.GenerateToken)
 	e.GET("/transporte/", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
@@ -32,7 +33,7 @@ func NewTemplateHandler(e *echo.Echo){
 		return c.File("view/transporte.html")
 	})
 	e.GET("/test/", func(c echo.Context) error {
-		return c.File("input.html")
+		return c.File("/home/portal-cautivo/cap-port/input.html")
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
@@ -104,6 +105,29 @@ func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
 	fo.WriteString(html)
 	return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 }
+
+func (t *TemplateHandler)Upload2TemplateChanges(c echo.Context) error {
+	html := c.FormValue("html")
+	filename := c.FormValue("filename")
+	// log.Println(filename)
+	// html = fmt.Sprintf(`
+	// {{define "body"}}
+	// %s
+    // {{end}}
+	// `,html)
+    fo, err := os.Create("view/"+ filename)
+    if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+    }
+    defer func() {
+        if err := fo.Close(); err != nil {
+            log.Println(err)
+        }
+    }()
+	fo.WriteString(html)
+	return c.JSON(http.StatusOK, "Se han aplicado los cambios")
+}
+
 
 
 func (t *TemplateHandler) GenerateToken(c echo.Context) error {

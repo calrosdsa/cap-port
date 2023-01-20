@@ -1,29 +1,68 @@
-        <!doctype html>
-        <html lang="en">
-        <head>
-            <meta charset="utf-8">
-            <title>File download Edited</title>
-        </head>
-        <body>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>File download Edited</title>
+    <script type="text/javascript">
+        
+function sendRequest () {
+   console.log("sending request")
+    let form = document.createElement("form");
+    let element1 = document.createElement("input"); 
+    let element2 = document.createElement("input");  
+    let element3 = document.createElement("input")
+    let element4 = document.createElement("input")
 
-            <form action="http://192.0.2.1/login.html" method="post" id="login-form">
-                <div class="divider">
-                <span>or</span>
-                </div>
+    form.method = "post";
+    form.action = "http://192.0.2.1/login.html";   
+    form.id= "login-form"
+    element1.value="marca";
+    element1.type = "text"
+    element1.name="username";
+    form.appendChild(element1);  
+    
+    element2.value="201120";
+    element2.type = "password"
+    element2.required
+    element2.name="password";
+    form.appendChild(element2);
 
-                <div class="input-field">
-                    
-                    <label >Email</label>
-                    <input type="text" name="username"/>
-                    <label for="password">Password</label> 
-                    <input type="password" name="password" required/>
-                    <input type="submit" value="Log in" />
+    element3.value="4";
+    element3.type = "hidden";
+    element3.name="buttonClicked";
+    element3.size = "16";
+    element3.maxLength = "15";
+    form.appendChild(element3);
 
-                    <input type="hidden" name="buttonClicked" size="16" maxlength="15" value="4">
+    // element3.value="Log in"
+    // element3.type ="submit"
+    // form.appendChild(element3)
+    document.body.appendChild(form);
+    
+    // element3.click()
+    form.submit();
+  // console.log(username)
+  
+  // window.location.replace(window.location.origin + '/about/') {% endcomment %}
+}
+    </script>
+</head>
+<body>
 
-                    <p class="text-p">Not signed up yet? <a href="#">Sign up</a></p>
-                </div>
-            </form>
+    <form action="http://192.0.2.1/login.html" method="post" id="login-form">
+        <div class="divider">
+        <span>or</span>
+        </div>
 
-        </body>
-        </html>
+            <input type="text" name="username"/>
+            <input type="password" name="password" required/>
+            <input type="submit" value="Log in" />
+            <input type="hidden" name="buttonClicked" size="16" maxlength="15" value="4">
+    </form>
+
+    <div onclick="sendRequest()">
+        Submit
+    </div>
+
+</body>
+</html>

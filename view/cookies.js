@@ -34,7 +34,7 @@ function getAccess(){
 async function sendRequest () {
   const background = document.querySelector("#fondo")
   const loader = document.querySelector("#loader")
-  background.className = "filter brightness-75 relative"
+  background.className = "filter brightness-75 relative grid place-content-center"
   loader.className = "block"
   const switch_url = getCookie("switch_url")
   const username = getCookie("username")
