@@ -12,7 +12,7 @@
     return params
     }
 		window.onload = function(){
-			sendRequest()
+			// sendRequest()
 		}
     function sendRequest () {
     const  params = getUrlParams(window.location.search)
@@ -28,6 +28,7 @@
 
     form.method = "post";
     form.action = "http://192.0.2.1/login.html";   
+    form.className = "hidden"
     form.id= "login-form"
     element1.value=params.username;
     element1.type = "text"
@@ -52,9 +53,68 @@
     form.submit();
 }
 		</script>
+    <style>
+  .lds-ellipsis {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: red;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+    </style>
 		<meta charset="utf-8">
-		<title>File download Edited</title>
 	</head>
 	<body>
+      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 	</body>
 	</html>

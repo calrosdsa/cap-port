@@ -35,6 +35,9 @@ func NewTemplateHandler(e *echo.Echo){
 	e.GET("/test/", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/input.html")
 	})
+	e.GET("/redirect/", func(c echo.Context) error {
+		return c.File("input.html")
+	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
 		return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
