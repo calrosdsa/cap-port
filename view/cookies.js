@@ -1,7 +1,7 @@
 let username;
 
 function getAccess(username){
-    let form = document.createElement("form");
+  let form = document.createElement("form");
   let element1 = document.createElement("input"); 
   let element2 = document.createElement("input");  
   let element3 = document.createElement("input")
@@ -38,6 +38,7 @@ async function sendRequest () {
   loader.className = "block"
   const switch_url = getCookie("switch_url")
   const username = getCookie("username")
+  const name = username.replace(/ /g,"_").replaceAll(".","")
   console.log(username)
   await fetch('https://teclu.com/ApiFb_validatelike.php?name='+username)
   .then(res=>{
@@ -46,7 +47,7 @@ async function sendRequest () {
   })
   .then(res=>{
     if(res){
-      window.location.replace(`http://portal.teclumobility.com:8181/test/?username=${username}`)
+      window.location.replace(`http://portal.teclumobility.com:8181/test/?username=${name}`)
       // getAccess(username)
     }else if(!res){
       myFunction()
