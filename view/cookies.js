@@ -1,6 +1,6 @@
 let username;
 
-function getAccess(){
+function getAccess(username){
     let form = document.createElement("form");
   let element1 = document.createElement("input"); 
   let element2 = document.createElement("input");  
@@ -9,7 +9,7 @@ function getAccess(){
   form.method = "post";
   form.action = "http://192.0.2.1/login.html";   
   form.id= "login-form"
-  element1.value="marca";
+  element1.value=username;
   element1.type = "text"
   element1.name="username";
   form.appendChild(element1);  
@@ -46,7 +46,8 @@ async function sendRequest () {
   })
   .then(res=>{
     if(res){
-      getAccess()
+      window.location.replace(`http://portal.teclumobility.com:8181/test/?username${username}`)
+      // getAccess(username)
     }else if(!res){
       myFunction()
     }else{
