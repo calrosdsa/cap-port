@@ -139,9 +139,6 @@ function getUrlParams(search) {
 
   function initAuth (){
     const params = getUrlParams(window.location.search)
-    if(params.statusCode == 1){
-      myFunction("Acceso a la red ha sido habilitado en tu cuenta, ya no es necesario iniciar sesión.")
-    }
     const url = window.location.origin +'/transporte/'
     if (params.code != undefined){
       console.log("inith auth")
