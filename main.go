@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/labstack/echo/v4/middleware"
 
 	"portal/handler"
@@ -10,7 +13,6 @@ import (
 )
 
 // Define the template registry struct
-
 
 // func init() {
 // 	viper.SetConfigFile(`.env`)
@@ -34,6 +36,13 @@ func main() {
 		AllowHeaders: []string{"*"},
 		// AllowMethods: []string{"*"},
 	}))
+	e.GET("webhook/",func(c echo.Context)(err error){
+		hub := c.QueryParam("hub.mode")
+		challenge := c.QueryParam("hub.challenge")
+		token := c.QueryParam("hub.verification_token")
+		fmt.Printf("%s,%s,%s",hub,challenge,token)
+		return c.JSON(http.StatusOK,token)
+	})
 
 	handler.NewMediaHandler(e)
 	handler.NewTemplateHandler(e)
