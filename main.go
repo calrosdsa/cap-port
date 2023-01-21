@@ -44,6 +44,14 @@ func main() {
 		fmt.Println(challenge)
 		return c.String(http.StatusOK,challenge)
 	})
+	e.POST("webhook/",func(c echo.Context)(err error){
+		// hub := c.QueryParam("hub.mode")
+		fmt.Println("Received")
+		challenge := c.QueryParam("hub.challenge")
+		// token := c.QueryParam("hub.verification_token")
+		fmt.Println(challenge)
+		return c.String(http.StatusOK,challenge)
+	})
 
 	handler.NewMediaHandler(e)
 	handler.NewTemplateHandler(e)
