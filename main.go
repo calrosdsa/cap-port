@@ -64,12 +64,12 @@ func main() {
 	})
 	e.POST("webhook/", func(c echo.Context) (err error) {
 		// hub := c.QueryParam("hub.mode")
-		var feed Feed
-		err = c.Bind(&feed)
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(feed)
+		var json map[string]interface{} = map[string]interface{}{}
+	err = c.Bind(&json)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+	}
+		fmt.Println(json)
 		fmt.Println("Received")
 		challenge := c.QueryParam("hub.challenge")
 		// token := c.QueryParam("hub.verification_token")
