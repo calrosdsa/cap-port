@@ -32,7 +32,7 @@ type From struct {
 
 type Value struct {
 	Item       string `json:"item"`
-	Staus      string `json:"status"`
+	PostId      string `json:"post_id"`
 	Verb       string `json:"verb"`
 	Published  int    `json:"published"`
 	CretedTime int    `json:"created_time"`
