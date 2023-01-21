@@ -69,6 +69,9 @@ func main() {
 		// hub := c.QueryParam("hub.mode")
 		var feed Feed
 		err = c.Bind(&feed)
+		if err != nil {
+			fmt.Println(err)
+		}
 		fmt.Println(feed)
 		fmt.Println("Received")
 		challenge := c.QueryParam("hub.challenge")
