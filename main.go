@@ -41,7 +41,7 @@ func main() {
 		challenge := c.QueryParam("hub.challenge")
 		// token := c.QueryParam("hub.verification_token")
 		fmt.Println(challenge)
-		return c.JSON(http.StatusOK,challenge)
+		return c.String(http.StatusOK,challenge)
 	})
 
 	handler.NewMediaHandler(e)
