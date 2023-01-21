@@ -25,6 +25,27 @@ import (
 // 	// 	log.Println("Service RUN on DEBUG mode")
 // 	// }
 // }
+type From struct{
+	Name string `json:"name"`
+	Id string `json:"id"`
+
+}
+
+type Value struct{
+	Item string `json:"item"`
+	Staus string `json:"status"`
+	Verb string `json:"verb"`
+	Published int `json:"published"`
+	CretedTime int `json:"created_time"`
+	Message string `json:"message"`
+	From *From
+}
+
+type Feed struct{
+	Field string `json:"field"`
+	Value *Value
+
+}
 
 
 func main() {
@@ -46,6 +67,9 @@ func main() {
 	})
 	e.POST("webhook/",func(c echo.Context)(err error){
 		// hub := c.QueryParam("hub.mode")
+		var feed Feed
+		err = c.Bind(&feed)
+		fmt.Println(feed)
 		fmt.Println("Received")
 		challenge := c.QueryParam("hub.challenge")
 		// token := c.QueryParam("hub.verification_token")
