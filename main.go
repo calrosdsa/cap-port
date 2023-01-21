@@ -37,10 +37,10 @@ func main() {
 		// AllowMethods: []string{"*"},
 	}))
 	e.GET("webhook/",func(c echo.Context)(err error){
-		hub := c.QueryParam("hub.mode")
+		// hub := c.QueryParam("hub.mode")
 		challenge := c.QueryParam("hub.challenge")
-		token := c.QueryParam("hub.verification_token")
-		fmt.Printf("%s,%s,%s",hub,challenge,token)
+		// token := c.QueryParam("hub.verification_token")
+		fmt.Println(challenge)
 		return c.JSON(http.StatusOK,challenge)
 	})
 
