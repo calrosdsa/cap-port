@@ -21,32 +21,29 @@ import (
 // 		panic(err)
 // 	}
 
-// 	// if viper.GetBool(`debug`) {
-// 	// 	log.Println("Service RUN on DEBUG mode")
-// 	// }
-// }
-type From struct{
+//		// if viper.GetBool(`debug`) {
+//		// 	log.Println("Service RUN on DEBUG mode")
+//		// }
+//	}
+type From struct {
 	Name string `json:"name"`
-	Id string `json:"id"`
-
+	Id   string `json:"id"`
 }
 
-type Value struct{
-	Item string `json:"item"`
-	Staus string `json:"status"`
-	Verb string `json:"verb"`
-	Published int `json:"published"`
-	CretedTime int `json:"created_time"`
-	Message string `json:"message"`
-	From *From
+type Value struct {
+	Item       string `json:"item"`
+	Staus      string `json:"status"`
+	Verb       string `json:"verb"`
+	Published  int    `json:"published"`
+	CretedTime int    `json:"created_time"`
+	Message    string `json:"message"`
+	From       *From  `json:"from"`
 }
 
-type Feed struct{
+type Feed struct {
 	Field string `json:"field"`
-	Value *Value
-
+	Value *Value `json:"value"`
 }
-
 
 func main() {
 	// Echo instance
@@ -57,15 +54,15 @@ func main() {
 		AllowHeaders: []string{"*"},
 		// AllowMethods: []string{"*"},
 	}))
-	e.GET("webhook/",func(c echo.Context)(err error){
+	e.GET("webhook/", func(c echo.Context) (err error) {
 		// hub := c.QueryParam("hub.mode")
 		fmt.Println("Received")
 		challenge := c.QueryParam("hub.challenge")
 		// token := c.QueryParam("hub.verification_token")
 		fmt.Println(challenge)
-		return c.String(http.StatusOK,challenge)
+		return c.String(http.StatusOK, challenge)
 	})
-	e.POST("webhook/",func(c echo.Context)(err error){
+	e.POST("webhook/", func(c echo.Context) (err error) {
 		// hub := c.QueryParam("hub.mode")
 		var feed Feed
 		err = c.Bind(&feed)
@@ -77,14 +74,14 @@ func main() {
 		challenge := c.QueryParam("hub.challenge")
 		// token := c.QueryParam("hub.verification_token")
 		fmt.Println(challenge)
-		return c.String(http.StatusOK,challenge)
+		return c.String(http.StatusOK, challenge)
 	})
 
 	handler.NewMediaHandler(e)
 	handler.NewTemplateHandler(e)
-	
+
 	// Route => handler
-	
+
 	// Start the Echo server
 	e.Logger.Fatal(e.Start(":1324"))
 }
