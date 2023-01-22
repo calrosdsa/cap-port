@@ -152,11 +152,11 @@ type Value struct {
 type Changes struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
+	Id      string `json:"id"`
+	Time    string    `json:"time"`
 }
 type Entry struct {
 	Changes *Changes  `json:"changes"`
-	// Id      string `json:"id"`
-	// Time    string    `json:"time"`
 }
 
 type LikePost struct {
@@ -184,8 +184,8 @@ func NewWebsocketHanlder(e *echo.Echo) {
 
 func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	// hub := c.QueryParam("hub.mode")
-	var data map[string]interface{} = map[string]interface{}{}
-	// var data LikePost
+	// var data map[string]interface{} = map[string]interface{}{}
+	var data LikePost
 	err = c.Bind(&data)
 	if err != nil {
 		log.Println(err)
