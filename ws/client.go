@@ -172,7 +172,7 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	   log.Println(err) 
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
-	log.Println(json["value"].(string))
+	log.Println(json["field"].(string))
 	log.Println("Received")
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "asdasd")
