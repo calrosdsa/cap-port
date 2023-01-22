@@ -152,11 +152,11 @@ type Value struct {
 type Changes struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
-	Id      string `json:"id"`
-	Time    string    `json:"time"`
+	Id    string `json:"id"`
+	Time  string `json:"time"`
 }
 type Entry struct {
-	Changes *Changes  `json:"changes"`
+	Changes *Changes `json:"changes"`
 }
 
 type LikePost struct {
@@ -165,7 +165,7 @@ type LikePost struct {
 }
 
 // map[entry:[map[changes:[map[field:feed value:map[created_time:1.674391703e+09 from:map[id:5790835847613715 name:Fran
-// co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485 
+// co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485
 // reaction_type:like verb:remo
 // ve]]] id:104467269083136 time:1.674391704e+09]] object:page]
 // map[entry:[map[changes:[
