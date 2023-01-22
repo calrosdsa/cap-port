@@ -154,9 +154,9 @@ type Feed struct {
 	Value *Value `json:"value"`
 }
 type Entry struct {
-	Changes *Feed  `json:"changes"`
-	Id      string `json:"id"`
-	Time    string    `json:"time"`
+	// Changes *Feed  `json:"changes"`
+	Id      *string `json:"id"`
+	Time    *string    `json:"time"`
 }
 
 type LikePost struct {
@@ -188,7 +188,7 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println(data)
-	log.Println(data.Entry.Changes.Value.From.Name)
+	// log.Println(data.Entry.Changes.Value.From.Name)
 
 	// data["changes"]["sda"] = "sadas"
 	log.Println("Received")
