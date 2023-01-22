@@ -148,6 +148,7 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	var json map[string]interface{} = map[string]interface{}{}
 	err = c.Bind(&json)
 	if err != nil {
+		log.Println("error to bind")
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	fmt.Println(json)
