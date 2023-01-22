@@ -161,7 +161,7 @@ button:focus {
   /* Modal Content */
   .modal-content {
     z-index: 3;
-    width: 500px;
+    max-width: 500px;
     position: fixed;
     top: 50%;
     left: 50%;
