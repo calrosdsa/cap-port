@@ -139,7 +139,7 @@ function getUrlParams(search) {
     if(postUrl == undefined){
     console.log("fetchingData")
       await fetch("https://teclu.com/ApiFb_LinkPost.php").then((response)=>{
-        console.log(response.data)
+        console.log(response)
         console.log(response.data)
         setCookie("post_url",response.data,1)
       })
