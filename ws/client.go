@@ -138,15 +138,15 @@ type From struct {
 }
 
 type Value struct {
+	CretedTime   int    `json:"created_time"`
+	From         *From  `json:"from"`
 	Item         string `json:"item"`
 	ParentId     string `json:"parent_id"`
 	PostId       string `json:"post_id"`
-	Verb         string `json:"verb"`
-	Published    int    `json:"published"`
-	CretedTime   int    `json:"created_time"`
 	ReactionType string `json:"reaction_type"`
-	Message      string `json:"message"`
-	From         *From  `json:"from"`
+	Verb         string `json:"verb"`
+	// Published    *int    `json:"published"`
+	// Message      *string `json:"message"`
 }
 
 type Feed struct {
@@ -154,9 +154,9 @@ type Feed struct {
 	Value *Value `json:"value"`
 }
 type Entry struct {
-	// Changes *Feed  `json:"changes"`
+	Changes *Feed  `json:"changes"`
 	Id      string `json:"id"`
-	// Time    *int    `json:"time"`
+	Time    string    `json:"time"`
 }
 
 type LikePost struct {
