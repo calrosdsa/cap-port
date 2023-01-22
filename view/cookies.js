@@ -108,10 +108,11 @@ function getUrlParams(search) {
       username = data.name
       console.log(data)
     })
-    buttonLogin.disabled=false
+    // buttonLogin.disabled=false
     buttonLogin.onclick = sendRequest
+    sendRequest()
     // buttonLogin.className = "text-white font-semibold flex h-10 px-2 mt-4 sm:px-2 mx-1 rounded-2xl bg-[#039be5]  items-center cursor-pointer relative"
-    buttonLogin.textContent = "Countinuar Navegando"
+    buttonLogin.innerText = "Countinuar Navegando"
     const name = username.replace(/ /g,"_").replaceAll(".","")
     await fetch('https://teclu.com/ApiFb_userexists.php?name='+name).then((response)=>{
       return response.json();
@@ -121,7 +122,7 @@ function getUrlParams(search) {
   }catch(err){
     const buttonLogin = document.querySelector("#buttonLogin");
     buttonLogin.onclick = loginFacebook
-    buttonLogin.textContent = "Continuar con Facebook"
+    buttonLogin.innerText = "Continuar con Facebook"
     console.log("Un error ha ocurrido")
     console.log(err)
   }
