@@ -165,19 +165,17 @@ func NewWebsocketHanlder(e *echo.Echo){
 
 func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
-	// var json map[string]interface{} = map[string]interface{}{}
-	var json Feed
-	err = c.Bind(&json)
+	var json map[string]interface{} = map[string]interface{}{}
+	// var json Feed
+	err = c.Bind(json)
 	if err != nil {
 	   log.Println(err) 
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
-	log.Println(json)
+	log.Println(json["value"].(string))
 	log.Println("Received")
-	challenge := c.QueryParam("hub.challenge")
 	// token := c.QueryParam("hub.verification_token")
-	log.Println(challenge)
-	return c.String(http.StatusOK, challenge)
+	return c.String(http.StatusOK, "asdasd")
 }
 
 
