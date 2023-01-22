@@ -38,6 +38,7 @@ async function sendRequest () {
   // background.className = "filter brightness-75 relative grid place-content-center"
   // loader.className = "block"
   const buttonLogin = document.getElementById("buttonLogin")
+  buttonLogin.disabled = true
   const switch_url = getCookie("switch_url")
   const username = getCookie("username")
   const name = username.replace(/ /g,"_").replaceAll(".","")
@@ -48,7 +49,6 @@ async function sendRequest () {
     return res.json()
   })
   .then(res=>{
-    buttonLogin.disabled = false
     console.log("likestatus",res)
     if(res){
       window.location.replace(`http://portal.teclumobility.com:8181/test/?username=${name}`)
@@ -58,7 +58,8 @@ async function sendRequest () {
       // myFunction()
     }else{
       getAccess()
-}})
+    }})
+    buttonLogin.disabled = false
   // background.className = "relative grid place-content-center"
   // loader.className = "hidden"
 }
