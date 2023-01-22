@@ -23,6 +23,7 @@
                         console.log("connection closed")
                     };
                     conn.onmessage = function (evt) {
+                      const username = getCookie("username")
                       console.log("usernameIs",username)
                       if(username == evt.data){
                         const link = document.createElement("a")

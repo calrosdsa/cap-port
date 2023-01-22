@@ -195,8 +195,9 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	}
 	log.Println(data)
 	// log.Println(data.Entry.Id)
-	log.Println(data.Entry[len(data.Entry)-1].Changes[len(data.Entry[len(data.Entry)-1].Changes)-1].Value.From.Name)
-
+	msg := data.Entry[len(data.Entry)-1].Changes[len(data.Entry[len(data.Entry)-1].Changes)-1].Value.From.Name
+	m := message{[]byte(msg), "portal"}
+	H.broadcast <- m
 	// log.Println(data.Entry.Changes.Value.From.Name)
 
 	// data["changes"]["sda"] = "sadas"
