@@ -32,10 +32,10 @@ function getAccess(username){
 }
 
 async function sendRequest () {
-  const background = document.querySelector("#fondo")
-  const loader = document.querySelector("#loader")
-  background.className = "filter brightness-75 relative grid place-content-center"
-  loader.className = "block"
+  // const background = document.querySelector("#fondo")
+  // const loader = document.querySelector("#loader")
+  // background.className = "filter brightness-75 relative grid place-content-center"
+  // loader.className = "block"
   const switch_url = getCookie("switch_url")
   const username = getCookie("username")
   const name = username.replace(/ /g,"_").replaceAll(".","")
@@ -55,20 +55,8 @@ async function sendRequest () {
       getAccess()
 }})
   console.log("switch_url",switch_url)
-  // const url = "http://192.0.2.1/login.html"
-  // await fetch ("/get-access",{
-  //   method:'POST',
-  //   body:new URLSearchParams(`username=${username}&password=201120&url=${switch_url}`)
-  // }).then(res=>{
-  //   console.log(res)
-  //   return res.json()
-  // })
-  // .then(res=>res)
-  background.className = "relative grid place-content-center"
-  loader.className = "hidden"
-  // console.log(username)
-  
-  // window.location.replace(window.location.origin + '/about/') {% endcomment %}
+  // background.className = "relative grid place-content-center"
+  // loader.className = "hidden"
 }
 
 function setCookie(cName, cValue, expHours) {
