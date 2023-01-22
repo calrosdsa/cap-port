@@ -171,8 +171,8 @@ func NewWebsocketHanlder(e *echo.Echo){
 
 func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
-	var data map[string]interface{} = map[string]interface{}{}
-	// var data Entry
+	// var data map[string]interface{} = map[string]interface{}{}
+	var data Entry
 	err = c.Bind(&data)
 	if err != nil {
 	   log.Println(err) 
