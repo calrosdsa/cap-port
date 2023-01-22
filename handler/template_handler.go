@@ -31,7 +31,7 @@ func NewTemplateHandler(e *echo.Echo){
 	})
 	
 	e.GET("/transporte2/", func(c echo.Context) error {
-		return c.File("view/transporte2.html")
+		return c.File("/home/ec2-user/cap-port/view/transporte2.html")
 	})
 	e.GET("/redirect/", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/input.html")
@@ -41,12 +41,12 @@ func NewTemplateHandler(e *echo.Echo){
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
-		return c.File("view/cookies.js")
+		return c.File("/home/ec2-user/cap-port/view/cookies.js")
 
 	})
 	e.GET("/view/portal.css", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
-		return c.File("view/portal.css")
+		return c.File("/home/ec2-user/cap-port/view/portal.css")
 
 	})
 	e.POST("/login.html",func(c echo.Context)(error){
