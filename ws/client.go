@@ -149,14 +149,14 @@ type Value struct {
 	// Message      *string `json:"message"`
 }
 
-type Feed struct {
+type Changes struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
 }
 type Entry struct {
-	// Changes *Feed  `json:"changes"`
+	Changes *Changes  `json:"changes"`
 	// Id      string `json:"id"`
-	Time    string    `json:"time"`
+	// Time    string    `json:"time"`
 }
 
 type LikePost struct {
@@ -164,6 +164,10 @@ type LikePost struct {
 	Object string `json:"object"`
 }
 
+// map[entry:[map[changes:[map[field:feed value:map[created_time:1.674391703e+09 from:map[id:5790835847613715 name:Fran
+// co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485 
+// reaction_type:like verb:remo
+// ve]]] id:104467269083136 time:1.674391704e+09]] object:page]
 // map[entry:[map[changes:[
 // map[field:feed value:map[created_time:1.674389814e+09 from:map[id:5790835847613715 name:Fran
 // co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485 reaction_type:like verb:add]
