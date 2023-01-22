@@ -156,19 +156,24 @@ type Feed struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
 }
-type Changes struct {
+type Entry struct {
 	Changes *Feed  `json:"changes"`
+	Id   string   `json:"id"`
+	Time   int   `json:"time"`
 }
 
 
-type Entry struct {
-	Entry *Changes `json:"entry"`
+type LikePost struct {
+	Entry *Entry `json:"entry"`
 	Object string  `json:"object"`
 }
 
-// map[entry:[map[changes:[map[field:feed value:map[created_time:1.674389814e+09 from:map[id:5790835847613715 name:Fran
+// map[entry:[map[changes:[
+	// map[field:feed value:map[created_time:1.674389814e+09 from:map[id:5790835847613715 name:Fran
 // co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485 reaction_type:like verb:add]
-// ]] id:104467269083136 time:1.674389815e+09]] object:page]
+// ]] 
+// id:104467269083136 time:1.674389815e+09]] 
+// object:page]
 
 type WsHandler struct{}
 
@@ -180,7 +185,7 @@ func NewWebsocketHanlder(e *echo.Echo){
 func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
 	// var data map[string]interface{} = map[string]interface{}{}
-	var data Entry
+	var data LikePost
 	err = c.Bind(&data)
 	if err != nil {
 	   log.Println(err) 
