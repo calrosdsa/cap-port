@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -149,9 +150,9 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
-	log.Println(json)
-	// log.Println(json["field"].(string))
-	log.Println("Received")
+	fmt.Println(json)
+	// fmt.Println(json["field"].(string))
+	fmt.Println("Received")
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "dasd")
 }
