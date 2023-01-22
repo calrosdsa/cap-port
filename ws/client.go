@@ -43,12 +43,10 @@ type connection struct {
 	send chan []byte
 }
 
-
 type Iot struct {
-    Type     string           `json:"type"`
-    Token    string          `json:"token"`
+	Type  string `json:"type"`
+	Token string `json:"token"`
 }
-
 
 // readPump pumps messages from the websocket connection to the hub.
 func (s subscription) readPump() {
@@ -68,7 +66,7 @@ func (s subscription) readPump() {
 		// builder.Write(msg)
 		// log.Println(builder.String())
 		// if msg != nil {
-		// 	log.Println("lllllllll")		
+		// 	log.Println("lllllllll")
 		// 	log.Println(string(msg))
 		// 	data := &model.Message{}
 		// 	go func(){
@@ -90,7 +88,6 @@ func (s subscription) readPump() {
 		// }
 		// fmt.Println("ctx:", string(iot.Type))
 		// in := []byte(`{"id":1,"name":"test","context":{"key1":"value1","key2":2}}`)
-		
 
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
@@ -141,15 +138,15 @@ type From struct {
 }
 
 type Value struct {
-	Item       string `json:"item"`
-	ParentId   string `json:"parent_id"`
-	PostId      string `json:"post_id"`
-	Verb       string `json:"verb"`
-	Published  int    `json:"published"`
-	CretedTime int    `json:"created_time"`
-	ReactionType  string `json:"reaction_type"`
-	Message    string `json:"message"`
-	From       *From  `json:"from"`
+	Item         string `json:"item"`
+	ParentId     string `json:"parent_id"`
+	PostId       string `json:"post_id"`
+	Verb         string `json:"verb"`
+	Published    int    `json:"published"`
+	CretedTime   int    `json:"created_time"`
+	ReactionType string `json:"reaction_type"`
+	Message      string `json:"message"`
+	From         *From  `json:"from"`
 }
 
 type Feed struct {
@@ -158,37 +155,36 @@ type Feed struct {
 }
 type Entry struct {
 	Changes *Feed  `json:"changes"`
-	Id   string   `json:"id"`
-	Time   int   `json:"time"`
+	Id      string `json:"id"`
+	Time    string    `json:"time"`
 }
 
-
 type LikePost struct {
-	Entry *Entry `json:"entry"`
-	Object string  `json:"object"`
+	Entry  *Entry `json:"entry"`
+	Object string `json:"object"`
 }
 
 // map[entry:[map[changes:[
-	// map[field:feed value:map[created_time:1.674389814e+09 from:map[id:5790835847613715 name:Fran
+// map[field:feed value:map[created_time:1.674389814e+09 from:map[id:5790835847613715 name:Fran
 // co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485 reaction_type:like verb:add]
-// ]] 
-// id:104467269083136 time:1.674389815e+09]] 
+// ]]
+// id:104467269083136 time:1.674389815e+09]]
 // object:page]
 
 type WsHandler struct{}
 
-func NewWebsocketHanlder(e *echo.Echo){
+func NewWebsocketHanlder(e *echo.Echo) {
 	handler := &WsHandler{}
-	e.POST("webhook/",handler.WebhookTest)
+	e.POST("webhook/", handler.WebhookTest)
 }
 
-func (w *WsHandler)WebhookTest(c echo.Context)(err error){
+func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	// hub := c.QueryParam("hub.mode")
 	// var data map[string]interface{} = map[string]interface{}{}
 	var data LikePost
 	err = c.Bind(&data)
 	if err != nil {
-	   log.Println(err) 
+		log.Println(err)
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println(data)
@@ -199,7 +195,6 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "asdasd")
 }
-
 
 // serveWs handles websocket requests from the peer.
 func ServeWs(w http.ResponseWriter, r *http.Request, roomId string) {
