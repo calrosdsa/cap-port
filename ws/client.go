@@ -154,12 +154,10 @@ type Feed struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
 }
-type Changes struct {
-	Feed *Feed    
-}
+
 
 type Entry struct {
-	Changes *Changes `json:"changes"`
+	Entry *Feed `json:"entry"`
 	Object string  `json:"object"`
 }
 
