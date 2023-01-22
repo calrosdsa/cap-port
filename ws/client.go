@@ -1,11 +1,13 @@
 package ws
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 
 	"encoding/json"
 	"time"
+
 	// "strings"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
@@ -173,11 +175,9 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println(data)
-	jsonString, err := json.Marshal(data)
-	if err != nil{
-		log.Println(err)
-	}
-	log.Println(jsonString)
+	body, err := ioutil.ReadAll(c.Request().Body)
+	log.Println(string(body))
+
 	log.Println("Received")
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "asdasd")
