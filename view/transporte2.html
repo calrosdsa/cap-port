@@ -20,7 +20,10 @@
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
         if(isAndroid) {
           const url =`intent://${window.location.href}#Intent;package=com.android.chrome;end`;
-          window.location.replace(url);
+          const link = document.createElement("a")
+          link.href = url
+          link.click()
+          // window.location.replace(url);
         }
         // const modal = document.querySelector("#alertdialog")
         // modal.className="modal-content"
