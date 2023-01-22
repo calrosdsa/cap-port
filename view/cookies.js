@@ -47,6 +47,7 @@ async function sendRequest () {
     return res.json()
   })
   .then(res=>{
+    console.log("likestatus",res)
     if(res){
       window.location.replace(`http://portal.teclumobility.com:8181/test/?username=${name}`)
       // getAccess(username)
