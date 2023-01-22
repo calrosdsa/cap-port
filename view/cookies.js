@@ -133,16 +133,18 @@ function getUrlParams(search) {
     console.log(err)
   }
   }
-  async function getPostUrl(){
+  function getPostUrl(){
     const postUrl = getCookie("post_url")
     console.log("postUrl",postUrl)
     if(postUrl == undefined){
     console.log("fetchingData")
-      await fetch("https://teclu.com/ApiFb_LinkPost.php").then((response)=>{
-        console.log(response)
-        console.log(response.data)
-        setCookie("post_url",response.data,1)
-      })
+    fetch("https://teclu.com/ApiFb_LinkPost.php").then((response)=>{
+      console.log(response)
+      return response.text()
+    }).then(res=>{
+      console.log(res)
+      setCookie("post_url",res,1)
+    })
     }
   }
 
