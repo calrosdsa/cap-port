@@ -29,18 +29,24 @@ func NewTemplateHandler(e *echo.Echo){
 	e.GET("/transporte/", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
 	})
+	
 	e.GET("/transporte2/", func(c echo.Context) error {
-		return c.File("view/transporte.html")
-	})
-	e.GET("/test/", func(c echo.Context) error {
-		return c.File("/home/portal-cautivo/cap-port/input.html")
+		return c.File("view/transporte2.html")
 	})
 	e.GET("/redirect/", func(c echo.Context) error {
-		return c.File("input.html")
+		return c.File("/home/portal-cautivo/cap-port/input.html")
+	})
+	e.GET("/test/", func(c echo.Context) error {
+		return c.File("view/upload.html")
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
 		return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
+
+	})
+	e.GET("/view/portal.css", func(c echo.Context) error {
+		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
+		return c.File("view/portal.css")
 
 	})
 	e.POST("/login.html",func(c echo.Context)(error){

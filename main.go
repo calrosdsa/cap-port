@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	_ws "portal/ws"
 
 	"github.com/labstack/echo/v4/middleware"
 
@@ -45,6 +46,12 @@ type Feed struct {
 	Value *Value `json:"value"`
 }
 
+
+type message struct {
+	data []byte
+	room string
+}
+
 func main() {
 	// Echo instance
 	e := echo.New()
@@ -62,23 +69,20 @@ func main() {
 		fmt.Println(challenge)
 		return c.String(http.StatusOK, challenge)
 	})
-	e.POST("webhook/", func(c echo.Context) (err error) {
-		// hub := c.QueryParam("hub.mode")
-		var json map[string]interface{} = map[string]interface{}{}
-	err = c.Bind(&json)
-	if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err.Error())
-	}
-		fmt.Println(json)
-		fmt.Println("Received")
-		challenge := c.QueryParam("hub.challenge")
-		// token := c.QueryParam("hub.verification_token")
-		fmt.Println(challenge)
-		return c.String(http.StatusOK, challenge)
-	})
 
+	
 	handler.NewMediaHandler(e)
 	handler.NewTemplateHandler(e)
+	_ws.NewWebsocketHanlder(e)
+	go _ws.H.Run()
+	e.GET("/room/:roomId", func(c echo.Context)(err error) {
+		return c.File("homeweb.html")
+	})
+	e.GET("/ws/:roomId", func(c echo.Context)(err error) {
+		roomId := c.Param("roomId")
+		_ws.ServeWs(c.Response(), c.Request(), roomId)
+		return nil
+	})
 
 	// Route => handler
 

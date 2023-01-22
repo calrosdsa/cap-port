@@ -148,6 +148,8 @@ function getUrlParams(search) {
 
   function loginFacebook (){  
     // myFunction()
+        // const buttonLogin = document.getElementById("buttonLogin")
+        // buttonLogin.disabled=true
     const params = getUrlParams(window.location.search)
     console.log(params)
     if (params.switch_url != undefined){
