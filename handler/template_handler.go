@@ -44,6 +44,7 @@ func NewTemplateHandler(e *echo.Echo){
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
+		// return c.File("view/cookies.js")
 		return c.File("/home/ec2-user/cap-port/view/cookies.js")
 
 	})

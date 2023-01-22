@@ -15,12 +15,15 @@
       let isAuth = true
       window.onload = function() {
         const fondo = document.querySelector("#fondo")
-        fondo.addEventListener("click",function(e){
-          console.log(e)
-          const modal = document.querySelector("#alertdialog")
-          modal.style = "vidibility:hidden;position: absolute;"
-          modal.className = ""
-        })
+        const modal = document.querySelector("#alertdialog")
+        modal.className="modal-content"
+        modal.style = "visibility: visible"
+        // fondo.addEventListener("click",function(e){
+        //   console.log(e)
+        //   const modal = document.querySelector("#alertdialog")
+        //   modal.style = "vidibility:hidden;position: absolute;"
+        //   modal.className = ""
+        // })
         let conn;
     if (window["WebSocket"]) {
                     const params = window.location.href.split("/");
@@ -58,16 +61,21 @@
   <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   <div id="alertdialog" style="visibility: hidden;position: absolute;">
     <div class="modal-header">
-      <span class="close">&times;</span>
-      <h2>Modal Header</h2>
+      <div style="display: flex;justify-content: end;width: 100%;">
+        <svg xmlns="http://www.w3.org/2000/svg" onclick="closeModal()"
+        fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+        stroke="currentColor" style="height: 30px;width: 30px;cursor: pointer;margin: 10px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
     </div>
-    <div class="modal-body">
-      <p>Some text in the Modal Body</p>
-      <p>Some other text...</p>
+      <div>Por favor, déle me gusta a nuestra última publicación en facebook.</div>
+      <div style="display: flex;justify-content: end;width: 100%;padding-right: 10px;">
+        <div  style="background-color: #039be5;padding: 10px;border-radius: 0.5rem;margin: 10px;color: white;font-weight: 500;">
+          Ir ala última publicación
+        </div>
     </div>
-    <div class="modal-footer">
-      <h3>Modal Footer</h3>
     </div>
+   
 </div>
   <div id="fondo"  class="container">
     <!-- Modal content -->
@@ -96,7 +104,8 @@
                   </div>
                 
                 <button id="buttonLogin" onclick="loginFacebook()" tabindex="-1"
-                style="background-color: #039be5;height: 35px;margin-top: 10px;margin-bottom: 10px;">
+                style="background-color: #039be5;height: 35px;margin-top: 10px;margin-bottom: 10px;
+                padding-top: 15px;padding-bottom: 15px;padding-right: 15px;">
                 <svg
                 xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="40px" height="48px"><path fill="#039be5"
                 d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"/><path fill="#fff" 
@@ -116,6 +125,6 @@
         en facebook
       </p>
     </div>  
-    <a target="_blank" href="teclu.com" style="color: indigo;padding-top: 10px;">By Teclu</a>
+    <a target="_blank" href="teclu.com" style="color: indigo;margin-top: 20px;">By Teclu</a>
   </div>	             
 </div>

@@ -177,3 +177,9 @@ function getUrlParams(search) {
     modal.className="modal-content"
     modal.style = "visibility: visible"
   }
+
+  function closeModal(){
+    const modal = document.querySelector("#alertdialog")
+      modal.style = "vidibility:hidden;position: absolute;"
+      modal.className = ""
+  }
