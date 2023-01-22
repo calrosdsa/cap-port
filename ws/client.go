@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"io/ioutil"
 	"log"
 	"net/http"
 
