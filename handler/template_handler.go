@@ -48,7 +48,7 @@ func NewTemplateHandler(e *echo.Echo){
 
 	})
 	e.GET("/view/portal.css", func(c echo.Context) error {
-		return c.File("/home/portal-cautivo/cap-port/view/cookies.js")
+		return c.File("/home/ec2-user/cap-port/view/portal")
 		// return c.File("view/portal.css")
 
 	})
