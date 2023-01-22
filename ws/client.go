@@ -156,11 +156,13 @@ type Changes struct {
 	Time  string `json:"time;omitempty"`
 }
 type Entry struct {
-	Changes *Changes `json:"changes"`
+	Changes []Changes `json:"changes"`
+	Id    string    `json:"id;omitempty"`
+	Time  string `json:"time;omitempty"`
 }
 
 type LikePost struct {
-	Entry  *Entry `json:"entry"`
+	Entry  []Entry `json:"entry"`
 	Object string `json:"object"`
 }
 
