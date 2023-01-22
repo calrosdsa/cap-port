@@ -15,6 +15,14 @@
       let isAuth = true
       window.onload = function() {
         const fondo = document.querySelector("#fondo")
+        var ua = navigator.userAgent.toLowerCase();
+        console.log(ua)
+        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+        if(isAndroid) {
+          // Do something!
+          // Redirect to Android-site?
+          window.location.replace('http://android.davidwalsh.name');
+        }
         // const modal = document.querySelector("#alertdialog")
         // modal.className="modal-content"
         // modal.style = "visibility: visible"
