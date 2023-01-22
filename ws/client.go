@@ -142,10 +142,12 @@ type From struct {
 
 type Value struct {
 	Item       string `json:"item"`
+	ParentId   string `json:"parent_id"`
 	PostId      string `json:"post_id"`
 	Verb       string `json:"verb"`
 	Published  int    `json:"published"`
 	CretedTime int    `json:"created_time"`
+	ReactionType  string `json:"reaction_type"`
 	Message    string `json:"message"`
 	From       *From  `json:"from"`
 }
@@ -154,13 +156,19 @@ type Feed struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
 }
+type Changes struct {
+	Changes *Feed  `json:"changes"`
+}
 
 
 type Entry struct {
-	Entry *Feed `json:"entry"`
+	Entry *Changes `json:"entry"`
 	Object string  `json:"object"`
 }
 
+// map[entry:[map[changes:[map[field:feed value:map[created_time:1.674389814e+09 from:map[id:5790835847613715 name:Fran
+// co Galarza] item:reaction parent_id:104467269083136_133206869534485 post_id:104467269083136_133206869534485 reaction_type:like verb:add]
+// ]] id:104467269083136 time:1.674389815e+09]] object:page]
 
 type WsHandler struct{}
 
