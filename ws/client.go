@@ -160,7 +160,7 @@ type Entry struct {
 }
 
 type LikePost struct {
-	Entry  *Entry `json:"entry"`
+	// Entry  *Entry `json:"entry"`
 	Object string `json:"object"`
 }
 
@@ -188,7 +188,7 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println(data)
-	log.Println(data.Entry.Id)
+	// log.Println(data.Entry.Id)
 	// log.Println(data.Entry.Time)
 
 	// log.Println(data.Entry.Changes.Value.From.Name)
