@@ -155,12 +155,12 @@ type Feed struct {
 }
 type Entry struct {
 	// Changes *Feed  `json:"changes"`
-	Id      int `json:"id"`
-	// Time    string    `json:"time"`
+	// Id      string `json:"id"`
+	Time    string    `json:"time"`
 }
 
 type LikePost struct {
-	Entry  Entry `json:"entry"`
+	Entry  *Entry `json:"entry"`
 	Object string `json:"object"`
 }
 
