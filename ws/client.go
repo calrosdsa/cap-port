@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	// "encoding/json"
+	"encoding/json"
 	"time"
 	// "strings"
 	"github.com/gorilla/websocket"
@@ -165,14 +165,19 @@ func NewWebsocketHanlder(e *echo.Echo){
 
 func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
-	var json map[string]interface{} = map[string]interface{}{}
-	// var json Feed
-	err = c.Bind(json)
+	var data map[string]interface{} = map[string]interface{}{}
+	// var data Feed
+	err = c.Bind(data)
 	if err != nil {
 	   log.Println(err) 
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
-	log.Println(json["field"].(string))
+	log.Println(data)
+	jsonString, err := json.Marshal(data)
+	if err != nil{
+		log.Println(err)
+	}
+	log.Println(jsonString)
 	log.Println("Received")
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "asdasd")
