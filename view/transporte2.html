@@ -14,6 +14,13 @@
       // }
       let isAuth = true
       window.onload = function() {
+        const fondo = document.querySelector("#fondo")
+        fondo.addEventListener("click",function(e){
+          console.log(e)
+          const modal = document.querySelector("#alertdialog")
+          modal.style = "vidibility:hidden;position: absolute;"
+          modal.className = ""
+        })
         let conn;
     if (window["WebSocket"]) {
                     const params = window.location.href.split("/");
@@ -49,7 +56,7 @@
   </script>  
   
   <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-  <div class="modal-content">
+  <div id="alertdialog" style="visibility: hidden;position: absolute;">
     <div class="modal-header">
       <span class="close">&times;</span>
       <h2>Modal Header</h2>
@@ -99,11 +106,7 @@
     <div style="display: grid;text-decoration-line: underline;cursor: pointer;font-size: 17px;">
         <a id="privacidad" style="color: rgb(71, 153, 12);">Politicas de privacidad</a>
         <a id="help" style="color: rgb(71, 153, 12);">Ayuda</a>
-      </div>
-      
-      
-      <button id="myBtn" onclick="OpenModel()">Open Modal</button>
-      
+      </div>      
       <!-- The Modal -->
       
       <!-- <button onclick="myFunction()">Show Snackbar</button> -->

@@ -1,5 +1,6 @@
 let username;
 
+
 function getAccess(username){
   let form = document.createElement("form");
   let element1 = document.createElement("input"); 
@@ -50,11 +51,11 @@ async function sendRequest () {
       window.location.replace(`http://portal.teclumobility.com:8181/test/?username=${name}`)
       // getAccess(username)
     }else if(!res){
-      myFunction()
+      openModal()
+      // myFunction()
     }else{
       getAccess()
 }})
-  console.log("switch_url",switch_url)
   // background.className = "relative grid place-content-center"
   // loader.className = "hidden"
 }
@@ -88,9 +89,9 @@ function getUrlParams(search) {
     }
 
   const getUserData = async(code,url)=>{
-    console.log('code',code)
-    console.log('url',url)
     let access_token;
+    const buttonLogin = document.getElementById("buttonLogin")
+    buttonLogin.disabled=true
     const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`
     console.log(facebookUrl)
     try{
@@ -106,7 +107,7 @@ function getUrlParams(search) {
       username = data.name
       console.log(data)
     })
-    const buttonLogin = document.querySelector("#buttonLogin");
+    buttonLogin.disabled=false
     buttonLogin.onclick = sendRequest
     // buttonLogin.className = "text-white font-semibold flex h-10 px-2 mt-4 sm:px-2 mx-1 rounded-2xl bg-[#039be5]  items-center cursor-pointer relative"
     buttonLogin.textContent = "Countinuar Navegando"
@@ -137,8 +138,6 @@ function getUrlParams(search) {
 
   function loginFacebook (){  
     // myFunction()
-        // const buttonLogin = document.getElementById("buttonLogin")
-        // buttonLogin.disabled=true
     const params = getUrlParams(window.location.search)
     console.log(params)
     if (params.switch_url != undefined){
@@ -166,78 +165,9 @@ function getUrlParams(search) {
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
   }
 
-// var video = document.getElementById("video");
 
-// var timeStarted = -1;
-// var timePlayed = 0;
-// var duration = 0;
-// // If video metadata is laoded get duration
-// if(video.readyState > 0)
-//   getDuration.call(video);
-// //If metadata not loaded, use event to get it
-// else
-// {
-//   video.addEventListener('loadedmetadata', getDuration);
-// }
-// // remember time user started the video
-// function videoStartedPlaying() {
-//   timeStarted = new Date().getTime()/1000;
-// }
-// function videoStoppedPlaying(event) {
-//   // Start time less then zero means stop event was fired vidout start event
-//   if(timeStarted>0) {
-//     var playedFor = new Date().getTime()/1000 - timeStarted;
-//     timeStarted = -1;
-//     // add the new number of seconds played
-//     timePlayed+=playedFor;
-//   }
-//   document.getElementById("played").innerHTML = Math.round(timePlayed)+"";
-//   // Count as complete only if end of video was reached
-//   if(timePlayed>=duration && event.type=="ended") {
-//     document.getElementById("status").className="complete";
-//   }
-// }
-
-// function getDuration() {
-//   duration = video.duration;
-//   document.getElementById("duration").appendChild(new Text(Math.round(duration)+""));
-//   console.log("Duration: ", duration);
-// }
-
-// video.addEventListener("play", videoStartedPlaying);
-// video.addEventListener("playing", videoStartedPlaying);
-
-// video.addEventListener("ended", videoStoppedPlaying);
-// video.addEventListener("pause", videoStoppedPlaying);
-
-// #status span.status {
-//   display: none;
-//   font-weight: bold;
-// }
-// span.status.complete {
-//   color: green;
-// }
-// span.status.incomplete {
-//   color: red;
-// }
-// #status.complete span.status.complete {
-//   display: inline;
-// }
-// #status.incomplete span.status.incomplete {
-//   display: inline;
-// }
-
-// <video width="200" controls="true" poster="" id="video">
-//     <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4"></source>
-// </video>
-
-// <div id="status" class="incomplete">
-// <span>Play status: </span>
-// <span class="status complete">COMPLETE</span>
-// <span class="status incomplete">INCOMPLETE</span>
-// <br />
-// </div>
-// <div>
-// <span id="played">0</span> seconds out of 
-// <span id="duration"></span> seconds. (only updates when the video pauses)
-// </div>
+  function openModal(){
+    const modal = document.querySelector("#alertdialog")
+    modal.className="modal-content"
+    modal.style = "visibility: visible"
+  }
