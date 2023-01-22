@@ -168,7 +168,7 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
 	var data map[string]interface{} = map[string]interface{}{}
 	// var data Feed
-	err = c.Bind(data)
+	err = c.Bind(&data)
 	if err != nil {
 	   log.Println(err) 
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
