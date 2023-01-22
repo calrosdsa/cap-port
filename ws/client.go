@@ -154,6 +154,14 @@ type Feed struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
 }
+type Changes struct {
+	Feed *Feed    
+}
+
+type Entry struct {
+	Changes *Changes `json:"changes"`
+	Object string  `json:"object"`
+}
 
 
 type WsHandler struct{}
@@ -165,15 +173,15 @@ func NewWebsocketHanlder(e *echo.Echo){
 
 func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
-	var data map[string]interface{} = map[string]interface{}{}
-	// var data Feed
+	// var data map[string]interface{} = map[string]interface{}{}
+	var data Entry
 	err = c.Bind(&data)
 	if err != nil {
 	   log.Println(err) 
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println(data)
-	log.Println(data["object"])
+	// data["changes"]["sda"] = "sadas"
 	log.Println("Received")
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "asdasd")
