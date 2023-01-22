@@ -160,7 +160,7 @@ type Entry struct {
 }
 
 type LikePost struct {
-	Entry  *Entry `json:"entry"`
+	Entry  Entry `json:"entry"`
 	Object string `json:"object"`
 }
 
