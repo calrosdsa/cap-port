@@ -18,7 +18,7 @@
     if (window["WebSocket"]) {
                     const params = window.location.href.split("/");
                     const roomId = params[params.length - 1];
-                    conn = new WebSocket("ws://" + document.location.host + "/ws/" + "portal");
+                    conn = new WebSocket("wss://" + document.location.host + "/ws/" + "portal");
                     conn.onclose = function (evt) {
                         console.log("connection closed")
                     };
