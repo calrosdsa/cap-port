@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -148,14 +147,14 @@ func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	var json map[string]interface{} = map[string]interface{}{}
 	err = c.Bind(&json)
 	if err != nil {
-		log.Println("error to bind")
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
-	fmt.Println(json)
-	// fmt.Println(json["field"].(string))
-	fmt.Println("Received")
+	log.Println(json)
+	log.Println("Received")
+	challenge := c.QueryParam("hub.challenge")
 	// token := c.QueryParam("hub.verification_token")
-	return c.String(http.StatusOK, "dasd")
+	log.Println(challenge)
+	return c.String(http.StatusOK, challenge)
 }
 
 
