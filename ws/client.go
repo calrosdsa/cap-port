@@ -135,6 +135,27 @@ func (s *subscription) writePump() {
 	}
 }
 
+type From struct {
+	Name string `json:"name"`
+	Id   string `json:"id"`
+}
+
+type Value struct {
+	Item       string `json:"item"`
+	PostId      string `json:"post_id"`
+	Verb       string `json:"verb"`
+	Published  int    `json:"published"`
+	CretedTime int    `json:"created_time"`
+	Message    string `json:"message"`
+	From       *From  `json:"from"`
+}
+
+type Feed struct {
+	Field string `json:"field"`
+	Value *Value `json:"value"`
+}
+
+
 type WsHandler struct{}
 
 func NewWebsocketHanlder(e *echo.Echo){
@@ -144,10 +165,12 @@ func NewWebsocketHanlder(e *echo.Echo){
 
 func (w *WsHandler)WebhookTest(c echo.Context)(err error){
 	// hub := c.QueryParam("hub.mode")
-	var json map[string]interface{} = map[string]interface{}{}
+	// var json map[string]interface{} = map[string]interface{}{}
+	var json Feed
 	err = c.Bind(&json)
 	if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+	   log.Println(err) 
+		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println(json)
 	log.Println("Received")

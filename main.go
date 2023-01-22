@@ -26,31 +26,7 @@ import (
 //		// 	log.Println("Service RUN on DEBUG mode")
 //		// }
 //	}
-type From struct {
-	Name string `json:"name"`
-	Id   string `json:"id"`
-}
 
-type Value struct {
-	Item       string `json:"item"`
-	PostId      string `json:"post_id"`
-	Verb       string `json:"verb"`
-	Published  int    `json:"published"`
-	CretedTime int    `json:"created_time"`
-	Message    string `json:"message"`
-	From       *From  `json:"from"`
-}
-
-type Feed struct {
-	Field string `json:"field"`
-	Value *Value `json:"value"`
-}
-
-
-type message struct {
-	data []byte
-	room string
-}
 
 func main() {
 	// Echo instance
