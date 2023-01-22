@@ -195,7 +195,7 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	}
 	log.Println(data)
 	// log.Println(data.Entry.Id)
-	// log.Println(data.Entry.Time)
+	log.Println(data.Entry[len(data.Entry)-1].Changes[len(data.Entry[len(data.Entry)-1].Changes)-1].Value.From.Name)
 
 	// log.Println(data.Entry.Changes.Value.From.Name)
 
