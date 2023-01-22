@@ -152,8 +152,8 @@ type Value struct {
 type Changes struct {
 	Field string `json:"field"`
 	Value *Value `json:"value"`
-	Id    string `json:"id"`
-	Time  string `json:"time"`
+	Id    int    `json:"id;omitempty"`
+	Time  string `json:"time;omitempty"`
 }
 type Entry struct {
 	Changes *Changes `json:"changes"`
