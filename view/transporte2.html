@@ -15,16 +15,21 @@
       let isAuth = true
       window.onload = function() {
         const fondo = document.querySelector("#fondo")
-        var ua = navigator.userAgent.toLowerCase();
-        console.log(ua)
-        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-        if(isAndroid) {
-          const url =`intent://${window.location.href}#Intent;package=com.android.chrome;end`;
-          const link = document.createElement("a")
-          link.href = url
-          link.click()
-          // window.location.replace(url);
-        }
+        // var ua = navigator.userAgent.toLowerCase();
+        // console.log(ua)
+    // const agent = window.navigator.userAgent.toLowerCase();
+    // const browser =
+    // agent.indexOf('edge') > -1 ? 'edge'
+    //   : agent.indexOf('edg') > -1 ? 'chromium based edge'
+    //   : agent.indexOf('opr') > -1 && window.opr ? 'opera'
+    //   : agent.indexOf('chrome') > -1 && window.chrome ? 'chrome'
+    //   : agent.indexOf('trident') > -1 ? 'ie'
+    //   : agent.indexOf('firefox') > -1 ? 'firefox'
+    //   : agent.indexOf('safari') > -1 ? 'safari'
+    //   : 'other';
+  
+  // console.log(`${agent}\n${browser}`);
+       
         // const modal = document.querySelector("#alertdialog")
         // modal.className="modal-content"
         // modal.style = "visibility: visible"
@@ -80,7 +85,7 @@
     </div>
       <div>Por favor, déle me gusta a nuestra última publicación en facebook.</div>
       <div style="display: flex;justify-content: end;width: 100%;padding-right: 10px;">
-        <div  style="background-color: #039be5;padding: 10px;border-radius: 0.5rem;margin: 10px;color: white;font-weight: 500;">
+        <div onclick="navigateToPostUrl()" style="background-color: #039be5;padding: 10px;border-radius: 0.5rem;margin: 10px;color: white;font-weight: 500;">
           Ir ala última publicación
         </div>
     </div>
