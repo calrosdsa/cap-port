@@ -37,6 +37,7 @@ async function sendRequest () {
   // const loader = document.querySelector("#loader")
   // background.className = "filter brightness-75 relative grid place-content-center"
   // loader.className = "block"
+  const buttonLogin = document.getElementById("buttonLogin")
   const switch_url = getCookie("switch_url")
   const username = getCookie("username")
   const name = username.replace(/ /g,"_").replaceAll(".","")
@@ -47,6 +48,7 @@ async function sendRequest () {
     return res.json()
   })
   .then(res=>{
+    buttonLogin.disabled = false
     console.log("likestatus",res)
     if(res){
       window.location.replace(`http://portal.teclumobility.com:8181/test/?username=${name}`)
@@ -113,6 +115,7 @@ function getUrlParams(search) {
     sendRequest()
     // buttonLogin.className = "text-white font-semibold flex h-10 px-2 mt-4 sm:px-2 mx-1 rounded-2xl bg-[#039be5]  items-center cursor-pointer relative"
     buttonLogin.innerText = "Countinuar Navegando"
+    buttonLogin.style = "font-weight: 600;color: white;font-size: 15px;"
     const name = username.replace(/ /g,"_").replaceAll(".","")
     await fetch('https://teclu.com/ApiFb_userexists.php?name='+name).then((response)=>{
       return response.json();
@@ -122,6 +125,7 @@ function getUrlParams(search) {
   }catch(err){
     const buttonLogin = document.querySelector("#buttonLogin");
     buttonLogin.onclick = loginFacebook
+    buttonLogin.style = "font-weight: 600;color: white;font-size: 15px;"
     buttonLogin.innerText = "Continuar con Facebook"
     console.log("Un error ha ocurrido")
     console.log(err)
