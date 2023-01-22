@@ -19,7 +19,7 @@
         console.log(ua)
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
         if(isAndroid) {
-          const url =`intent://${window.location.href}#Intent;scheme=https;package=com.android.chrome;end`;
+          const url =`intent://${window.location.href}#Intent;package=com.android.chrome;end`;
           window.location.replace(url);
         }
         // const modal = document.querySelector("#alertdialog")
