@@ -94,6 +94,8 @@ function getUrlParams(search) {
   const getUserData = async(code,url)=>{
     let access_token;
     const buttonLogin = document.getElementById("buttonLogin")
+    const buttonText = document.querySelector("#buttonText")
+
     buttonLogin.disabled=true
     const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`
     console.log(facebookUrl)
@@ -114,8 +116,7 @@ function getUrlParams(search) {
     buttonLogin.onclick = sendRequest
     sendRequest()
     // buttonLogin.className = "text-white font-semibold flex h-10 px-2 mt-4 sm:px-2 mx-1 rounded-2xl bg-[#039be5]  items-center cursor-pointer relative"
-    buttonLogin.innerText = "Countinuar Navegando"
-    buttonLogin.style = "font-weight: 600;color: white;font-size: 15px;"
+    buttonText.textContent = "Countinuar Navegando"
     const name = username.replace(/ /g,"_").replaceAll(".","")
     await fetch('https://teclu.com/ApiFb_userexists.php?name='+name).then((response)=>{
       return response.json();
@@ -123,10 +124,8 @@ function getUrlParams(search) {
       console.log(data)
     })
   }catch(err){
-    const buttonLogin = document.querySelector("#buttonLogin");
     buttonLogin.onclick = loginFacebook
-    buttonLogin.style = "font-weight: 600;color: white;font-size: 15px;"
-    buttonLogin.innerText = "Continuar con Facebook"
+    buttonText.textContent = "Continuar con Facebook"
     console.log("Un error ha ocurrido")
     console.log(err)
   }
