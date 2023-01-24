@@ -30,7 +30,7 @@ func NewTemplateHandler(e *echo.Echo){
 		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
 	})
 	
-	e.GET("/api/transporte2/", func(c echo.Context) error {
+	e.GET("/transporte2/", func(c echo.Context) error {
 		return c.File("/home/ec2-user/cap-port/view/transporte2.html")
 	})
 	e.GET("/transporte3/", func(c echo.Context) error {
