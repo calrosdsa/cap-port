@@ -24,9 +24,9 @@ func NewMediaHandler(e *echo.Echo, sess *session.Session) {
 		sess: sess,
 	}
 	e.Static("/", "media")
-	e.POST("api/upload/media/", handler.UploadMedia)
-	e.POST("api/delete/media/", handler.DeleteMedia)
-	e.POST("api/upload/template/", handler.UploadTemplate)
+	e.POST("/api/upload/media/", handler.UploadMedia)
+	e.POST("/api/delete/media/", handler.DeleteMedia)
+	e.POST("/api/upload/template/", handler.UploadTemplate)
 
 }
 
