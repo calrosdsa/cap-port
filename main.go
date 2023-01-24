@@ -5,31 +5,44 @@ import (
 	"net/http"
 	_ws "portal/ws"
 
+	"os"
 	"github.com/labstack/echo/v4/middleware"
 
 	"portal/handler"
-	// "github.com/spf13/viper"
-
+	"github.com/spf13/viper"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
 )
 
 // Define the template registry struct
 
-// func init() {
-// 	viper.SetConfigFile(`.env`)
-// 	err := viper.ReadInConfig()
-// 	if err != nil {
-// 		panic(err)
-// 	}
+func init() {
+	viper.SetConfigFile(`/home/ec2-user/.env`)
+	// viper.SetConfigFile(`.env`)
 
-//		// if viper.GetBool(`debug`) {
-//		// 	log.Println("Service RUN on DEBUG mode")
-//		// }
-//	}
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+		// if viper.GetBool(`debug`) {
+		// 	log.Println("Service RUN on DEBUG mode")
+		// }
+	}
 
 
 func main() {
-	// Echo instance
+	
+	creds := credentials.NewStaticCredentials(viper.GetString("AWS_ID"), viper.GetString("AWS_SECRET"), "")
+    sess, err := session.NewSession(&aws.Config{
+        Region: aws.String("sa-east-1"),
+		Credentials: creds,
+	},)
+	if err != nil {
+        exitErrorf("%v", err)
+    }
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -47,7 +60,7 @@ func main() {
 	})
 
 	
-	handler.NewMediaHandler(e)
+	handler.NewMediaHandler(e,sess)
 	handler.NewTemplateHandler(e)
 	_ws.NewWebsocketHanlder(e)
 	go _ws.H.Run()
@@ -110,7 +123,7 @@ func main() {
 //     // }
 // }
 
-// func exitErrorf(msg string, args ...interface{}) {
-//     fmt.Fprintf(os.Stderr, msg+"\n", args...)
-//     os.Exit(1)
-// }
+func exitErrorf(msg string, args ...interface{}) {
+    fmt.Fprintf(os.Stderr, msg+"\n", args...)
+    os.Exit(1)
+}

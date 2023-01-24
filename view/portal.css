@@ -1,30 +1,72 @@
 body {
-    margin: 0;
-    text-align: center;
-    background: black;
+  margin: 0;
+  text-align: center;
 }
-.container{
+
+/* @font-face { */
+  /* font-family: currentFont; */
+  /* src: url(https://teclu-portal.s3.sa-east-1.amazonaws.com/font/Teko-Medium.ttf); */
+  /* } */
+  
+  .container{
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  display: grid;
+  place-content: center;
+}
+
+.containerWithBrighness{
+    height: 100vh;
+    margin: 0; 
     position: relative;
     display: grid;
+    filter:brightness(50%);
     place-content: center;
-  }
 
-  .content {
-    max-width: 36rem;
+  }
+.content {
+  font-weight: 500;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* place-content: center; */
+  height: 97vh;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+@media screen and (min-width: 500px) {
+.content {
+    margin: 0;
+    max-width: 32rem;
+    font-weight: 500;
     position: relative;
     z-index: 2;
-    display: grid;
-    place-items: center;
-    place-content: center;
-    height: 100vh;
-    padding-left: 15px;
-    padding-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* place-items: center; */
+    /* row-gap: 5px; */
+    /* place-content: center; */
+    height: fit-content;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    overflow-y: auto;
+    padding-left: 28px;
+    padding-right: 28px;
     border-radius: 1rem;
-    --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-
+  }
 }
+
+
 
 button {
     display: flex;
@@ -41,11 +83,23 @@ button:focus {
     outline: none;
   }
 
-.fondo-img{
-    position: absolute;
-    width: 100%;
-    height: 100%;
+#image-b{
+  /* background: url('loading.gif') no-repeat; */
+  width:100%;
+  max-height:280px;
+  }
+
+  
+@media screen and (min-width: 500px) {
+  #image-b {
+    width:100%;
+    max-height:150px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
+
+
 .logo{
     margin-left: auto;
     margin-right: auto;
@@ -55,9 +109,14 @@ button:focus {
 
 .lds-ellipsis {
     display: inline-block;
-    position: absolute;
-    left: 50%;
-    top: 45%;
+    position: fixed;
+    width: 500px;
+    height: 200px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    top: 40%;
+    z-index: 3;
     width: 80px;
     height: 80px;
   }
@@ -67,7 +126,7 @@ button:focus {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: red;
+    background: white;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

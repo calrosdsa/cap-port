@@ -24,13 +24,13 @@ func NewTemplateHandler(e *echo.Echo){
 	handler := &TemplateHandler{}
 
 	e.POST("/upload",handler.UploadTemplateChanges)
-	e.POST("/upload2",handler.Upload2TemplateChanges)
+	// e.POST("/upload2",handler.Upload2TemplateChanges)
 	e.GET("/template/token/",handler.GenerateToken)
 	e.GET("/transporte/", func(c echo.Context) error {
 		return c.File("/home/portal-cautivo/cap-port/view/transporte.html")
 	})
 	
-	e.GET("/transporte2/", func(c echo.Context) error {
+	e.GET("/api/transporte2/", func(c echo.Context) error {
 		return c.File("/home/ec2-user/cap-port/view/transporte2.html")
 	})
 	e.GET("/transporte3/", func(c echo.Context) error {
@@ -49,8 +49,8 @@ func NewTemplateHandler(e *echo.Echo){
 
 	})
 	e.GET("/view/portal.css", func(c echo.Context) error {
-		return c.File("/home/ec2-user/cap-port/view/portal.css")
-		// return c.File("view/portal.css")
+		// return c.File("/home/ec2-user/cap-port/view/portal.css")
+		return c.File("view/portal.css")
 
 	})
 	e.POST("/login.html",func(c echo.Context)(error){
@@ -119,27 +119,27 @@ func (t *TemplateHandler)UploadTemplateChanges(c echo.Context) error {
 	return c.JSON(http.StatusOK, "Se han aplicado los cambios")
 }
 
-func (t *TemplateHandler)Upload2TemplateChanges(c echo.Context) error {
-	html := c.FormValue("html")
-	filename := c.FormValue("filename")
-	// log.Println(filename)
-	// html = fmt.Sprintf(`
-	// {{define "body"}}
-	// %s
-    // {{end}}
-	// `,html)
-    fo, err := os.Create("view/"+ filename)
-    if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
-    }
-    defer func() {
-        if err := fo.Close(); err != nil {
-            log.Println(err)
-        }
-    }()
-	fo.WriteString(html)
-	return c.JSON(http.StatusOK, "Se han aplicado los cambios")
-}
+// func (t *TemplateHandler)Upload2TemplateChanges(c echo.Context) error {
+// 	html := c.FormValue("html")
+// 	filename := c.FormValue("filename")
+// 	// log.Println(filename)
+// 	// html = fmt.Sprintf(`
+// 	// {{define "body"}}
+// 	// %s
+//     // {{end}}
+// 	// `,html)
+//     fo, err := os.Create("view/"+ filename)
+//     if err != nil {
+// 		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+//     }
+//     defer func() {
+//         if err := fo.Close(); err != nil {
+//             log.Println(err)
+//         }
+//     }()
+// 	fo.WriteString(html)
+// 	return c.JSON(http.StatusOK, "Se han aplicado los cambios")
+// }
 
 
 
