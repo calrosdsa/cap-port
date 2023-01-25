@@ -1,7 +1,9 @@
 "use strict";
 
-let username;
-function getAccess(username) {
+let base_url = "https://teclu.com";
+let user;
+let post_url;
+function getAccess() {
   let form = document.createElement("form");
   let element1 = document.createElement("input");
   let element2 = document.createElement("input");
@@ -9,7 +11,7 @@ function getAccess(username) {
   form.method = "post";
   form.action = "http://192.0.2.1/login.html";
   form.id = "login-form";
-  element1.value = username;
+  element1.value = "marca";
   element1.type = "text";
   element1.name = "username";
   form.appendChild(element1);
@@ -32,25 +34,25 @@ async function sendRequest() {
   // const loader = document.querySelector("#loader")
   // background.className = "filter brightness-75 relative grid place-content-center"
   // loader.className = "block"
-  const switch_url = getCookie("switch_url");
-  const username = getCookie("username");
+  const switch_url= getCookie("switch_url");
+  const username = getCookie("username") || user;
   const name = username.replace(/ /g, "_").replace(".", "");
   addLoader();
   console.log(username);
-  await fetch('https://teclu.com/ApiFb_validatelike.php?name=' + username).then(res => {
+  await fetch(`${base_url}/ApiFb_validatelike.php?name=` + username).then(res => {
     console.log(res);
     return res.json();
   }).then(res => {
     console.log("likestatus", res);
     if (res) {
+      addConnexionWifi(username)
       const link = document.createElement("a");
-      link.href = `http://portal.teclumobility.com:8181/test/?username=${name}`;
+      link.href = `http://184.73.130.150:8000/redirect/?username=${name}`;
       link.click();
-      // getAccess(username)
     } else if (!res) {
       openModal();
-      // myFunction()
     } else {
+      // addConnexionWifi(username)
       getAccess();
     }
   });
@@ -107,7 +109,7 @@ const getUserData = async (code, url) => {
   let access_token;
   const buttonLogin = document.getElementById("buttonLogin");
   const buttonText = document.querySelector("#buttonText");
-  const username = getCookie("username");
+  const username = getCookie("username") || user;
   const userExistInCookies = username != undefined;
   const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`;
   console.log(facebookUrl);
@@ -117,12 +119,15 @@ const getUserData = async (code, url) => {
     }).then(data => {
       access_token = data.access_token;
     });
-    await fetch(`https://graph.facebook.com/v15.0/me?fields=id%2Cname&access_token=${access_token}`).then(response => {
+    await fetch(`https://graph.facebook.com/v15.0/me?fields=id%2Cname%2Cemail%2Cpicture&access_token=${access_token}`).then(response => {
       if (response.ok) {
         return response.json();
       }
       throw new Error("Fallo al traer datos de facebook. Si el error persiste porfavor intente acceder desde otro navegador.");
     }).then(data => {
+      user = data.name
+      buttonText.textContent = "Countinuar Navegando";
+      addUser(data.name,data.email,data.picture.data.url)
       setCookie("username", data.name, 1);
       console.log(data);
       buttonLogin.onclick = sendRequest;
@@ -137,32 +142,19 @@ const getUserData = async (code, url) => {
   } else {
     buttonText.textContent = "Countinuar Navegando";
     buttonLogin.onclick = sendRequest;
-    sendRequest();
+    // sendRequest();
     console.log("NOMBRE DE USUARIO", username);
     const name = username.replace(/ /g, "_").replace(".", "");
-    await fetch('https://teclu.com/ApiFb_userexists.php?name=' + name).then(response => {
+    await fetch(`${base_url}/ApiFb_userexists.php?name=` + name).then(response => {
       return response.text();
     }).then(data => {
       console.log("Exite usuario", data);
     });
   }
 };
-function getPostUrl() {
-  const postUrl = getCookie("post_url");
-  console.log("postUrl", postUrl);
-  if (postUrl == undefined) {
-    console.log("fetchingData");
-    fetch("https://teclu.com/ApiFb_LinkPost.php").then(response => {
-      console.log(response);
-      return response.text();
-    }).then(res => {
-      console.log(res);
-      setCookie("post_url", res, 1);
-    });
-  }
-}
+
 function navigateToPostUrl() {
-  const postUrl = getCookie("post_url");
+  const postUrl = post_url || getCookie("post_url");
   console.log(postUrl);
   let isMobile = false; //initiate as false
   // device detection
@@ -196,6 +188,9 @@ function loginFacebook() {
   const params = getUrlParams(window.location.search);
   console.log(params);
   if (params.switch_url != undefined) {
+    setCookie("wlan",params.wlan,1)
+    setCookie("ap_mac",params.ap_mac,1)
+    setCookie("client_mac",params.client_mac,1)
     setCookie("switch_url", params.switch_url, 1);
   }
   const link = document.createElement('a');
@@ -204,21 +199,7 @@ function loginFacebook() {
   link.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=801740780921492&redirect_uri=${urlRedirect}&state={st=state123abc,ds=123456789}`;
   link.click();
 }
-function closeSnackBar() {
-  var x = document.getElementById("snackbar");
-  x.className = x.className.replace("show", "");
-}
-function myFunction(text) {
-  var x = document.getElementById("snackbar");
-  // x.addEventListener("mouseover",stopTimeout)
-  if (text != undefined) {
-    x.innerText = text;
-  }
-  x.className = "show";
-  setTimeout(function () {
-    x.className = x.className.replace("show", "");
-  }, 10000);
-}
+
 function openModal(text) {
   const modal = document.querySelector("#alertdialog");
   if (text != undefined) {
@@ -253,4 +234,48 @@ function addBrighness() {
 function removeLoader() {
   const loader = document.querySelector("#loader");
   loader.style = "visibility: hidden;display:none";
+  removeBrighness()
+}
+
+function getPostUrl() {
+  const postUrl = getCookie("post_url");
+  console.log("postUrl", postUrl);
+  if (postUrl == undefined || post_url == undefined) {
+    console.log("fetchingData");
+    fetch(`${base_url}/ApiFb_LinkPost.php`).then(response => {
+      console.log(response);
+      return response.text();
+    }).then(res => {
+      console.log(res);
+      post_url = res
+      setCookie("post_url", res, 1);
+    });
+  }
+}
+
+const addConnexionWifi=async(name)=>{
+  const apMac = getCookie("ap_mac")
+  const clientMac = getCookie("client_mac")
+  const wlan = getCookie("wlan")
+  const formData = new FormData()
+  formData.append("fullName",name)
+  formData.append("macAddressHardware",apMac)
+  formData.append("macAddressUserWifi",clientMac)
+  formData.append("ssid",wlan)
+
+  fetch(`${base_url}/apiFB/public/conexionwifi/add`,{
+    method: 'POST',
+    body: formData
+  }).then(res=>res.json()).then(res=>console.log(res))
+}
+
+const addUser =(name,email,picture) => {
+  fetch(`${base_url}/apiFB/public/userwifi/add`, {
+    method: 'POST',
+    body: new URLSearchParams({
+      'fullName':name,
+      'mail':email,
+      'image':picture
+    }).toString()
+  }).then(res=>res.json()).then(res=>console.log(res))
 }

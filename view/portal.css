@@ -83,19 +83,21 @@ button:focus {
     outline: none;
   }
 
-#image-b{
+.image_placeholder {
   /* background: url('loading.gif') no-repeat; */
-  width:100%;
-  max-height:280px;
-  }
+  height:150px;
+  /* margin-top: 10px; */
+  margin-bottom: 10px;
+  border-radius: 0.5rem;
+}
 
-  
-@media screen and (min-width: 500px) {
-  #image-b {
-    width:100%;
-    max-height:150px;
+
+@media screen and (min-width: 420px) {
+  .image_placeholder {
+    height:280px;
     margin-top: 10px;
     margin-bottom: 10px;
+    border-radius: 0.5rem;
   }
 }
 
