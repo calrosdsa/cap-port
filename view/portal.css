@@ -92,7 +92,16 @@ button:focus {
 }
 
 
-@media screen and (min-width: 420px) {
+@media screen and (min-width: 350px) {
+  .image_placeholder {
+    height:220px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 650px) {
   .image_placeholder {
     height:280px;
     margin-top: 10px;
@@ -107,6 +116,41 @@ button:focus {
     margin-right: auto;
     object-fit: contain;
     margin: 0.25rem;
+}
+
+.wrapperButton {
+  display: inline;
+  grid-template-columns: 1fr 1fr;
+}
+
+.loginButton {
+  background-color: #039be5;
+  height: 35px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-right: 15px;
+  cursor: pointer;display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  font-size: medium;
+}
+
+.loginButtonEmail {
+  background-color: gainsboro;
+  height: 35px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-right: 15px;
+  cursor: pointer;display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  font-size: medium;
+}
+
+
+.loginButtonContinuar {
+  padding-left:15px;
+  background-color:#009d71;
 }
 
 .lds-ellipsis {
@@ -216,6 +260,10 @@ button:focus {
   }
 
   
+  .hidden{
+    display: none;
+    visibility: hidden;
+  }
 
  
   

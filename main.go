@@ -19,8 +19,8 @@ import (
 // Define the template registry struct
 
 func init() {
-	// viper.SetConfigFile(`/home/ec2-user/.env`)
-	viper.SetConfigFile(`.env`)
+	viper.SetConfigFile(`/home/ec2-user/.env`)
+	// viper.SetConfigFile(`.env`)
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -67,7 +67,7 @@ func main() {
 	e.GET("/room/:roomId", func(c echo.Context)(err error) {
 		return c.File("homeweb.html")
 	})
-	e.GET("/ws/:roomId", func(c echo.Context)(err error) {
+	e.GET("/v1/ws/:roomId", func(c echo.Context)(err error) {
 		roomId := c.Param("roomId")
 		_ws.ServeWs(c.Response(), c.Request(), roomId)
 		return nil

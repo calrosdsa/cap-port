@@ -181,7 +181,7 @@ type WsHandler struct{}
 
 func NewWebsocketHanlder(e *echo.Echo) {
 	handler := &WsHandler{}
-	e.POST("webhook/", handler.WebhookTest)
+	e.POST("/api/webhook/", handler.WebhookTest)
 }
 
 func (w *WsHandler) WebhookTest(c echo.Context) (err error) {

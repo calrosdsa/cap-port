@@ -1,0 +1,86 @@
+<!doctype html>
+<!--Bhaskar Tiwari-->
+<html>
+	<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Email</title>
+    <link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/form.css"/>
+    <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/email-login.js"></script>
+    <!-- <script defer src="/email-js/"></script> -->
+
+	<script type="text/javascript">
+		window.onload = function(){
+			onLoadContent()
+		}
+	</script>
+	
+</head>
+ <body>
+	 <div class="topBar">
+		 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+		 style="width: 30px;height: 30px;padding: 10px;" onclick="window.history.back()">
+			 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+		   </svg>
+		   
+	 </div>
+	<div class="container">
+		<!-- <div>
+				<div class="omrs-input-group">
+					<label class="omrs-input-underlined">
+					  <input required>
+					  <span class="omrs-input-label">Normal</span>
+						<span class="omrs-input-helper">Helper Text</span>
+					</label>
+				</div>
+		</div> -->
+		<div id="loginContent" style="max-width: 20.4375rem;" >
+	<p id="descripcion" class="textContent" style=" border: thin solid gray;"
+			>Para solicitar acceso a la red a través de su correo electrónico, deberá completar y enviar una solicitud.
+			 Esta solicitud será revisada y, si es aprobada, el administrador del sitio le otorgará acceso."</p>
+			<div class="omrs-input-group">
+				<label id="labelEmail" class="omrs-input-filled ">
+					<input  id="email1" required name="email">
+					<span class="omrs-input-label">Email</span>
+					<span id="mailText" class="omrs-input-helper">Ingrese su correo electrónico</span>
+				</label>
+			</div>
+			<!-- <input id="buttonsub"  type="submit" style="visibility: hidden;display: none;"> -->
+			<span class="button" onclick="onSubmitData()">Continuar</span>
+			<a  class="button" href="#form" onclick="changeContent()">
+				Solicitar Acceso
+			</a>
+		</div>
+
+		<div id="solicitudContent" style="max-width: 20.4375rem;display: none;visibility: hidden;">
+			<h4>Formulario de solicitud de acceso</h4>
+			<div class="omrs-input-group">
+				<label class="omrs-input-filled">
+					<input id="fullName" required  name="nombre">
+					<span class="omrs-input-label">Nombre</span>
+					<span class="omrs-input-helper">Ingrese su correo electrónico</span>
+				</label>
+			</div>
+            <div class="omrs-input-group">
+				<label class="omrs-input-filled">
+					<input id="mail" required name="email">
+					<span class="omrs-input-label">Email</span>
+					<span class="omrs-input-helper">Ingrese su correo electrónico</span>
+				</label>
+			</div>
+
+            <span class="textContent" style="font-size: small;">
+                *Por favor, indique algún motivo por el cual está solicitando acceso en el
+                 campo correspondiente. Esta información nos ayudará a evaluar su solicitud .</span>
+            <div class="omrs-input-group">
+				<textarea id="message" cols="50" rows="10" 
+				 style="max-width: 20.43rem;border-radius: 0.5rem;padding: 10px;
+				 font-size: 1rem;"></textarea>
+			</div>
+			<div class="button" onclick="sendSolicitud()">
+				Enviar Solicitud
+			</div>
+		</div>
+	</div>
+ </body>
+</html>

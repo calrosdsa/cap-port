@@ -24,9 +24,9 @@ func NewMediaHandler(e *echo.Echo, sess *session.Session) {
 		sess: sess,
 	}
 	e.Static("/", "media")
-	e.POST("/api/upload/media/", handler.UploadMedia)
-	e.POST("/api/delete/media/", handler.DeleteMedia)
-	e.POST("/api/upload/template/", handler.UploadTemplate)
+	e.POST("/v1/upload/media/", handler.UploadMedia)
+	e.POST("/v1/delete/media/", handler.DeleteMedia)
+	e.POST("/v1/upload/template/", handler.UploadTemplate)
 
 }
 
@@ -41,11 +41,19 @@ func (m *MediaHandler) UploadTemplate(c echo.Context) (err error) {
 		if err := fo.Close(); err != nil {
 			fmt.Println(err)
 		}
+		err :=os.Remove(fo.Name())
+		if err != nil{
+			fmt.Println(err)
+		}
 		}()
 	
 	fo.WriteString(html)
 	file, err := os.Open(fo.Name())
-	defer file.Close()
+	defer func(){
+		if err := file.Close(); err != nil {
+			fmt.Println(err)
+		}
+	}()
 	fmt.Println(fo.Name())
 	err = util.UplaodHtmlTemplate(file, "teclu-portal", m.sess)
 	if err != nil {
