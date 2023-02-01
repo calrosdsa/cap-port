@@ -50,7 +50,7 @@ func main() {
 		AllowHeaders: []string{"*"},
 		// AllowMethods: []string{"*"},
 	}))
-	e.GET("webhook/", func(c echo.Context) (err error) {
+	e.GET("/v1/webhook/", func(c echo.Context) (err error) {
 		// hub := c.QueryParam("hub.mode")
 		fmt.Println("Received")
 		challenge := c.QueryParam("hub.challenge")
