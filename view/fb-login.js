@@ -80,7 +80,7 @@ const changeBrowser = () => {
     if (isMobile) {
       const link = document.createElement('a');
       const url = window.location.host + window.location.pathname + window.location.search;
-      console.log(url);
+      // console.log(url);
       link.href = `intent://${url}#Intent;scheme=https;package=com.android.chrome;end`;
       link.click();
     }
@@ -90,7 +90,7 @@ const getUserData = async (code, url) => {
   addLoader();
   let access_token;
   const svgId = document.getElementById("facebooksvg")
-  console.log(svgId)
+  // console.log(svgId)
   const buttonLogin = document.getElementById("buttonLogin");
   const buttonText = document.querySelector("#buttonText");
   const username = getCookie("username") || user;
@@ -137,7 +137,7 @@ const getUserData = async (code, url) => {
     buttonLogin.onclick = sendRequest;
     openModal();
     // sendRequest();
-    console.log("NOMBRE DE USUARIO", username);
+    // console.log("NOMBRE DE USUARIO", username);
     saveUser(username)
     // await fetch(`${base_url}/ApiFb_userexists.php?name=` + name).then(response => {
       //   return response.text();
@@ -151,7 +151,7 @@ const getUserData = async (code, url) => {
   };
   
   async function saveUser(nombre){
-    console.log(nombre)
+    // console.log(nombre)
   const name = nombre.replace(/ /g, "_").replace(".", "");
   await fetch(`${base_url}/ApiFb_userexists.php?name=` + name).then(response => {
     return response.text();
@@ -162,7 +162,7 @@ const getUserData = async (code, url) => {
 
 function navigateToPostUrl() {
   const postUrl = post_url || getCookie("post_url");
-  console.log(postUrl);
+  // console.log(postUrl);
   closeModal()
   let isMobile = false; //initiate as false
   // device detection
@@ -204,9 +204,14 @@ function loginFacebook() {
   }
   const link = document.createElement('a');
   const urlRedirect = window.location.origin + window.location.pathname;
-  console.log("inith auth login");
+  // console.log("inith auth login");
   link.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=801740780921492&scope=email&redirect_uri=${urlRedirect}&state={st=state123abc,ds=123456789}`;
   link.click();
+
+  setTimeout(() => {
+    removeLoader()
+    removeBrighness()
+  }, 4000)
 }
 
 
@@ -214,7 +219,7 @@ function getPostUrl() {
   const postUrl = getCookie("post_url");
   // console.log("postUrl", postUrl);
   if (postUrl == undefined || post_url == undefined) {
-    console.log("fetchingData");
+    // console.log("fetchingData");
     fetch(`${base_url}/ApiFb_LinkPost.php`).then(response => {
       // console.log(response);
       return response.text();

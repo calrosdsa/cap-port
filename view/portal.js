@@ -96,11 +96,11 @@ function removeLoader() {
 
 
 const addConnexionWifi=async(name)=>{
-  console.log('add conexion...')
+  // console.log('add conexion...')
   const apMac = getCookie("ap_mac")
   const clientMac = getCookie("client_mac")
   const wlan = getCookie("wlan")
-  console.log(wlan,clientMac,apMac)
+  // console.log(wlan,clientMac,apMac)
   const formData = new FormData()
   formData.append("fullName",name)
   formData.append("macAddressHardware",apMac)
@@ -110,11 +110,14 @@ const addConnexionWifi=async(name)=>{
   fetch(`${base_url}/apiFB/public/conexionwifi/add`,{
     method: 'POST',
     body: formData
-  }).then(res=>res.json()).then(res=>console.log(res))
+  // }).then(res=>res.json()).then(res=>console.log(res))
+}).then(res=>res.json()).then(res=>res)
+.catch(err=>console.log(err))
+
 }
 
 const addUser =(name,email,picture) => {
-  console.log('add useer...')
+  // console.log('add user...')
   const formData = new FormData()
   formData.append("fullName",name)
   formData.append("mail",email)
@@ -122,12 +125,12 @@ const addUser =(name,email,picture) => {
   fetch(`${base_url}/apiFB/public/userwifi/add`, {
     method: 'POST',
     body: formData
-  }).then(res=>res.json()).then(res=>console.log(res))
+  // }).then(res=>res.json()).then(res=>console.log(res))
+}).then(res=>res.json()).then(res=>res)
   .catch(err=>console.log(err))
 }
 
 
 function loginEmail(){
-  console.log(screen.width)
     PopupCenter('https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login','google.com',screen.width/3,screen.height, {toolbar:1, resizable:1, location:1, menubar:1, status:1}); 
   }

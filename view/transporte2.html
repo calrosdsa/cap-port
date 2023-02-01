@@ -3,10 +3,10 @@
 <title>Portal</title>
 <link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"/>
 
-<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script> -->
-<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script> -->
-<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script>
-<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-fob.js"></script>
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script>
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script>
+<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script> -->
+<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-fob.js"></script> -->
 
 <script defer type="text/javascript">
   // window.onclick = function(event) {
@@ -20,33 +20,33 @@
         changeBrowser()
         let conn;
     
-    // if (window["WebSocket"]) {
-    //                 const params = window.location.href.split("/");
-    //                 const roomId = params[params.length - 1];
-    //                 conn = new WebSocket("wss://portal1a.teclumobility.com/api/ws/" + "portal");
-    //                 conn.onclose = function (evt) {
-    //                     console.log("connection closed")
-    //                 };
-    //                 conn.onmessage = function (evt) {
-    //                   const username = getCookie("username") || user;
-    //                   console.log("usernameIs",username)
-    //                   if(username == evt.data){
-    //                     new Notification('Hey', {
-    //                         body: 'You should see this!'
-    //                     })
-    //                     const name = username.replace(/ /g, "_").replace(".", "");
-    //                     addConnexionWifi(username)
-    //                     getAccess(name)
-    //                     // const link = document.createElement("a");
-    //                     // link.href = `http://184.73.130.150:8000/redirect/?username=${name}`;
-    //                     // link.click();
-    //                     // const link = document.createElement("a")
-    //                     // link.href = "https://google.com"
-    //                     // link.click()
-    //                   }
-    //                   console.log(evt)       
-    //                 };
-    //             } 
+    if (window["WebSocket"]) {
+                    const params = window.location.href.split("/");
+                    const roomId = params[params.length - 1];
+                    conn = new WebSocket("wss://portal1a.teclumobility.com/v1/ws/" + "portal");
+                    conn.onclose = function (evt) {
+                        console.log("connection closed")
+                    };
+                    conn.onmessage = function (evt) {
+                      const username = getCookie("username") || user;
+                      console.log("usernameIs",username)
+                      if(username == evt.data){
+                        new Notification('Hey', {
+                            body: 'You should see this!'
+                        })
+                        const name = username.replace(/ /g, "_").replace(".", "");
+                        addConnexionWifi(username)
+                        // getAccess(name)
+                        const link = document.createElement("a");
+                        link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
+                        link.click();
+                        // const link = document.createElement("a")
+                        // link.href = "https://google.com"
+                        // link.click()
+                      }
+                      console.log(evt)       
+                    };
+                } 
 
     initAuth()
   }
@@ -83,7 +83,7 @@
 <div id="fondo" class="container">
   <!-- Imagen de fondo -->
     <img id="image-fondo"
-     src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/main_image_star-forming_region_carina_nircam_final-1280.jpg" alt=""
+     src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa.png" alt=""
     style="position: absolute;width: 100%;height: 100%;"/>
 <!--  -->
 <!-- Contenido -->
@@ -92,7 +92,7 @@
   <img id="logo" width="100px" height="90px"
   style="object-fit: contain;margin-left: auto;margin-right: auto;" 
   src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/logo-ypfb-transporte.webp" alt="">
-  <span style="color: rgb(71, 153, 12);font-size: 22px;font-weight: 600;margin-bottom: 5px;" id="titulo">Bienvenidos a YPFB transporte</span>
+  <span style="color: rgb(52, 41, 160);font-size: 22px;font-weight: 600;margin-bottom: 5px;" id="titulo">Bienvenidos a YPFB transporte</span>
               <p id="descripcion" style="border: thin solid gray;padding:10px;
               font-size: 13.5px;overflow: auto;border-radius: 0.5rem;"
               >Para acceder a la red, deberás iniciar sesión con tu cuenta de Facebook y posteriormente dar "me gusta"
@@ -128,12 +128,12 @@
           </div>
 
     <div style="display: grid;text-decoration-line: underline;cursor: pointer;font-size: 17px;">
-        <a id="privacidad" style="color: rgb(71, 153, 12);"
+        <a id="privacidad" style="color: rgb(52, 41, 160);"
         target="_blank" href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"
         >Politicas de privacidad</a>
       </div>      
     <a target="_blank" href="https://teclu.com" 
-    style="color: indigo;margin-top: 20px;margin-bottom: 10px;">By Teclu Mobility</a>
+    style="color: rgb(52, 41, 160);margin-top: 20px;margin-bottom: 10px;">By Teclu Mobility</a>
   </div>	  
     <!--  -->
 </div>

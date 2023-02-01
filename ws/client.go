@@ -182,26 +182,28 @@ type WsHandler struct{}
 func NewWebsocketHanlder(e *echo.Echo) {
 	handler := &WsHandler{}
 	e.POST("/v1/webhook/", handler.WebhookTest)
+	e.GET("/v1/webhook/", handler.WebhookTest)
 }
 
 func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	// hub := c.QueryParam("hub.mode")
 	// var data map[string]interface{} = map[string]interface{}{}
-	var data LikePost
-	err = c.Bind(&data)
-	if err != nil {
-		log.Println(err)
+	// var data LikePost
+	data := c.QueryParam("username")
+	// err = c.Bind(&data)
+	// if err != nil {
+		// log.Println(err)
 		// return c.JSON(http.StatusUnprocessableEntity, err.Error())
-	}
-	log.Println(data)
+	// }
+	// log.Println(data)
 	// log.Println(data.Entry.Id)
-	msg := data.Entry[len(data.Entry)-1].Changes[len(data.Entry[len(data.Entry)-1].Changes)-1].Value.From.Name
-	m := message{[]byte(msg), "portal"}
+	// msg := data.Entry[len(data.Entry)-1].Changes[len(data.Entry[len(data.Entry)-1].Changes)-1].Value.From.Name
+	m := message{[]byte(data), "portal"}
 	H.broadcast <- m
 	// log.Println(data.Entry.Changes.Value.From.Name)
 
 	// data["changes"]["sda"] = "sadas"
-	log.Println("Received")
+	// log.Println("Received")
 	// token := c.QueryParam("hub.verification_token")
 	return c.String(http.StatusOK, "asdasd")
 }
