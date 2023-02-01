@@ -190,6 +190,8 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	// var data map[string]interface{} = map[string]interface{}{}
 	// var data LikePost
 	data := c.QueryParam("username")
+	log.Println("reciving")
+	log.Println(data)
 	// err = c.Bind(&data)
 	// if err != nil {
 		// log.Println(err)

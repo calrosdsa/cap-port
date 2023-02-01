@@ -23,29 +23,32 @@
     if (window["WebSocket"]) {
                     const params = window.location.href.split("/");
                     const roomId = params[params.length - 1];
-                    conn = new WebSocket("wss://portal1a.teclumobility.com/v1/ws/" + "portal");
-                    conn.onclose = function (evt) {
-                        console.log("connection closed")
-                    };
-                    conn.onmessage = function (evt) {
-                      const username = getCookie("username") || user;
-                      console.log("usernameIs",username)
-                      if(username == evt.data){
-                        new Notification('Hey', {
+                    function start(){
+                        conn = new WebSocket("wss://portal1a.teclumobility.com/v1/ws/" + "portal");
+                        conn.onclose = function (evt) {
+                          console.log("connection closed")
+                          setTimeout(function(){start()},50000)
+                      };
+                      conn.onmessage = function (evt) {
+                        const username = getCookie("username") || user;
+                        console.log("usernameIs",username)
+                        if(username == evt.data){
+                          new Notification('Hey', {
                             body: 'You should see this!'
-                        })
-                        const name = username.replace(/ /g, "_").replace(".", "");
-                        addConnexionWifi(username)
-                        // getAccess(name)
-                        const link = document.createElement("a");
-                        link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
-                        link.click();
-                        // const link = document.createElement("a")
-                        // link.href = "https://google.com"
-                        // link.click()
-                      }
-                      console.log(evt)       
-                    };
+                          })
+                          const name = username.replace(/ /g, "_").replace(".", "");
+                          addConnexionWifi(username)
+                          // getAccess(name)
+                          const link = document.createElement("a");
+                          link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
+                          link.click();
+                          // const link = document.createElement("a")
+                          // link.href = "https://google.com"
+                          // link.click()
+                        }
+                        console.log(evt)       
+                      };
+                  }
                 } 
 
     initAuth()
