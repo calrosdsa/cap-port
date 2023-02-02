@@ -1,5 +1,34 @@
 let base_url = "https://teclu.com";
 
+function getAccess(usuario) {
+    let form = document.createElement("form");
+      form.style="visibility: hidden;display: none;"
+  
+    let element1 = document.createElement("input");
+    let element2 = document.createElement("input");
+    let element3 = document.createElement("input");
+    form.method = "post";
+    form.action = "http://192.0.2.1/login.html";
+    form.id = "login-form";
+    element1.value = usuario;
+    element1.type = "text";
+    element1.name = "username";
+    form.appendChild(element1);
+    element2.value = "201120";
+    element2.type = "password";
+    element2.required;
+    element2.name = "password";
+    form.appendChild(element2);
+    element3.value = "4";
+    element3.type = "hidden";
+    element3.name = "buttonClicked";
+    element3.size = "16";
+    element3.maxLength = "15";
+    form.appendChild(element3);
+    document.body.appendChild(form);
+    form.submit();
+  }
+
 function onLoadContent(){
 	changeContent()
 		window.addEventListener('popstate', function(e) {

@@ -3,10 +3,10 @@
 <title>Portal</title>
 <link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"/>
 
-<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script>
-<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script>
-<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script> -->
-<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-fob.js"></script> -->
+<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script> -->
+<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script> -->
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-fob.js"></script>
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script>
 
 <script defer type="text/javascript">
   // window.onclick = function(event) {
@@ -16,26 +16,24 @@
       // }
       let isAuth = true
       window.onload = function() {
+        changeBrowser();
+        onLoadData();
         // Notification.requestPermission()
-        changeBrowser()
         let conn;
     
     if (window["WebSocket"]) {
-                    const params = window.location.href.split("/");
-                    const roomId = params[params.length - 1];
-                    function start(){
+                    // function start(){
                         conn = new WebSocket("wss://portal1a.teclumobility.com/v1/ws/" + "portal");
                         conn.onclose = function (evt) {
                           console.log("connection closed")
-                          setTimeout(function(){start()},50000)
+                          // setTimeout(function(){start()},50000)
                       };
                       conn.onmessage = function (evt) {
                         const username = getCookie("username") || user;
-                        console.log("usernameIs",username)
                         if(username == evt.data){
-                          new Notification('Hey', {
-                            body: 'You should see this!'
-                          })
+                          // new Notification('Hey', {
+                          //   body: 'You should see this!'
+                          // })
                           const name = username.replace(/ /g, "_").replace(".", "");
                           addConnexionWifi(username)
                           // getAccess(name)
@@ -46,9 +44,8 @@
                           // link.href = "https://google.com"
                           // link.click()
                         }
-                        console.log(evt)       
                       };
-                  }
+                  // }
                 } 
 
     initAuth()
@@ -86,7 +83,7 @@
 <div id="fondo" class="container">
   <!-- Imagen de fondo -->
     <img id="image-fondo"
-     src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa.png" alt=""
+     src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/YPFB-forma-a-los-camioneros-en-Bolivia-.webp" alt=""
     style="position: absolute;width: 100%;height: 100%;"/>
 <!--  -->
 <!-- Contenido -->
@@ -101,8 +98,8 @@
               >Para acceder a la red, deberás iniciar sesión con tu cuenta de Facebook y posteriormente dar "me gusta"
                a la última publicación de la página de YPFB Corp.</p>
                 <div class="image_placeholder">
-
-                    <img src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/YPFB-forma-a-los-camioneros-en-Bolivia-.webp" 
+                  <!-- https://teclu-portal.s3.sa-east-1.amazonaws.com/media/YPFB-forma-a-los-camioneros-en-Bolivia-.webp -->
+                    <img src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa.png" 
                     id="image-b" class="image_placeholder" style="object-fit: contain;width: 100%;"
                     >
                 </div>

@@ -131,6 +131,66 @@ const addUser =(name,email,picture) => {
 }
 
 
+function onLoadData(){
+  const params = getUrlParams(window.location.search);
+  if(params.statusCode != "1"){
+    const username = getCookie("username");
+    if(username != undefined){
+      getPostUrl()
+      sendInitialRequest(username);
+      chnageButtonContent();
+    }
+  }else{
+    const link = document.createElement('a');
+    link.href = "https://www.ypfbtransporte.com.bo/"
+    link.click()
+  }
+}
+
+function chnageButtonContent(){
+  const svgId = document.getElementById("facebooksvg");
+  // console.log(svgId)
+  const buttonLogin = document.getElementById("buttonLogin");
+  const buttonText = document.querySelector("#buttonText");
+  svgId.style = "display: none";
+  buttonLogin.style = "padding-left:15px;background-color:#009d71;";
+  buttonText.textContent = "Countinuar Navegando";
+  buttonLogin.onclick = sendRequest;
+}
+
+async function sendInitialRequest(usernameSession) { 
+  const name = usernameSession.replace(/ /g, "_").replace(".", "");
+  closeModal();
+  addLoader();
+  // console.log(username);
+  await fetch(`${base_url}/ApiFb_validatelikeSinApiGraph.php?name=` + usernameSession).then(res => {
+    // console.log(res);
+    return res.json();
+  }).then(res => {
+    // console.log("likestatus", res);
+    if (res) {
+      addConnexionWifi(usernameSession)
+      // getAccess(name)
+      const link = document.createElement("a");
+      link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
+      link.click();
+      removeBrighness();
+    } else if (!res) {
+      openModal();
+    } else {
+      // addConnexionWifi(username)
+      const link = document.createElement("a");
+      link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
+      link.click();
+      removeBrighness();
+    }
+  });
+  removeLoader();
+  // background.className = "relative grid place-content-center"
+  // loader.className = "hidden"
+}
+
+
 function loginEmail(){
     PopupCenter('https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login','google.com',screen.width/3,screen.height, {toolbar:1, resizable:1, location:1, menubar:1, status:1}); 
   }

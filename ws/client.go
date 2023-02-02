@@ -60,7 +60,7 @@ func (s subscription) readPump() {
 	c.ws.SetPongHandler(func(string) error { c.ws.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
 		_, msg, err := c.ws.ReadMessage()
-		log.Println(msg)
+		// log.Println(msg)
 		// empty := make([]byte,3)
 		// builder := strings.Builder{}
 		// builder.Write(msg)
@@ -190,8 +190,8 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 	// var data map[string]interface{} = map[string]interface{}{}
 	// var data LikePost
 	data := c.QueryParam("username")
-	log.Println("reciving")
-	log.Println(data)
+	// log.Println("reciving")
+	// log.Println(data)
 	// err = c.Bind(&data)
 	// if err != nil {
 		// log.Println(err)
@@ -214,10 +214,10 @@ func (w *WsHandler) WebhookTest(c echo.Context) (err error) {
 func ServeWs(w http.ResponseWriter, r *http.Request, roomId string) {
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err.Error())
+		// log.Println(err.Error())
 		return
 	}
-	// defer ws.Close()
+	defer ws.Close()	
 	c := &connection{send: make(chan []byte, 256), ws: ws}
 	s := subscription{c, roomId}
 	H.register <- s

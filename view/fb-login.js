@@ -1,36 +1,8 @@
 "use strict";
 let user;
 let post_url;
-function getAccess(usuario) {
-  let form = document.createElement("form");
-    form.style="visibility: hidden;display: none;"
 
-  let element1 = document.createElement("input");
-  let element2 = document.createElement("input");
-  let element3 = document.createElement("input");
-  form.method = "post";
-  form.action = "http://192.0.2.1/login.html";
-  form.id = "login-form";
-  element1.value = usuario;
-  element1.type = "text";
-  element1.name = "username";
-  form.appendChild(element1);
-  element2.value = "201120";
-  element2.type = "password";
-  element2.required;
-  element2.name = "password";
-  form.appendChild(element2);
-  element3.value = "4";
-  element3.type = "hidden";
-  element3.name = "buttonClicked";
-  element3.size = "16";
-  element3.maxLength = "15";
-  form.appendChild(element3);
-  document.body.appendChild(form);
-  form.submit();
-}
-async function sendRequest() {
- 
+async function sendRequest() { 
   // const switch_url= getCookie("switch_url");
   const username = getCookie("username") || user;
   const name = username.replace(/ /g, "_").replace(".", "");
@@ -47,7 +19,6 @@ async function sendRequest() {
       // getAccess(name)
       const link = document.createElement("a");
       link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
-      // link.href = `http://184.73.130.150/api/redirect/?username=${name}`;
       link.click();
       removeBrighness();
     } else if (!res) {
@@ -56,10 +27,8 @@ async function sendRequest() {
       // addConnexionWifi(username)
       const link = document.createElement("a");
       link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
-      // link.href = `http://184.73.130.150/api/redirect/?username=${name}`;
       link.click();
       removeBrighness();
-      // getAccess()
     }
   });
   removeLoader();
@@ -110,19 +79,16 @@ const getUserData = async (code, url) => {
         }
         throw new Error("Fallo al traer datos de facebook. Si el error persiste porfavor intente acceder desde otro navegador.");
       }).then(data => {
-        user = data.name
-        saveUser(data.name)
-        addUser(data.name,data.email,data.picture.data.url)
-        setCookie("username", data.name, 1);
+        user = data.name;
+        saveUser(data.name);
+        addUser(data.name,data.email,data.picture.data.url);
+        setCookie("username", data.name, 24);
         // console.log(data);
         buttonLogin.onclick = sendRequest;
-        // console.log(svgId)
-        // sendRequest();
-        // svgId.className = "hidden"
         svgId.style = "display: none";
         buttonLogin.style = "padding-left:15px;background-color:#009d71;";
         buttonText.textContent = "Countinuar Navegando";
-        openModal()
+        sendInitialRequest(data.name);
     }).catch(err => {
       // console.log(err);
       removeLoader();
@@ -138,7 +104,7 @@ const getUserData = async (code, url) => {
     openModal();
     // sendRequest();
     // console.log("NOMBRE DE USUARIO", username);
-    saveUser(username)
+    saveUser(username);
     // await fetch(`${base_url}/ApiFb_userexists.php?name=` + name).then(response => {
       //   return response.text();
       // }).then(data => {
@@ -163,7 +129,7 @@ const getUserData = async (code, url) => {
 function navigateToPostUrl() {
   const postUrl = post_url || getCookie("post_url");
   // console.log(postUrl);
-  closeModal()
+  closeModal();
   let isMobile = false; //initiate as false
   // device detection
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -197,10 +163,10 @@ function loginFacebook() {
   const params = getUrlParams(window.location.search);
   // console.log(params);
   if (params.switch_url != undefined) {
-    setCookie("wlan",params.wlan,1);
-    setCookie("ap_mac",params.ap_mac,1);
-    setCookie("client_mac",params.client_mac,1);
-    setCookie("switch_url", params.switch_url, 1);
+    setCookie("wlan",params.wlan,24);
+    setCookie("ap_mac",params.ap_mac,24);
+    setCookie("client_mac",params.client_mac,24);
+    setCookie("switch_url", params.switch_url,24);
   }
   const link = document.createElement('a');
   const urlRedirect = window.location.origin + window.location.pathname;
@@ -225,7 +191,7 @@ function getPostUrl() {
       return response.text();
     }).then(res => {
       // console.log(res);
-      post_url = res
+      post_url = res;
       setCookie("post_url", res, 1);
     });
   }

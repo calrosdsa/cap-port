@@ -43,8 +43,8 @@ func (h *hub) Run() {
 	for {
 		select {
 		case s := <-h.register:
-			log.Println("registrando")
-			log.Println(s.room)
+			// log.Println("registrando")
+			// log.Println(s.room)
 			// log.Println(s.room)
 			// query := `SELECT * FROM messages WHERE caso_id = ?`
 			// value := database.ExecuteQuery3(query, s.room)
@@ -57,11 +57,11 @@ func (h *hub) Run() {
 			log.Println(h.rooms[s.room])
 			connections := h.rooms[s.room]
 			if connections == nil {
-				log.Println("no room")
+				// log.Println("no room")
 				connections = make(map[*connection]bool)
 				h.rooms[s.room] = connections
 			}
-			log.Println("si room")
+			// log.Println("si room")
 			h.rooms[s.room][s.conn] = true
 		case s := <-h.unregister:
 			connections := h.rooms[s.room]
