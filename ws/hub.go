@@ -1,10 +1,5 @@
 package ws
 
-import (
-	"log"
-	// database "room/database"
-	// "encoding/json"
-)
 
 type message struct {
 	data []byte
