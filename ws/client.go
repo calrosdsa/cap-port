@@ -217,7 +217,6 @@ func ServeWs(w http.ResponseWriter, r *http.Request, roomId string) {
 		// log.Println(err.Error())
 		return
 	}
-	defer ws.Close()	
 	c := &connection{send: make(chan []byte, 256), ws: ws}
 	s := subscription{c, roomId}
 	H.register <- s

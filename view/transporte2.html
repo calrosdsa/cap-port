@@ -30,6 +30,7 @@
                       };
                       conn.onmessage = function (evt) {
                         const username = getCookie("username") || user;
+                        console.log(evt)
                         if(username == evt.data){
                           // new Notification('Hey', {
                           //   body: 'You should see this!'
