@@ -54,18 +54,19 @@ func (h *hub) Run() {
 			// } else {
 			// 	s.conn.send <- jsonStr
 			// }
-			log.Println(h.rooms)
+			// log.Println(h.rooms)
 			connections := h.rooms[s.room]
 			if connections == nil {
-				log.Println(connections)
-				log.Println("no room")
+				// log.Println(connections)
+				// log.Println("no room")
 				connections = make(map[*connection]bool)
 				h.rooms[s.room] = connections
 			}
-			log.Println(connections)
-			log.Println("si room")
+			// log.Println(connections)
+			// log.Println("si room")
 			h.rooms[s.room][s.conn] = true
 		case s := <-h.unregister:
+			log.Println("Unregister connection")
 			connections := h.rooms[s.room]
 			if connections != nil {
 				if _, ok := connections[s.conn]; ok {
@@ -78,13 +79,13 @@ func (h *hub) Run() {
 			}
 		case m := <-h.broadcast:
 			connections := h.rooms[m.room]
-			log.Println("Connections")
-			log.Println(connections)
+			// log.Println("Connections")
+			// log.Println(connections)
 			for c := range connections {
 				select {
 				case c.send <- m.data:
 				default:
-					log.Println("close - delete")
+					// log.Println("close - delete")
 					close(c.send)
 					delete(connections, c)
 					if len(connections) == 0 {
