@@ -58,12 +58,12 @@ func (h *hub) Run() {
 			connections := h.rooms[s.room]
 			if connections == nil {
 				log.Println(connections)
-				// log.Println("no room")
+				log.Println("no room")
 				connections = make(map[*connection]bool)
 				h.rooms[s.room] = connections
 			}
 			log.Println(connections)
-			// log.Println("si room")
+			log.Println("si room")
 			h.rooms[s.room][s.conn] = true
 		case s := <-h.unregister:
 			connections := h.rooms[s.room]
