@@ -66,7 +66,7 @@ func (h *hub) Run() {
 			// log.Println("si room")
 			h.rooms[s.room][s.conn] = true
 		case s := <-h.unregister:
-			log.Println("Unregister connection")
+			// log.Println("Unregister connection")
 			connections := h.rooms[s.room]
 			if connections != nil {
 				if _, ok := connections[s.conn]; ok {
@@ -89,7 +89,7 @@ func (h *hub) Run() {
 					close(c.send)
 					delete(connections, c)
 					if len(connections) == 0 {
-						log.Println("delete room")
+						// log.Println("delete room")
 						delete(h.rooms, m.room)
 					}
 				}
