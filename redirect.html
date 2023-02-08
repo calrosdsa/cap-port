@@ -26,6 +26,7 @@
     let element2 = document.createElement("input");  
     let element3 = document.createElement("input")
     let element4 = document.createElement("input")
+    let element5 = document.createElement("input"); 
 
     form.method = "post";
     form.action = "http://192.0.2.1/login.html";   
@@ -47,6 +48,11 @@
     element3.size = "16";
     element3.maxLength = "15";
     form.appendChild(element3);
+
+    element3.value="https://www.ypfbtransporte.com.bo/";
+    element3.type = "hidden";
+    element3.name="redirect_url";
+    form.appendChild(element5);
 
     document.body.appendChild(form);
     

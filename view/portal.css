@@ -274,6 +274,7 @@ button:focus {
     position: fixed;
     right: 0px;
     left: 0px;
+    padding: 10px;
     top: 40%;
     margin-left: auto;
     margin-right: auto;
