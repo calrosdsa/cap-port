@@ -2,19 +2,24 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	_ws "portal/ws"
 
 	"os"
+
 	"github.com/labstack/echo/v4/middleware"
 
 	"portal/handler"
-	"github.com/spf13/viper"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
+	"github.com/spf13/viper"
+	"github.com/twilio/twilio-go"
 )
+
 
 // Define the template registry struct
 
@@ -24,7 +29,7 @@ func init() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 
 		// if viper.GetBool(`debug`) {
@@ -34,7 +39,14 @@ func init() {
 
 
 func main() {
-	
+	accountSid := "AC916a3477ab5dd148dd1a7c1b3853c700"
+	authToken := "595fc3892381034ed7247d08ee1ea532"
+	client := twilio.NewRestClientWithParams(twilio.ClientParams{
+		Username: accountSid,
+		Password: authToken,
+	})
+
+
 	creds := credentials.NewStaticCredentials(viper.GetString("AWS_ID"), viper.GetString("AWS_SECRET"), "")
     sess, err := session.NewSession(&aws.Config{
         Region: aws.String("sa-east-1"),
@@ -62,6 +74,7 @@ func main() {
 	
 	handler.NewMediaHandler(e,sess)
 	handler.NewTemplateHandler(e)
+	handler.NewHandlerProvider(e,client)
 	_ws.NewWebsocketHanlder(e)
 	go _ws.H.Run()
 	e.GET("/room/:roomId", func(c echo.Context)(err error) {

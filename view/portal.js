@@ -50,7 +50,7 @@ function deleteAllCookies() {
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   }
-  window.location.reload()
+  window.location.replace(window.location.origin + window.location.pathname)
 }
 
 
@@ -69,7 +69,7 @@ function openModal(text) {
   const lastPostButton = document.querySelector("#lastPost")
   if (text != undefined) {
     lastPostButton.style = "visibility:hidden;display: none"
-    continueButton.style = "visibility:hidden;display: none"
+    // continueButton.style = "visibility:hidden;display: none"
     textDialog.textContent = text;
   }else{
     lastPostButton.style = "background-color: #039be5;padding: 10px;border-radius: 0.5rem;margin-top: 10px;color: white;font-weight: 500;cursor: pointer;margin-right: 10px;"
@@ -107,45 +107,92 @@ function removeLoader() {
   // removeBrighness()
 }
 
-const addConnexionWifi = async name => {
+const addConnexionWifiFb = async name => {
   // console.log('add conexion...')
-  const apMac = getCookie("ap_mac");
-  const clientMac = getCookie("client_mac");
-  const wlan = getCookie("wlan");
+  try{
+
+    const idF = getCookie("id") || id;
+    const apMac = getCookie("ap_mac") || '0';
+    const clientMac = getCookie("client_mac") || '0';
+    const wlan = getCookie("wlan") || '0';
+    const parser = new UAParser();
+    const result = parser.getResult();
+    console.log(result)
+    const navegador = result.browser.name || '0';
+    const navegadorVersion = result.browser.version || '0';
+    const type = result.device.type || 'Desktop and Laptop';
+    const marcaDispositivo = result.device.vendor || '0';
+    const modeloDispositivo = result.device.model || '0';
+    const sistemaOperativo = result.os.name || '0';
+    const versionSistemaOperativo = result.os.version || '0';
+    // console.log(type,marcaDispositivo,modeloDispositivo,sistemaOperativo,versionSistemaOperativo)
+    
+  // console.log(result);
   // console.log(wlan,clientMac,apMac)
   const formData = new FormData();
+  formData.append("key",idF)
   formData.append("fullName", name);
   formData.append("macAddressHardware", apMac);
-  formData.append("macAddressUserWifi", clientMac);
+  formData.append("macAddressDispositivo", clientMac);
   formData.append("ssid", wlan);
-  fetch(`${base_url}/apiFB/public/conexionwifi/add`, {
+  formData.append("navegador", navegador);
+  formData.append("versionNavegador", navegadorVersion);
+  formData.append("tipoDispositivo", type);
+  formData.append("modeloDispositivo", modeloDispositivo);
+  formData.append("marcaDispositivo", marcaDispositivo);
+  formData.append("sistemaOperativo", sistemaOperativo);
+  formData.append("versionsistemaOperativo", versionSistemaOperativo);
+  formData.append("typeConnection", 1);
+  const response =  await fetch(`${base_url}/apiFB/public/conexionwifi/add`, {
     method: 'POST',
     body: formData
     // }).then(res=>res.json()).then(res=>console.log(res))
-  }).then(res => res.json()).then(res => res).catch(err => console.log(err));
+  })
+  // .then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
+  console.log(response)
+}catch(err){
+  console.log(err)
+}
 };
-const addUser = (name, email, picture) => {
+
+
+const addUser = async(name, email, picture, id) => {
   // console.log('add user...')
   const formData = new FormData();
+  formData.append("idFb",id)
+  
   formData.append("fullName", name);
   formData.append("mail", email);
   formData.append("image", picture);
-  fetch(`${base_url}/apiFB/public/userwifi/add`, {
+  await fetch(`${base_url}/apiFB/public/userwifi/add`, {
     method: 'POST',
     body: formData
     // }).then(res=>res.json()).then(res=>console.log(res))
-  }).then(res => res.json()).then(res => res).catch(err => console.log(err));
+  }).then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
 };
 function onLoadData() {
   const params = getUrlParams(window.location.search);
+  if(params.validate !=undefined) {
+    loginEmail()
+    return
+  }
+  // console.log(params);
+  if (params.switch_url != undefined) {
+    setCookie("wlan", params.wlan, 24);
+    setCookie("ap_mac", params.ap_mac, 24);
+    setCookie("client_mac", params.client_mac, 24);
+    setCookie("switch_url", params.switch_url, 24);
+  }
+  getPostUrl()
   if (params.statusCode != "1") {
-    const username = getCookie("username");
-    if (username != undefined) {
-      // getPostUrl()
-      sendInitialRequest(username);
+    const idF = getCookie("id");
+    if (idF != undefined) {
+      sendRequest();
       chnageButtonContent();
     }else{
-      openModal();
+      if(params.code == undefined){
+        openModal();
+      }
     }
   } else {
     const link = document.createElement('a');
@@ -163,54 +210,93 @@ function chnageButtonContent() {
   buttonText.textContent = "Countinuar Navegando";
   buttonLogin.onclick = sendRequest;
 }
-async function sendInitialRequest(usernameSession) {
-  const name = usernameSession.replace(/ /g, "_").replace(".", "");
-  closeModal();
-  addLoader();
-  try {
-    // console.log(username);
-    await fetch(`${base_url}/ApiFb_validatelikeSinApiGraph.php?name=` + usernameSession).then(res => {
-      // console.log(res);
-      return res.json();
-    }).then(res => {
-      // console.log("likestatus", res);
-      if (res) {
-        addConnexionWifi(usernameSession);
-        // getAccess(name)
-        const link = document.createElement("a");
-        link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
-        link.click();
-        removeBrighness();
-      } else if (!res) {
-        openModal();
-      } else {
-        // addConnexionWifi(username)
-        const link = document.createElement("a");
-        link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
-        link.click();
-        removeBrighness();
+
+async function loginEmail() {
+  const tknm = localStorage.getItem("tknm")
+  const email = localStorage.getItem("email")
+  const name = localStorage.getItem("name")
+
+  console.log(tknm)
+  console.log(typeof tknm)
+  if(tknm != undefined){
+    await fetch(`${base_url}/apiFB/public/solicitud/validateToken`,{
+      method:'post',
+      headers:{
+        'Authorization':`Bearer ${tknm}`
       }
-    });
-    removeLoader();
-  } catch (err) {
-    removeLoader();
-    removeBrighness();
-  }
+    }).then(res=>res.json()).then(res=>{
+      if(res.message == "successfully"){
+        console.log(email)
+        console.log(name)
+        addConnexionWifiMail(email,name)
+        console.log(res)
+        sendRequestToAp(email)
+      }
+    }).catch(err=>{
+      console.log(err)
+      
+      window.location.href = 'https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login';
+
+    })
+  }else{
+    // PopupCenter('https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login', 'google.com', screen.width / 3, screen.height, {
+      //   toolbar: 1,
+      //   resizable: 1,
+      //   location: 1,
+      //   menubar: 1,
+      //   status: 1
+      // });
+      window.location.href = 'https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login';
+    }
+  // window.location.replace("https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login")
 }
 
-//   // background.className = "relative grid place-content-center"
-//   // loader.className = "hidden"
-// }
 
-function loginEmail() {
-  PopupCenter('https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login', 'google.com', screen.width / 3, screen.height, {
-    toolbar: 1,
-    resizable: 1,
-    location: 1,
-    menubar: 1,
-    status: 1
-  });
+const addConnexionWifiMail = async (name,mail) => {
+  // console.log('add conexion...')
+  // const idF = getCookie("id") || id;
+  try{
+
+    const apMac = getCookie("ap_mac") || '0';
+    const clientMac = getCookie("client_mac") || '0';
+    const wlan = getCookie("wlan") || '0';
+    const parser = new UAParser();
+    const result = parser.getResult();
+    console.log(result)
+    const navegador = result.browser.name || '0';
+    const navegadorVersion = result.browser.version || '0';
+    const type = result.device.type || 'Desktop and Laptop';
+    const marcaDispositivo = result.device.vendor || '0';
+    const modeloDispositivo = result.device.model || '0';
+    const sistemaOperativo = result.os.name || '0';
+    const versionSistemaOperativo = result.os.version || '0';
+    // console.log(type,marcaDispositivo,modeloDispositivo,sistemaOperativo,versionSistemaOperativo)
+    
+    // console.log(result);
+    // console.log(wlan,clientMac,apMac)
+    const formData = new FormData();
+    formData.append("key",mail)
+    formData.append("fullName", name);
+    formData.append("macAddressHardware", apMac);
+    formData.append("macAddressDispositivo", clientMac);
+    formData.append("ssid", wlan);
+    formData.append("navegador", navegador);
+    formData.append("versionNavegador", navegadorVersion);
+    formData.append("tipoDispositivo", type);
+    formData.append("modeloDispositivo", modeloDispositivo);
+    formData.append("marcaDispositivo", marcaDispositivo);
+    formData.append("sistemaOperativo", sistemaOperativo);
+    formData.append("versionsistemaOperativo", versionSistemaOperativo);
+    formData.append("typeConnection", 2);
+    const response =  await fetch(`${base_url}/apiFB/public/conexionwifi/add`, {
+      method: 'POST',
+      body: formData
+      // }).then(res=>res.json()).then(res=>console.log(res))
+  }).then(res=>res.json())
+  // .then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
+  console.log(response)
+}catch(err){
+  console.log(err)
 }
+};
 
-// <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script> -->
-// <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script> -->

@@ -49,7 +49,7 @@ func NewTemplateHandler(e *echo.Echo){
 		return c.File("/home/ec2-user/cap-port/redirect.html")
 	})
 	e.GET("/test/", func(c echo.Context) error {
-		return c.File("view/upload.html")
+		return c.File("view/about.html")
 	})
 	e.GET("/view/cookies.js", func(c echo.Context) error {
 		// return c.File("/home/portal-cautivo/cap-port/view/cookies.js")

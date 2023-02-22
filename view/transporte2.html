@@ -1,16 +1,24 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal</title>
-<link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"/>
+<!-- <link rel="stylesheet"  href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"/> -->
+<link rel="preload" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"></noscript>
 <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script>
 <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script>
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
+
 <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script> -->
 
 
 <script defer type="text/javascript">
   let conn;
       window.onload = function() {
-        // changeBrowser();
+        changeBrowser();
         onLoadData();
     if (window["WebSocket"]) {
                     function start(){
@@ -23,11 +31,13 @@
                       conn.onmessage = function (evt) {
                         const username = getCookie("username") || user;
                         if(username == evt.data){
-                          const name = username.replace(/ /g, "_").replace(".", "");
-                          addConnexionWifi(username)
-                          const link = document.createElement("a");
-                          link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
-                          link.click();
+                          // const name = username.replace(/ /g, "_").replace(".", "");
+                          const idF = getCookie("id") || id;
+                          addConnexionWifiFb(username);
+                          sendRequestToAp(idF);
+                          // const link = document.createElement("a");
+                          // link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
+                          // link.click();
                         }
                       };
                   }
@@ -38,11 +48,14 @@
   }
  
   </script>  
+</head>
+<body>
+  
   <!-- Loader-->
   <div id="loader" class="lds-ellipsis" style="visibility: hidden;display: none;"><div></div><div></div><div></div><div></div></div>
   <!--  -->
     <!-- Modal dialog content -->
-  <div id="alertdialog" style="visibility: hidden;position: absolute;display: none;">
+    <div id="alertdialog" style="visibility: hidden;position: absolute;display: none;">
     <div>
       <div style="display: flex;justify-content: end;width: 100%;text-align: left;">
         <svg xmlns="http://www.w3.org/2000/svg" onclick="closeModal()"
@@ -51,55 +64,55 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </div>
-      <div id="textDialog">Por favor, antes de continuar, asegúrese de haber dado 'me gusta'
-         a nuestra última publicación en Facebook.
+    <div id="textDialog">Por favor, antes de continuar, asegúrese de haber dado 'me gusta'
+      a nuestra última publicación en Facebook.
       </div>
       <div style="display: flex;justify-content: end;width: 100%;padding-right: 10px;">
         <div id="lastPost" onclick="navigateToPostUrl()" style="background-color: #039be5;padding: 10px;border-radius: 0.5rem;margin-top: 10px;color: white;font-weight: 500;cursor: pointer;margin-right: 10px;">
           Ir a la última publicación
         </div>
       
+      </div>
     </div>
-    </div>
-</div>
-    <!-- -->
-
-<div id="fondo" class="container">
-  <!-- Imagen de fondo -->
+  </div>
+  <!-- -->
+  
+  <div id="fondo" class="container">
+    <!-- Imagen de fondo -->
     <img id="image-fondo"
-     src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/portada.jpg" alt=""
+    src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/portada%28webp%29.webp" alt=""
     style="position: absolute;width: 100%;height: 100%;"/>
-<!--  -->
-<!-- Contenido -->
-    <div id="main" style="background-color: white" 
+    <!--  -->
+    <!-- Contenido -->
+    <div id="main" style="background-color: white;" 
     class="content">
-  <img id="logo" width="180px" height="80px"
-  style="object-fit: contain;margin-left: auto;margin-right: auto;" 
-  src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/logo_ypfb.png" alt="">
+    <img id="logo" width="180px" height="80px"
+    style="object-fit: contain;margin-left: auto;margin-right: auto;" 
+    src="	https://teclu-portal.s3.sa-east-1.amazonaws.com/media/logo_ypfb%28webp%29.webp" alt="">
   <span style="color: rgb(52, 41, 160);font-size: 22px;font-weight: 600;margin-bottom: 5px;" id="titulo">Bienvenidos a YPFB transporte</span>
-              <p id="descripcion" style="border: thin solid gray;padding:10px;
+  <p id="descripcion" style="border: thin solid gray;padding:10px;
               font-size: 13.5px;overflow: auto;border-radius: 0.5rem;"
               >
               Por favor, inicie sesión con su cuenta de Facebook para acceder a la red y validar 
               su 'me gusta' en nuestra última publicación.
-              </p>
-                <div class="image_placeholder">
-                    <img src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa.png" 
-                    id="image-b" class="image_placeholder" style="object-fit: contain;width: 100%;"
+            </p>
+            <div class="image_placeholder">
+              <img src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa%28webp%29.webp" 
+              id="image-b" class="image_placeholder" style="object-fit: contain;width: 100%;"
                     >
                 </div>
 
               <div class="wrapperButton" style="position: relative;">
-
-                <!-- <div id="buttonLoginEmail" onclick="loginEmail()" tabindex="-1"
+                
+                <div id="buttonLoginEmail" onclick="loginEmail()" tabindex="-1"
                 class="loginButtonEmail">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" style="width: 30px;height: 30px;padding: 5px;">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>				   
+                stroke="currentColor" style="width: 30px;height: 30px;padding: 5px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>				   
                 <span id="buttonText2" style="font-weight: 600;font-size: 15px;">Continuar con email</span>
-                </div> -->
-                 
+              </div>
+              
               <div id="buttonLogin" onclick="loginFacebook()" tabindex="-1"
               class="loginButton">
               <svg id="facebooksvg"
@@ -111,13 +124,16 @@
 
           </div>
 
-    <a onclick="deleteAllCookies()" style="color: rgb(52, 41, 160);text-decoration-line: underline;cursor: pointer;margin-top: 30px;">Borrar sesión</a>
+          <span onclick="deleteAllCookies()" style="color: rgb(52, 41, 160);text-decoration-line: underline;cursor:
+     pointer;margin-top: 30px;margin-bottom: 10px;">Borrar sesión</span>
     <div style="display: grid;text-decoration-line: underline;cursor: pointer;font-size: 17px;">
-        <a id="privacidad" style="color: rgb(52, 41, 160);"
-         href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"
-        >Politicas de privacidad</a>
-      </div>      
-      <a  href="https://teclu.com"  style="color: rgb(52, 41, 160);margin-top: 20px;margin-bottom: 10px;">By Teclu Mobility</a>
+      <a id="privacidad" style="color: rgb(52, 41, 160);"
+      href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"
+      >Politicas de privacidad</a>
+    </div>      
+    <a  href="https://teclu.com"  style="color: rgb(52, 41, 160);margin-top: 20px;margin-bottom: 10px;">By Teclu Mobility</a>
   </div>	  
     <!--  -->
-</div>
+  </div>
+</body>
+</html>

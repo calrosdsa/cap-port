@@ -46,7 +46,12 @@
 				</label>
 			</div>
 			<!-- <input id="buttonsub"  type="submit" style="visibility: hidden;display: none;"> -->
-			<span class="button" onclick="onSubmitData()">Continuar</span>
+			<div id="continueButton"   class="button noselect" onclick="onSubmitData()">
+				<p id="continue">Continuar</p>
+				<!-- Continuar -->
+				<!-- <div class="lds-dual-ring"></div> -->
+				<div id="loader" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+			</div>
 			<a  class="button" href="#form" onclick="changeContent()">
 				Solicitar Acceso
 			</a>
@@ -77,9 +82,14 @@
 				 style="max-width: 20.43rem;border-radius: 0.5rem;padding: 10px;
 				 font-size: 1rem;"></textarea>
 			</div>
-			<div class="button" onclick="sendSolicitud()">
-				Enviar Solicitud
+			<div id="continueButton2" class="button noselect" onclick="sendSolicitud()">
+				
+				<p id="continue2">Enviar Solicitud</p>
+				<!-- Continuar -->
+				<!-- <div class="lds-dual-ring"></div> -->
+				<div id="loader2" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
 			</div>
+			<span id="errorText"  ></span>
 		</div>
 	</div>
  </body>

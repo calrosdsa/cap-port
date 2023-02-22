@@ -1,0 +1,140 @@
+<!doctype html>
+<!--Bhaskar Tiwari-->
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal</title>
+<link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"/>
+<!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script> -->
+  <!-- Loader-->
+  <!-- <div id="fb-root"></div> -->
+<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0&appId=981945096521549&autoLogAppEvents=1" nonce="OZP77tXU"></script> -->
+  <div id="loader" class="lds-ellipsis" style="visibility: hidden;display: none;"><div></div><div></div><div></div><div></div></div>
+  <!--  -->
+    <!-- Modal dialog content -->
+  <div id="alertdialog" style="visibility: hidden;position: absolute;display: none;">
+    <div>
+      <div style="display: flex;justify-content: end;width: 100%;text-align: left;">
+        <svg xmlns="http://www.w3.org/2000/svg" onclick="closeModal()"
+        fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+        stroke="currentColor" style="height: 30px;width: 30px;cursor: pointer;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+      <div id="textDialog">Por favor, antes de continuar, asegúrese de haber dado 'me gusta'
+         a nuestra última publicación en Facebook.
+      </div>
+      <div style="display: flex;justify-content: end;width: 100%;padding-right: 10px;">
+        <div id="lastPost" onclick="navigateToPostUrl()" style="background-color: #039be5;padding: 10px;border-radius: 0.5rem;margin-top: 10px;color: white;font-weight: 500;cursor: pointer;margin-right: 10px;">
+          Ir a la última publicación
+        </div>
+      
+    </div>
+    </div>
+</div>
+    <!-- -->
+
+<div id="fondo" class="container">
+  <!-- Imagen de fondo -->
+    <img id="image-fondo"
+     src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/portada.jpg" alt=""
+    style="position: absolute;width: 100%;height: 100%;"/>
+<!--  -->
+<!-- Contenido -->
+    <div id="main" style="background-color: white" 
+    class="content">
+  <img id="logo" width="180px" height="80px"
+  style="object-fit: contain;margin-left: auto;margin-right: auto;" 
+  src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/logo_ypfb.png" alt="">
+  <span style="color: rgb(52, 41, 160);font-size: 22px;font-weight: 600;margin-bottom: 5px;" id="titulo">Bienvenidos a YPFB transporte</span>
+              <p id="descripcion" style="border: thin solid gray;padding:10px;
+              font-size: 13.5px;overflow: auto;border-radius: 0.5rem;"
+              >
+
+              Por favor, inicie sesión con su cuenta de Facebook para acceder a la red y validar 
+              su 'me gusta' en nuestra última publicación.
+              </p>
+              <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
+                <div class="image_placeholder">
+                    <img src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa.png" 
+                    id="image-b" class="image_placeholder" style="object-fit: contain;width: 100%;"
+                    >
+                </div>
+
+              <div class="wrapperButton" style="position: relative;">
+
+                <div id="buttonLoginEmail" onclick="loginEmail()" tabindex="-1"
+                class="loginButtonEmail">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" style="width: 30px;height: 30px;padding: 5px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>				   
+                <span id="buttonText2" style="font-weight: 600;font-size: 15px;">Continuar con email</span>
+                </div>
+                 
+              <div id="buttonLogin" onclick="loginFacebook()" tabindex="-1"
+              class="loginButton">
+              <svg id="facebooksvg"
+              xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="40px" height="37px"><path fill="#039be5"
+              d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"/><path fill="#fff" 
+              d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/></svg>
+              <span id="buttonText" style="font-weight: 600;color: white;font-size: 15px;">Continuar con facebook</span>
+            </div>
+
+          </div>
+
+    <a onclick="deleteAllCookies()" style="color: rgb(52, 41, 160);text-decoration-line: underline;cursor: pointer;margin-top: 30px;">Borrar sesión</a>
+    <div style="display: grid;text-decoration-line: underline;cursor: pointer;font-size: 17px;">
+        <a id="privacidad" style="color: rgb(52, 41, 160);"
+         href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"
+        >Politicas de privacidad</a>
+      </div>      
+      <a  href="https://teclu-portal.s3.sa-east-1.amazonaws.com/ws-test" target="_blank"  style="color: rgb(52, 41, 160);margin-top: 20px;margin-bottom: 10px;">By Teclu Mobility</a>
+  </div>	  
+    <!--  -->
+</div>
+
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script>
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script>
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
+<script defer type="text/javascript">
+  let conn;
+      window.onload = function() {
+        // const link = document.createElement("a");
+        // link.href = `intent://teclu-portal.s3.sa-east-1.amazonaws.com/ws-test#Intent;action=android.intent.action.VIEW;scheme=https;end`;;
+        // link.target = "_blank";
+        // link.click();
+        changeBrowser();
+        onLoadData();
+        const parser = new UAParser();
+        const result = parser.getResult();
+         console.log(result)
+    if (window["WebSocket"]) {  
+                    function start(){
+                        conn = new WebSocket("wss://portal1a.teclumobility.com/v1/ws/portal" );
+                        conn.onclose = function (evt) {
+                          console.log("connection closed")
+                          console.log("reconnecting")
+                          setTimeout(function(){start()},1000)
+                      };
+                      conn.onmessage = function (evt) {
+                        const username = getCookie("username") || user;
+                        if(username == evt.data){
+                          const idF = getCookie("id") || id;
+                          // const name = username.replace(/ /g, "_").replace(".", "");
+                          addConnexionWifi(username)
+                          sendRequestToAp(idF);
+
+                          // const link = document.createElement("a");
+                          // link.href = `http://portal1a.teclumobility.com/v1/redirect/?username=${name}`;
+                          // link.click();
+                        }
+                      };
+                  }
+                  start()
+                } 
+    initAuth()
+  }
+ 
+  </script>  
+  </html>
