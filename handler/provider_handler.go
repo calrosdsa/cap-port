@@ -49,13 +49,14 @@ func (p *providerHandler)SmsRequest(c echo.Context)(err error){
 }
 
 func (p *providerHandler)SmsCallback(c echo.Context)(err error){
-	var smsRequest model.SmsCallbackResponse
-	err = c.Bind(&smsRequest)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
 	log.Println("-------------------------------Callback----------------------------------")
-	log.Println(smsRequest)
+	ss := c.FormValue("SmsSid")
+	ss1 := c.FormValue("To")
+	log.Println(ss,ss1)
+
 	// params := &twilioApi.CreateMessageParams{}
 	// params.SetTo(smsRequest.PhoneNumber)
 	// params.SetFrom("+12706339566")
