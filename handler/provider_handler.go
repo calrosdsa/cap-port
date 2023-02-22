@@ -34,7 +34,7 @@ func (p *providerHandler)SmsRequest(c echo.Context)(err error){
 	params := &twilioApi.CreateMessageParams{}
 	params.SetTo(smsRequest.PhoneNumber)
 	params.SetFrom("+12706339566")
-	params.SetStatusCallback("http://localhost:1323/provider/sms-callback/")
+	params.SetStatusCallback("https://portal1a.teclumobility.com/v1/provider/sms-callback/")
 	params.SetBody("Hello there")
 
 	resp, err := p.client.Api.CreateMessage(params)

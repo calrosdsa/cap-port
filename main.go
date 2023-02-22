@@ -39,8 +39,8 @@ func init() {
 
 
 func main() {
-	accountSid := "AC916a3477ab5dd148dd1a7c1b3853c700"
-	authToken := "595fc3892381034ed7247d08ee1ea532"
+	accountSid := viper.GetString("SID_TWILIO")
+	authToken := viper.GetString("TOKEN_TWILIO")
 	client := twilio.NewRestClientWithParams(twilio.ClientParams{
 		Username: accountSid,
 		Password: authToken,
