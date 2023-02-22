@@ -7,12 +7,16 @@
 <title>Portal</title>
 <!-- <link rel="stylesheet"  href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css"/> -->
 <link rel="preload" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/portal.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
+<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script>
 
 <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script> -->
 
 
 <script defer type="text/javascript">
+  function loginwithSms () {
+    window.location.href = 'https://teclu-portal.s3.sa-east-1.amazonaws.com/phone#login';
+  }
+
   function loginFacebook() {
     const link = document.createElement('a');
     const urlRedirect = window.location.origin + window.location.pathname;
@@ -102,14 +106,14 @@
 
               <div class="wrapperButton" style="position: relative;">
                 
-            <!-- <div id="buttonLoginEmail" onclick="loginEmail()" tabindex="-1"
+            <div id="buttonLoginEmail" onclick="loginwithSms()" tabindex="-1"
                 class="loginButtonEmail">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" style="width: 30px;height: 30px;padding: 5px;">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>				   
                 <span id="buttonText2" style="font-weight: 600;font-size: 15px;">Continuar con email</span>
-              </div>  -->
+              </div> 
               
               <div id="buttonLogin" onclick="loginFacebook()" tabindex="-1"
               class="loginButton">

@@ -55,7 +55,9 @@ func (p *providerHandler)SmsCallback(c echo.Context)(err error){
 	log.Println("-------------------------------Callback----------------------------------")
 	ss := c.FormValue("SmsSid")
 	ss1 := c.FormValue("To")
+	status := c.FormValue("MessageStatus")
 	log.Println(ss,ss1)
+	log.Println(status)
 
 	// params := &twilioApi.CreateMessageParams{}
 	// params.SetTo(smsRequest.PhoneNumber)
