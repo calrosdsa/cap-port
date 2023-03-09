@@ -1,6 +1,6 @@
 <!doctype html>
 <!--Bhaskar Tiwari-->
-<html>
+<htm	l>
 	<head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +9,9 @@
 	<!-- <linl rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/intlTelInput.scss"/> -->
 	 <link
      rel="stylesheet"
-     href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+     href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/intlTelInput.css"
    />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+   <script src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/intlTelInput.min.js"></script>
     <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/email-login.js"></script>
 
     <!-- <script defer src="/email-js/"></script> -->
@@ -20,7 +20,25 @@
 		window.onload = function(){
 			onLoadContent()
 		}
+		const sendRequest = async(number) => {
+			const url = "http://localhost:1323";
+			const formData = new FormData();
+			formData.append('PhoneNumber',number);
+			fetch(`${url}/v1/login-phone/`,{
+				method:'post',
+				body:formData
+			}).then(res=>{
+				console.log(res)
+				return res.json()
+			}).then(res=>console.log(res))
+			.catch(err=>console.log(err))
+		}
+		// sendRequest("2932913912931")
 	</script>
+	<style>
+		
+
+	</style>
 	
 </head>
  <body>
@@ -34,31 +52,29 @@
 	<div class="containerr">
 	
 		<div id="loginContent" style="max-width: 20.4375rem;" >
-	<p id="descripcion" class="textContent" style=" border: thin solid gray;"
+	<!-- <p id="descripcion" class="textContent" style=" border: thin solid gray;"
 			>Para solicitar acceso a la red a través de su correo electrónico, deberá completar y enviar una solicitud.
-			 Esta solicitud será revisada y, si es aprobada, el administrador del sitio le otorgará acceso."</p>
+			 Esta solicitud será revisada y, si es aprobada, el administrador del sitio le otorgará acceso."</p> -->
 		
-			<div class="container" style="justify-content: center;margin: auto;display: flex;">
-				<form id="login" onsubmit="process(event)">
-				  <p>Enter your phone number:</p>
-				  <input id="phone" type="tel" name="phone" style="height: 40px;"/>
+			<div style="justify-content: center;margin: auto;display: flex">
+				<form id="login" onsubmit="process(event)" style="display: grid;width: 100vh;">
+				  <input id="phone" type="tel" name="phone" style="height: 40px;width: 100%;"/>
 				  <!-- <input type="submit" class="btn" value="Verify" /> -->
+				  <input type="submit" id="continueButton" style="display: none;">
+				  <label for="continueButton"  class="button noselect">
+					  <p id="continue">Continuar</p>
+					  <!-- Continuar -->
+					  <!-- <div class="lds-dual-ring"></div> -->
+					  <div id="loader" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+					</label>
 				</form>
-				<div class="alert alert-info" style="display: none;"></div>
-			   </div>
-			<!-- <input id="buttonsub"  type="submit" style="visibility: hidden;display: none;"> -->
-			<div id="continueButton"   class="button noselect" onclick="onSubmitData()">
-				<p id="continue">Continuar</p>
-				<!-- Continuar -->
-				<!-- <div class="lds-dual-ring"></div> -->
-				<div id="loader" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+				<!-- <div class="alert alert-info" style="display: none;"></div> -->
 			</div>
-			<a  class="button" href="#form" onclick="changeContent()">
-				Solicitar Acceso
-			</a>
+					<!-- <input id="buttonsub"  type="submit" style="visibility: hidden;display: none;"> -->
+					<!-- <button  class="button"  onclick="sendRequest('+59175390560')">Solicitar Acceso</button> -->
 		</div>
 
-		<div id="solicitudContent" style="max-width: 20.4375rem;display: none;visibility: hidden;">
+		<!-- <div id="solicitudContent" style="max-width: 20.4375rem;display: none;visibility: hidden;">
 			<h4>Formulario de solicitud de acceso</h4>
 			<div class="omrs-input-group">
 				<label class="omrs-input-filled">
@@ -67,49 +83,150 @@
 					<span class="omrs-input-helper">Ingrese su correo electrónico</span>
 				</label>
 			</div>
-			<div class="container" style="justify-content: center;margin: auto;display: flex;">
-				<form id="login" onsubmit="process(event)">
-				  <p>Enter your phone number:</p>
-				  <input id="phone" type="tel" name="phone" style="height: 40px;"/>
-				  <!-- <input type="submit" class="btn" value="Verify" /> -->
-				</form>
-				<div class="alert alert-info" style="display: none;"></div>
-			   </div>
-
-            <span class="textContent" style="font-size: small;">
-                *Por favor, indique algún motivo por el cual está solicitando acceso en el
-                 campo correspondiente. Esta información nos ayudará a evaluar su solicitud .</span>
-            <!-- <div class="omrs-input-group">
-				<textarea id="message" cols="50" rows="10" 
-				 style="max-width: 20.43rem;border-radius: 0.5rem;padding: 10px;
-				 font-size: 1rem;"></textarea>
-			</div> -->
 			<div id="continueButton2" class="button noselect" onclick="sendSolicitud()">
 				
-				<p id="continue2">Enviar Solicitud</p>
-				<!-- Continuar -->
-				<!-- <div class="lds-dual-ring"></div> -->
+				<p id="continue2">Registrarte</p>
 				<div id="loader2" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
 			</div>
 			<span id="errorText"  ></span>
-		</div>
+		</div> -->
 	</div>
  </body>
  <script>
+	function getIp(callback) {
+	fetch('https://ipinfo.io/json?token=501cdb392602c5', { headers: { 'Accept': 'application/json' }})
+	.then((resp) => resp.json())
+	.catch(() => {
+		return {
+		country: 'us',
+		};
+	})
+	.then((resp) => callback(resp.country));
+	}
     const phoneInputField = document.querySelector("#phone");
     const phoneInput = window.intlTelInput(phoneInputField, {
+	//   initialCountry: "bo",
+	initialCountry: "auto",
+    geoIpLookup: getIp,
       utilsScript:
-        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        "https://teclu-portal.s3.sa-east-1.amazonaws.com/js/utils.js",
     });
     const info = document.querySelector(".alert-info");
 
     function process(event) {
-    event.preventDefault();
+	// event.preventDefault();
+		try{
 
-    const phoneNumber = phoneInput.getNumber();
-	console.log(phoneNumber)
+			const phoneNumber = phoneInput.getNumber();
+			sendRequest(phoneNumber)
+			const link = document.createElement("a");
+			link.href = ""
+			// console.log(phoneInput)
+			console.log(phoneNumber)
+		}catch(err){
+			console.log(err)
+		}
     // info.style.display = "";
     // info.innerHTML = `Phone number in E.164 format: <strong>${phoneNumber}</strong>`;
     }
  </script>
 </html>
+
+<!-- <!doctype html>
+<html>
+	<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Numero Celular</title>
+    <link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/form.css"/>
+	 <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+   />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/email-login.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			onLoadContent()
+		}
+		const sendRequest = async(number) => {
+			const url = "http://localhost:1323";
+			const formData = new FormData();
+			formData.append('PhoneNumber',number);
+			fetch(`${url}/v1/login-phone/`,{
+				method:'post',
+				body:formData
+			}).then(res=>{
+				console.log(res)
+				return res.json()
+			}).then(res=>console.log(res))
+			.catch(err=>console.log(err))
+		}
+	</script>
+	<style>
+		
+
+	</style>
+	
+</head>
+ <body>
+	 <div class="topBar">
+		 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+		 style="width: 30px;height: 30px;padding: 10px;" onclick="window.history.back()">
+			 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+		   </svg>
+		   
+	 </div>
+	<div class="containerr">
+	
+		<div id="loginContent" style="max-width: 20.4375rem;" >
+		
+			<div style="justify-content: center;margin: auto;display: flex">
+				<form action="https://teclu-portal.s3.sa-east-1.amazonaws.com/ypfb-transporte-scz" method="get" id="login" onsubmit="process(event)" style="display: grid;width: 100vh;">
+				  <input id="phone" type="tel" name="phone" style="height: 40px;width: 100%;"/>
+				  <input type="submit" id="continueButton" style="display: none;">
+				  <label for="continueButton"  class="button noselect">
+					  <p id="continue">Continuar</p>
+					  <div id="loader" style="display: none;" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+					</label>
+				</form>
+			</div>
+		</div>
+
+	
+	</div>
+ </body>
+ <script>
+	function getIp(callback) {
+	fetch('https://ipinfo.io/json?token=501cdb392602c5', { headers: { 'Accept': 'application/json' }})
+	.then((resp) => resp.json())
+	.catch(() => {
+		return {
+		country: 'us',
+		};
+	})
+	.then((resp) => callback(resp.country));
+	}
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+	initialCountry: "auto",
+    geoIpLookup: getIp,
+      utilsScript:
+        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+	
+    });
+    const info = document.querySelector(".alert-info");
+
+    function process(event) {
+		try{
+
+			const phoneNumber = phoneInput.getNumber();
+			sendRequest(phoneNumber)
+			console.log(phoneNumber)
+		}catch(err){
+			console.log(err)
+		}
+    }
+ </script>
+</html> -->
+

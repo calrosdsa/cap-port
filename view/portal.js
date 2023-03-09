@@ -24,6 +24,7 @@ function PopupCenter(url, title, w, h, opts) {
     newWindow.focus();
   }
 }
+
 function setCookie(cName, cValue, expHours) {
   let date = new Date();
   date.setTime(date.getTime() + expHours * 1 * 60 * 60 * 1000);
@@ -110,7 +111,6 @@ function removeLoader() {
 const addConnexionWifiFb = async name => {
   // console.log('add conexion...')
   try{
-
     const idF = getCookie("id") || id;
     const apMac = getCookie("ap_mac") || '0';
     const clientMac = getCookie("client_mac") || '0';
@@ -203,7 +203,7 @@ function onLoadData() {
 function chnageButtonContent() {
   const svgId = document.getElementById("facebooksvg");
   // console.log(svgId)
-  const buttonLogin = document.getElementById("buttonLogin");
+  const buttonLogin = document.getElementById("buttonLoginFacebook");
   const buttonText = document.querySelector("#buttonText");
   svgId.style = "display: none";
   buttonLogin.style = "padding-left:15px;background-color:#009d71;";

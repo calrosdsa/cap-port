@@ -113,11 +113,11 @@ const getUserData = async (code, url) => {
   let access_token;
   const svgId = document.getElementById("facebooksvg");
   // console.log(svgId)
-  const buttonLogin = document.getElementById("buttonLogin");
+  const buttonLogin = document.querySelector("#buttonLoginFacebook");
   const buttonText = document.querySelector("#buttonText");
   const idF = getCookie("id") || id;
   const userExistInCookies = idF != undefined;
-  const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`;
+  const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=525261449658840&redirect_uri=${url}&client_secret=93efbbfbcde3dd094ed0107eca8aaf3e&code=${code}`;
   // const facebookUrl = `https://graph.facebook.com/v15.0/oauth/access_token?client_id=801740780921492&scope=email&redirect_uri=${url}&client_secret=b6a2b4c521b8675cd86fd800619c8203&code=${code}`;
   try {
     if (!userExistInCookies) {
@@ -140,13 +140,12 @@ const getUserData = async (code, url) => {
         setCookie("username", data.name, 24);
         setCookie("id", data.id, 24);
         saveUser(data.name,data.id);
-
         // console.log(data);
         buttonLogin.onclick = sendRequest;
         svgId.style = "display: none";
         buttonLogin.style = "padding-left:15px;background-color:#009d71;";
         buttonText.textContent = "Countinuar Navegando";
-        sendRequest(data.id);
+        sendRequest();
       }).catch(err => {
         removeLoader();
         openModal(err);
@@ -224,7 +223,7 @@ function loginFacebook() {
   const link = document.createElement('a');
   const urlRedirect = window.location.origin + window.location.pathname;
   // console.log("inith auth login");
-  link.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=801740780921492&scope=email&redirect_uri=${urlRedirect}&state={st=state123abc,ds=123456789}`;
+  link.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=525261449658840&scope=email&redirect_uri=${urlRedirect}&state={st=state123abc,ds=123456789}`;
   link.click();
   setTimeout(() => {
     removeLoader();
