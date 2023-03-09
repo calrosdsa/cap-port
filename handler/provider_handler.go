@@ -23,15 +23,39 @@ import (
 type providerHandler struct {
 	client twilio.RestClient
 }
+type Message struct{
+	message string
+}
 
 func NewHandlerProvider(c *echo.Echo, client *twilio.RestClient) {
 	handler := &providerHandler{
 		client: *client,
 	}
 	c.POST("/v1/login-phone/", handler.SmsRequest)
+	c.POST("/v1/check-otp/", handler.checkOtp)
 	c.POST("/v1/provider/sms-callback/", handler.SmsCallback)
 	c.POST("/v1/provider/formulario/", handler.FormularioRequest)
 	c.POST("/v1/get-access/", handler.GetLinkedinAccessToken)
+
+}
+
+func (p *providerHandler) checkOtp(c echo.Context) (err error) {
+	code := c.FormValue("code")
+	number := c.FormValue("PhoneNumber")
+	params := &verify.CreateVerificationCheckParams{}
+	params.SetTo(number)
+	params.SetCode(code)
+
+	resp, err := p.client.VerifyV2.CreateVerificationCheck("VAa0bf7ec73b4df87f3398daee14986a65", params)
+	if err != nil {
+		log.Println(err.Error())
+		return c.JSON(http.StatusUnauthorized,err)
+	} else if *resp.Status == "approved" {
+		log.Println("Correct!")
+	} else {
+		log.Println("Incorrect!")
+	}
+	return c.JSON(http.StatusOK, resp)
 }
 
 func (p *providerHandler) SmsRequest(c echo.Context) (err error) {
@@ -40,10 +64,7 @@ func (p *providerHandler) SmsRequest(c echo.Context) (err error) {
 	// if err != nil {
 	// 	return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	// }
-
 	number := c.FormValue("PhoneNumber")
-
-
 	params := &verify.CreateVerificationParams{}
 	params.SetTo(number)
 	params.SetChannel("sms")
