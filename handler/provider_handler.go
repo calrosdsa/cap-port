@@ -47,8 +47,7 @@ func (p *providerHandler) SmsRequest(c echo.Context) (err error) {
 	params := &verify.CreateVerificationParams{}
 	params.SetTo(number)
 	params.SetChannel("sms")
-
-	resp, err := p.client.VerifyV2.CreateVerification("VA13b9cb0661a283fc68e75435a33c040e", params)
+	resp, err := p.client.VerifyV2.CreateVerification("VAa0bf7ec73b4df87f3398daee14986a65", params)
 	if err != nil {
 		log.Println(err.Error())
 	} else {
