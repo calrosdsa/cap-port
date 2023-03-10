@@ -71,6 +71,7 @@ func (p *providerHandler) SmsRequest(c echo.Context) (err error) {
 	resp, err := p.client.VerifyV2.CreateVerification("VAa0bf7ec73b4df87f3398daee14986a65", params)
 	if err != nil {
 		log.Println(err.Error())
+		return c.JSON(http.StatusUnauthorized,err)
 	} else {
 		if resp.Status != nil {
 			log.Println(*resp.Status)
