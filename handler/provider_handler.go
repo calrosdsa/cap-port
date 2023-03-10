@@ -16,8 +16,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/twilio/twilio-go"
 
-	// twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
-	verify "github.com/twilio/twilio-go/rest/verify/v2"
+	twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
+	// verify "github.com/twilio/twilio-go/rest/verify/v2"
 )
 
 type providerHandler struct {
@@ -32,71 +32,38 @@ func NewHandlerProvider(c *echo.Echo, client *twilio.RestClient) {
 		client: *client,
 	}
 	c.POST("/v1/login-phone/", handler.SmsRequest)
-	c.POST("/v1/check-otp/", handler.checkOtp)
+	// c.POST("/v1/check-otp/", handler.checkOtp)
 	c.POST("/v1/provider/sms-callback/", handler.SmsCallback)
 	c.POST("/v1/provider/formulario/", handler.FormularioRequest)
 	c.POST("/v1/get-access/", handler.GetLinkedinAccessToken)
-
+	// c.POST("/v1/sms-request/", handler.SmsRequest2)
 }
 
-func (p *providerHandler) checkOtp(c echo.Context) (err error) {
-	code := c.FormValue("code")
-	number := c.FormValue("PhoneNumber")
-	params := &verify.CreateVerificationCheckParams{}
-	params.SetTo(number)
-	params.SetCode(code)
-
-	resp, err := p.client.VerifyV2.CreateVerificationCheck("VAa0bf7ec73b4df87f3398daee14986a65", params)
-	if err != nil {
-		log.Println(err.Error())
-		return c.JSON(http.StatusUnauthorized,err)
-	} else if *resp.Status == "approved" {
-		log.Println("Correct!")
-	} else {
-		log.Println("Incorrect!")
-	}
-	return c.JSON(http.StatusOK, resp)
-}
 
 func (p *providerHandler) SmsRequest(c echo.Context) (err error) {
-	// var smsRequest model.SmsRequest
-	// err = c.Bind(&smsRequest)
-	// if err != nil {
-	// 	return c.JSON(http.StatusUnprocessableEntity, err.Error())
-	// }
+	
 	number := c.FormValue("PhoneNumber")
-	params := &verify.CreateVerificationParams{}
+	params := &twilioApi.CreateMessageParams{}
+
 	params.SetTo(number)
-	params.SetChannel("sms")
-	resp, err := p.client.VerifyV2.CreateVerification("VAa0bf7ec73b4df87f3398daee14986a65", params)
+	params.SetFrom("+12706339566")
+	params.SetStatusCallback("https://portal1a.teclumobility.com/v1/provider/sms-callback/")
+	// params.SetBody("G-997341 is your verification code")
+	params.SetBody("Your confirmation code is 150232.")
+
+
+	resp, err := p.client.Api.CreateMessage(params)
 	if err != nil {
 		log.Println(err.Error())
-		return c.JSON(http.StatusUnauthorized,err)
-	} else {
-		if resp.Status != nil {
-			log.Println(*resp.Status)
-		} else {
-			log.Println(resp.Status)
-		}
+		return c.JSON(http.StatusBadRequest,err.Error())
 	}
-	// resp,err := p.client.VerifyV2.CreateVerification()
-	// params := &twilioApi.CreateMessageParams{}
-
-	// params.SetTo(number)
-	// params.SetFrom("+12706339566")
-	// params.SetStatusCallback("https://portal1a.teclumobility.com/v1/provider/sms-callback/")
-	// params.SetBody("Hello there tu codigo de verificacion es 75390")
-
-	// resp, err := p.client.Api.CreateMessage(params)
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	return c.JSON(http.StatusBadRequest,err.Error())
-	// }
-	// // response, _ := json.Marshal(*resp)
-	// // log.Println("Response: " + string(response))
+	// response, _ := json.Marshal(*resp)
+	// log.Println("Response: " + string(response))
 
 	return c.JSON(http.StatusOK, resp)
 }
+
+
 func (p *providerHandler) GetLinkedinAccessToken(c echo.Context) (err error) {
 	code := c.FormValue("code")
 	log.Println(code)
@@ -165,3 +132,47 @@ func (p *providerHandler) SmsCallback(c echo.Context) (err error) {
 	// }
 	return c.JSON(http.StatusOK, nil)
 }
+
+
+// func (p *providerHandler) checkOtp(c echo.Context) (err error) {
+// 	code := c.FormValue("code")
+// 	number := c.FormValue("PhoneNumber")
+// 	params := &verify.CreateVerificationCheckParams{}
+// 	params.SetTo(number)
+// 	params.SetCode(code)
+
+// 	resp, err := p.client.VerifyV2.CreateVerificationCheck("VAa0bf7ec73b4df87f3398daee14986a65", params)
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		return c.JSON(http.StatusUnauthorized,err)
+// 	} else if *resp.Status == "approved" {
+// 		log.Println("Correct!")
+// 	} else {
+// 		log.Println("Incorrect!")
+// 	}
+// 	return c.JSON(http.StatusOK, resp)
+// }
+
+// func (p *providerHandler) SmsRequest(c echo.Context) (err error) {
+// 	// var smsRequest model.SmsRequest
+// 	// err = c.Bind(&smsRequest)
+// 	// if err != nil {
+// 	// 	return c.JSON(http.StatusUnprocessableEntity, err.Error())
+// 	// }
+// 	number := c.FormValue("PhoneNumber")
+// 	params := &verify.CreateVerificationParams{}
+// 	params.SetTo(number)
+// 	params.SetChannel("sms")
+// 	resp, err := p.client.VerifyV2.CreateVerification("VAa0bf7ec73b4df87f3398daee14986a65", params)
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		return c.JSON(http.StatusUnauthorized,err)
+// 	} else {
+// 		if resp.Status != nil {
+// 			log.Println(*resp.Status)
+// 		} else {
+// 			log.Println(resp.Status)
+// 		}
+// 	}
+// 	return c.JSON(http.StatusOK, resp)
+// }
