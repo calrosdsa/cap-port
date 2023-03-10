@@ -107,23 +107,23 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 		if err != nil {
 			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 		}
-		defer func() {
-			src.Close()
-			if err := dst.Close(); err != nil {
-				fmt.Println(err)
-			}
-			err :=os.Remove(dst.Name())
-			if err != nil{
-				fmt.Println(err)
-			}
-			if err := fileWebp.Close(); err != nil {
-				fmt.Println(err)
-			}
-			err1 :=os.Remove(filename)
-			if err1 != nil{
-				fmt.Println(err1)
-			}
-			}()
+		// defer func() {
+		// 	src.Close()
+		// 	if err := dst.Close(); err != nil {
+		// 		fmt.Println(err)
+		// 	}
+		// 	err :=os.Remove(dst.Name())
+		// 	if err != nil{
+		// 		fmt.Println(err)
+		// 	}
+		// 	if err := fileWebp.Close(); err != nil {
+		// 		fmt.Println(err)
+		// 	}
+		// 	err1 :=os.Remove(filename)
+		// 	if err1 != nil{
+		// 		fmt.Println(err1)
+		// 	}
+		// 	}()
 		// return c.File(filename)
 		return c.JSON(http.StatusOK, url)
 }
