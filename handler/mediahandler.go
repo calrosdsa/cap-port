@@ -35,6 +35,7 @@ func NewMediaHandler(e *echo.Echo, sess *session.Session) {
 }
 
 func (m *MediaHandler) UploadTemplate(c echo.Context) (err error) {
+	webpbin.SetSkipDownload(true)
 	html := c.FormValue("html")
 	filename := c.FormValue("filename")
 	fo, err := os.Create(filename)
