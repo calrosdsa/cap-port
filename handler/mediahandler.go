@@ -27,10 +27,10 @@ func NewMediaHandler(e *echo.Echo, sess *session.Session) {
 		sess: sess,
 	}
 	e.Static("/", "media")
-	e.POST("/v1/upload/video/", handler.UploadMedia)
+	e.POST("/v1/upload/media/", handler.UploadMedia)
 	e.POST("/v1/delete/media/", handler.DeleteMedia)
 	e.POST("/v1/upload/template/", handler.UploadTemplate)
-	e.POST("/v1/upload/media/",handler.UplaodAndConverter)
+	e.POST("/v1/upload/converter/",handler.UplaodAndConverter)
 
 }
 
