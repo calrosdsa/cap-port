@@ -147,6 +147,24 @@ func UplaodObject(file *multipart.FileHeader,bucket string, sess *session.Sessio
 }
 
 
+func UplaodObjectWebp(file *os.File,bucket string, sess *session.Session)(url string,err error) {
+	
+    uploader := s3manager.NewUploader(sess)
+    output, err := uploader.Upload(&s3manager.UploadInput{
+        Bucket: aws.String(bucket),
+        Key: aws.String("media-t/"+file.Name()),
+        Body: file,
+    })
+    if err != nil {
+        // Print the error and exit.
+		return
+    }
+
+    fmt.Printf("Successfully uploaded %q to %q\n", file.Name(), bucket)
+	return output.Location,nil
+}
+
+
 
 func exitErrorf(msg string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, msg+"\n", args...)

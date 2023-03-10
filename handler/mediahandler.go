@@ -2,6 +2,8 @@ package handler
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 	"os"
 
@@ -9,6 +11,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
+	"github.com/nickalie/go-webpbin"
 )
 
 const (
@@ -24,9 +27,10 @@ func NewMediaHandler(e *echo.Echo, sess *session.Session) {
 		sess: sess,
 	}
 	e.Static("/", "media")
-	e.POST("/v1/upload/media/", handler.UploadMedia)
+	e.POST("/v1/upload/video/", handler.UploadMedia)
 	e.POST("/v1/delete/media/", handler.DeleteMedia)
 	e.POST("/v1/upload/template/", handler.UploadTemplate)
+	e.POST("/v1/upload/media/",handler.UplaodAndConverter)
 
 }
 
@@ -60,6 +64,68 @@ func (m *MediaHandler) UploadTemplate(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 	}
 	return c.JSON(http.StatusOK, "Se han aplicado los cambios")
+}
+
+func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
+	file, err := c.FormFile("file")
+	filename := c.FormValue("filename")
+	// src, err := file.Open()
+	if err != nil {
+		return err
+	}
+	src, err := file.Open()
+	if err != nil {
+		return err
+	}
+	// Destination
+	dst, err := os.Create(file.Filename)
+	if err != nil {
+		return err
+	}
+	// Copy
+	if _, err = io.Copy(dst, src); err != nil {
+		log.Println(err)
+	}
+	
+	webpbin.NewCWebP().
+	Quality(10).
+	InputFile(dst.Name()).
+	OutputFile(filename).
+	Run()
+	
+	fileWebp,err := os.Open(filename)
+	if err != nil{
+		log.Println(err)
+	}
+	
+	// if err != nil {
+		// return
+		// }
+		// defer src.Close()
+		// return c.File(filename)
+		url,err := util.UplaodObjectWebp(fileWebp, "teclu-portal", m.sess)
+		if err != nil {
+			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+		}
+		defer func() {
+			src.Close()
+			if err := dst.Close(); err != nil {
+				fmt.Println(err)
+			}
+			err :=os.Remove(dst.Name())
+			if err != nil{
+				fmt.Println(err)
+			}
+			if err := fileWebp.Close(); err != nil {
+				fmt.Println(err)
+			}
+			err1 :=os.Remove(filename)
+			if err1 != nil{
+				fmt.Println(err1)
+			}
+			}()
+		// return c.File(filename)
+		return c.JSON(http.StatusOK, url)
 }
 
 func (m *MediaHandler)UploadMedia(c echo.Context) (err error) {
