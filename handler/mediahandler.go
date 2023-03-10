@@ -78,7 +78,7 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 		return err
 	}
 	// Destination
-	dst, err := os.Create(file.Filename)
+	dst, err := os.Create("/home/ec2-user/"+ file.Filename)
 	if err != nil {
 		return err
 	}
