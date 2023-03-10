@@ -96,6 +96,7 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 	fileWebp,err := os.Open(filename)
 	if err != nil{
 		log.Println(err)
+		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 	}
 	
 	// if err != nil {
