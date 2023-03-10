@@ -89,11 +89,11 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 	
 	webpbin.NewCWebP().
 	Quality(10).
-	InputFile(dst.Name()).
-	OutputFile(filename).
+	InputFile("/home/ec2-user/"+ dst.Name()).
+	OutputFile("/home/ec2-user/"+ filename).
 	Run()
 	
-	fileWebp,err := os.Open(filename)
+	fileWebp,err := os.Open("/home/ec2-user/"+ filename)
 	if err != nil{
 		log.Println(err)
 	}
