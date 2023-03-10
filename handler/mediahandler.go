@@ -87,11 +87,15 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 		log.Println(err)
 	}
 	
-	webpbin.NewCWebP().
+	err = webpbin.NewCWebP().
 	Quality(10).
 	InputFile(dst.Name()).
 	OutputFile(filename).
 	Run()
+	if err != nil{
+		log.Println(err)
+		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+	}
 	
 	fileWebp,err := os.Open(filename)
 	if err != nil{
