@@ -24,7 +24,7 @@ import (
 // Define the template registry struct
 
 func init() {
-	viper.SetConfigFile(`/home/ec2-user/.env`)
+	viper.SetConfigFile(`/home/rootuser/.env`)
 	// viper.SetConfigFile(`.env`)
 
 	err := viper.ReadInConfig()

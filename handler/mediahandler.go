@@ -12,11 +12,11 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
 	"github.com/nickalie/go-webpbin"
-)
-
-const (
-	base_url = "https://teclu-portal.s3.sa-east-1.amazonaws.com/"
-)
+	
+	// const (
+		// base_url = "https://teclu-portal.s3.sa-east-1.amazonaws.com/"
+// )
+)	
 
 type MediaHandler struct {
 	sess *session.Session
