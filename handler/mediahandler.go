@@ -69,6 +69,10 @@ func (m *MediaHandler) UploadTemplate(c echo.Context) (err error) {
 
 func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 	file, err := c.FormFile("file")
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusNotFound, ResponseError{Message: err.Error()})
+	}
 	filename := c.FormValue("filename")
 	// src, err := file.Open()
 	if err != nil {
@@ -114,22 +118,20 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 		}
 		defer func() {
-			if err := src.Close();err != nil{
-				log.Println(err)
-			}
+			src.Close()
 			if err := dst.Close(); err != nil {
-				log.Println(err)
+				fmt.Println(err)
 			}
 			err :=os.Remove(dst.Name())
 			if err != nil{
-				log.Println(err)
+				fmt.Println(err)
 			}
 			if err := fileWebp.Close(); err != nil {
-				log.Println(err)
+				fmt.Println(err)
 			}
 			err1 :=os.Remove(filename)
 			if err1 != nil{
-				log.Println(err1)
+				fmt.Println(err1)
 			}
 			}()
 		// return c.File(filename)
