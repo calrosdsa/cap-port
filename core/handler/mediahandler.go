@@ -22,6 +22,10 @@ type MediaHandler struct {
 	sess *session.Session
 }
 
+type ResponseError struct{
+	Message  string
+}
+
 func NewMediaHandler(e *echo.Echo, sess *session.Session) {
 	handler := &MediaHandler{
 		sess: sess,
@@ -74,26 +78,21 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 		return c.JSON(http.StatusNotFound, ResponseError{Message: err.Error()})
 	}
 	filename := c.FormValue("filename")
-	// src, err := file.Open()
-	if err != nil {
-		return err
-	}
+	pathName := c.FormValue("pathName")
+	bucketName := c.FormValue("bucketName")
 	src, err := file.Open()
 	if err != nil {
 		return err
 	}
-	// Destination
 	dst, err := os.Create(file.Filename)
 	if err != nil {
 		return err
 	}
-	// Copy
 	if _, err = io.Copy(dst, src); err != nil {
 		log.Println(err)
 	}
-	
 	err = webpbin.NewCWebP().
-	Quality(10).
+	Quality(40).
 	InputFile(dst.Name()).
 	OutputFile(filename).
 	Run()
@@ -107,35 +106,30 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 		log.Println(err)
 		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 	}
-	
-	// if err != nil {
-		// return
-		// }
-		// defer src.Close()
-		// return c.File(filename)
-		url,err := util.UplaodObjectWebp(fileWebp, "teclu-portal", m.sess)
-		if err != nil {
-			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+	log.Println(pathName)
+	url,err := util.UplaodObjectWebp(fileWebp, bucketName,pathName, m.sess)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+	}
+	defer func() {
+		src.Close()
+		if err := dst.Close(); err != nil {
+			fmt.Println(err)
 		}
-		defer func() {
-			src.Close()
-			if err := dst.Close(); err != nil {
-				fmt.Println(err)
-			}
-			err :=os.Remove(dst.Name())
-			if err != nil{
-				fmt.Println(err)
-			}
-			if err := fileWebp.Close(); err != nil {
-				fmt.Println(err)
-			}
-			err1 :=os.Remove(filename)
-			if err1 != nil{
-				fmt.Println(err1)
-			}
-			}()
-		// return c.File(filename)
-		return c.JSON(http.StatusOK, url)
+		err :=os.Remove(dst.Name())
+		if err != nil{
+			fmt.Println(err)
+		}	
+		if err := fileWebp.Close(); err != nil {
+			fmt.Println(err)
+		}
+		err1 :=os.Remove(filename)
+		if err1 != nil{
+			fmt.Println(err1)
+		}
+		}()
+	// return c.File(filename)
+	return c.String(http.StatusOK, url)
 }
 
 func (m *MediaHandler)UploadMedia(c echo.Context) (err error) {

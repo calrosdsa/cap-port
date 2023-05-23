@@ -24,7 +24,7 @@ type providerHandler struct {
 	client twilio.RestClient
 }
 type Message struct{
-	message string
+	Message string
 }
 
 func NewHandlerProvider(c *echo.Echo, client *twilio.RestClient) {

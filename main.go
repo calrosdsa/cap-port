@@ -4,48 +4,46 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	_ws "portal/ws"
+	"time"
 
 	"os"
 
 	"github.com/labstack/echo/v4/middleware"
 
-	"portal/handler"
+	"portal/core/handler"
+
+	ucase "portal/core/use_cases"
+	repo "portal/data/repository/mysql"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
-	"github.com/twilio/twilio-go"
-)
 
+	// "github.com/twilio/twilio-go"
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
+)
 
 // Define the template registry struct
 
 func init() {
-	viper.SetConfigFile(`/home/rootuser/.env`)
-	// viper.SetConfigFile(`.env`)
+	// viper.SetConfigFile(`/home/rootuser/.env`)
+	viper.SetConfigFile(`.env`)
 
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Println(err)
 	}
 
-		// if viper.GetBool(`debug`) {
-		// 	log.Println("Service RUN on DEBUG mode")
-		// }
 	}
 
 
 func main() {
-	accountSid := viper.GetString("SID_TWILIO")
-	authToken := viper.GetString("TOKEN_TWILIO")
-	client := twilio.NewRestClientWithParams(twilio.ClientParams{
-		Username: accountSid,
-		Password: authToken,
-	})
-
 
 	creds := credentials.NewStaticCredentials(viper.GetString("AWS_ID"), viper.GetString("AWS_SECRET"), "")
     sess, err := session.NewSession(&aws.Config{
@@ -55,6 +53,24 @@ func main() {
 	if err != nil {
         exitErrorf("%v", err)
     }
+
+	val := url.Values{}
+	val.Add("parseTime", "1")
+	val.Add("loc", "Asia/Jakarta")
+	dns := fmt.Sprintf("%s?%s", "teclu912_userExt:O#S~#UjSRxz?@tcp(192.254.234.204:3306)/teclu912_CaptivePortal", val.Encode())
+	db, err := sql.Open("mysql", dns)
+	if err != nil {
+		log.Println(err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Println(err)
+	}
+	query := `select * from splashpage;`
+	db.QueryRow(query)
+
+
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -70,11 +86,15 @@ func main() {
 		fmt.Println(challenge)
 		return c.String(http.StatusOK, challenge)
 	})
+	timeout := time.Duration(2) * time.Second
 
-	
+	portalR := repo.NewPortalRepo(db)
+	portalU := ucase.NewPortalUcase(timeout,portalR)
+	handler.NewPortalHandler(e,sess,portalU)
 	handler.NewMediaHandler(e,sess)
-	handler.NewTemplateHandler(e)
-	handler.NewHandlerProvider(e,client)
+	handler.NewS3Handler(e,sess)
+	// handler.NewTemplateHandler(e)
+	// handler.NewHandlerProvider(e,client)
 	_ws.NewWebsocketHanlder(e)
 	go _ws.H.Run()
 	e.GET("/room/:roomId", func(c echo.Context)(err error) {

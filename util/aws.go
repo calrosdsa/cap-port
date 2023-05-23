@@ -74,10 +74,10 @@
 // 	os.Exit(1)
 // }
 
-
 package util
 
 import (
+	"bytes"
 	"fmt"
 	"mime/multipart"
 	"os"
@@ -125,6 +125,26 @@ func UplaodHtmlTemplate(file *os.File,bucket string, sess *session.Session)(err 
 	return
 }
 
+func UplaodHtmlTemplateAsBytes(b []byte,dest string,bucket string, sess *session.Session)(err error) {
+    uploader := s3manager.NewUploader(sess)
+	reader := bytes.NewReader(b)
+    _, err = uploader.Upload(&s3manager.UploadInput{
+        Bucket: aws.String(bucket),
+        Key: aws.String(dest),
+        Body: reader,
+		ContentType: aws.String("text/html"),
+		ContentEncoding: aws.String("utf-8"),
+    })
+    if err != nil {
+		fmt.Println(err)
+        // Print the error and exit.
+		return
+    }
+
+    fmt.Printf("Successfully uploaded %q to %q\n", dest, bucket)
+	return
+}
+
 func UplaodObject(file *multipart.FileHeader,bucket string, sess *session.Session)(url string,err error) {
 	src, err := file.Open()
 	if err != nil {
@@ -147,12 +167,11 @@ func UplaodObject(file *multipart.FileHeader,bucket string, sess *session.Sessio
 }
 
 
-func UplaodObjectWebp(file *os.File,bucket string, sess *session.Session)(url string,err error) {
-	
+func UplaodObjectWebp(file *os.File,bucket string,dest string,sess *session.Session)(url string,err error) {
     uploader := s3manager.NewUploader(sess)
     output, err := uploader.Upload(&s3manager.UploadInput{
         Bucket: aws.String(bucket),
-        Key: aws.String("media-t/"+file.Name()),
+        Key: aws.String(dest+file.Name()),
         Body: file,
     })
     if err != nil {
