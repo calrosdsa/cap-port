@@ -92,7 +92,6 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 		log.Println(err)
 		return
 	}
-	// os.WriteFile("index.css",bodyCss.Bytes(),0755)
 	js := template.JS(bodyJs.String())
 	data.JsCode = js
 
