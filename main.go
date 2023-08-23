@@ -29,8 +29,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Define the template registry struct
-
 func init() {
 	viper.SetConfigFile(`/home/rootuser/cap-port/.env`)
 	// viper.SetConfigFile(`.env`)
