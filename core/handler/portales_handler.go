@@ -66,7 +66,7 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 	if data.Properties.ImageBackground != "" {
 		data.Properties.BackgroundColor = "#00000066"
 	}
-	csstmlp, err := template.ParseFiles("portales/basic/index2.css")
+	csstmlp, err := template.ParseFiles("./portales/basic/index2.css")
 	if err != nil {
 		log.Println(err)
 		return
@@ -81,7 +81,7 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 	css := template.CSS(bodyCss.String())
 	data.StyleCss = css
 
-	jstmpl, err := template.ParseFiles("portales/basic/index2.js")
+	jstmpl, err := template.ParseFiles("./portales/basic/index2.js")
 	if err != nil {
 		log.Println(err)
 		return
@@ -97,7 +97,7 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 	data.JsCode = js
 
 
-	t, err := template.ParseFiles("portales/basic/index2.html")
+	t, err := template.ParseFiles("./portales/basic/index2.html")
 	if err != nil {
 		log.Println(err)
 		return

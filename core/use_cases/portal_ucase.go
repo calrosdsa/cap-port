@@ -117,7 +117,7 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	if data.Properties.ImageBackground != "" {
 		data.Properties.BackgroundColor = "#00000066"
 	}	
-	csstmlp, err := template.ParseFiles("portales/basic/index2.css")
+	csstmlp, err := template.ParseFiles("./portales/basic/index2.css")
 	log.Println(data.Base.BucketName,data.Base.PathName)
 	if err != nil {
 		log.Println(err)
@@ -134,7 +134,7 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	data.StyleCss = css
 
 
-	jstmpl, err := template.ParseFiles("portales/basic/index2.js")
+	jstmpl, err := template.ParseFiles("./portales/basic/index2.js")
 	if err != nil {
 		log.Println(err)
 		return
@@ -150,7 +150,7 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	data.JsCode = js
 
 
-	t, err := template.ParseFiles("portales/basic/index2.html")
+	t, err := template.ParseFiles("./portales/basic/index2.html")
 	if err != nil {
 		log.Println(err)
 		return
