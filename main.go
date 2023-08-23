@@ -32,8 +32,8 @@ import (
 // Define the template registry struct
 
 func init() {
-	// viper.SetConfigFile(`/home/rootuser/.env`)
-	viper.SetConfigFile(`./.env`)
+	viper.SetConfigFile(`/home/rootuser/cap-port/.env`)
+	// viper.SetConfigFile(`.env`)
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -57,7 +57,14 @@ func main() {
 	val := url.Values{}
 	val.Add("parseTime", "1")
 	val.Add("loc", "Asia/Jakarta")
-	dns := fmt.Sprintf("%s?%s", "teclu912_userExt:O#S~#UjSRxz?@tcp(192.254.234.204:3306)/teclu912_CaptivePortal", val.Encode())
+	dbUser := viper.GetString("DB_USER")
+	dbPassword := viper.GetString("DB_PASSWORD")
+	dbHost := viper.GetString("DB_HOST")
+	dbPort := viper.GetString("DB_PORT")
+	dbName := viper.GetString("DB_NAME")
+	dns := fmt.Sprintf("%s?%s", 
+	fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",dbUser,dbPassword,dbHost,dbPort,dbName),
+	 val.Encode())
 	db, err := sql.Open("mysql", dns)
 	if err != nil {
 		log.Println(err)
