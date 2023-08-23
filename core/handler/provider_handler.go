@@ -129,7 +129,7 @@ func (p *providerHandler) SmsCallback(c echo.Context) (err error) {
 	// } else {
 	// 	response, _ := json.Marshal(*resp)
 	// 	log.Println("Response: " + string(response))
-	// }
+	// }	
 	return c.JSON(http.StatusOK, nil)
 }
 

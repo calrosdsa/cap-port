@@ -2,8 +2,9 @@
 :root {
     --primary: {{ .Properties.Color }};
     --onPrimary:#ffffff;
-    --textColor:#ffffff;
+    --textColor:{{ .Properties.TextColor }};
     --background: {{ .Properties.BackgroundColor}};
+    --inputBackground: rgba(198, 195, 195, 0.2);
   }
   
   body{
@@ -104,7 +105,7 @@
   border:none;
   padding:15px 20px;
   border-radius:25px;
-  background:rgba(237, 234, 234, 0.2);
+  background:var(--inputBackground);
   }
   .login-form .group input[data-type="password"]{
   text-security:circle;
@@ -123,7 +124,7 @@
       padding-left: 10px;
       height: 45px;
       color: var(--textColor);
-      background:rgba(237, 234, 234, 0.2);
+      background:var(--inputBackground);
   }
 
   .login-html .tab + .sign-up + .tab + .login-form .sign-in-html{

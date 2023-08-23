@@ -75,8 +75,9 @@ func (m *portalRepo) UpdateSplashPage(ctx context.Context,d r.BasicPortal)(err e
 	if err != nil {
 		log.Println(err)
 	}
-	query = `update portal_properties set color = ?,background = ?,image_background = ? where id = ?`
-	_,err = m.Conn.ExecContext(ctx,query,d.Properties.Color,d.Properties.BackgroundColor,d.Properties.ImageBackground,d.Properties.Id)
+	query = `update portal_properties set color = ?,background = ?,image_background = ?,text_color = ? where id = ?`
+	_,err = m.Conn.ExecContext(ctx,query,d.Properties.Color,d.Properties.BackgroundColor,d.Properties.ImageBackground,
+		d.Properties.TextColor,d.Properties.Id)
 	if err != err {
 		log.Println(err)
 	}
@@ -93,7 +94,7 @@ func(m *portalRepo) GetSplashPage(ctx context.Context,code string)(res r.BasicPo
 	query := `select p.id,p.name,p.urlSplash,p.urlPath,bucket_name,
 	logo.id,logo.height,logo.width,logo.url,logo.object_fit,
 	portada.id,portada.height,portada.width,portada.url,portada.object_fit,
-	properties.id,properties.color,properties.background,properties.image_background,
+	properties.id,properties.color,properties.background,properties.image_background,properties.text_color,
 	setting.id,setting.provider,setting.url_redirect
 	from splashpage as p
 	inner join portal_logo as logo on logo.id_portal = p.id
@@ -107,6 +108,7 @@ func(m *portalRepo) GetSplashPage(ctx context.Context,code string)(res r.BasicPo
 		&res.Logo.Id,&res.Logo.Height,&res.Logo.Width,&res.Logo.Url,&res.Logo.ObjectFit,
 		&res.Image.Id,&res.Image.Height,&res.Image.Width,&res.Image.Url,&res.Image.ObjectFit,
 		&res.Properties.Id,&res.Properties.Color,&res.Properties.BackgroundColor,&res.Properties.ImageBackground,
+		&res.Properties.TextColor,
 		&res.Settings.Id,&res.Settings.Provider,&res.Settings.UrlRedirect,
 	)
 	if err != nil{

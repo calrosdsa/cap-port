@@ -35,6 +35,7 @@ type ImageBackground struct {
 type Properties struct {
 	Id              int    `json:"id"`
 	Color           string `json:"color"`
+	TextColor       string `json:"text_color"`
 	BackgroundColor string `json:"background"`
 	ImageBackground string `json:"image_background"`
 }

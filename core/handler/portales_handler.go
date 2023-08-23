@@ -60,6 +60,7 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 		Properties: portal.Properties{
 			Color:           "#21611d",
 			BackgroundColor: "#ffffff",
+			TextColor: "#000000",
 			// ImageBackground: "https://teclu-portal.s3.sa-east-1.amazonaws.com/5/yogem/media/yogem.jpg",
 		},
 	}
