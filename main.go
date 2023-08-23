@@ -33,7 +33,7 @@ import (
 
 func init() {
 	// viper.SetConfigFile(`/home/rootuser/.env`)
-	viper.SetConfigFile(`./.env`)
+	viper.SetConfigFile(`/home/rootuser/cap-port/.env`)
 
 	err := viper.ReadInConfig()
 	if err != nil {
