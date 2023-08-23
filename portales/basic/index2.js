@@ -1,0 +1,1 @@
+let urlRedirect ="{{.Settings.UrlRedirect}}"

@@ -17,15 +17,16 @@
       <!-- <script defer src="../teclu/formulario-teclu/formulario-common.js"></script> -->
       <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/formulario-common.js"></script>
       <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
+      <script defer src="{{ .Image.Url }}"></script>
          <style>
-         {{ .Style }}
+         {{ .StyleCss }}
          </style>
       </head>
       <body>
           
       <div id="form" class="login-html">
 
-        <div class="header">
+        <div class="">
        
         <div class="imageContainer">
           <img src="{{ .Image.Url }}" class="image" alt="">
@@ -78,7 +79,7 @@
         </div>
 
         <div style="padding-left: 20px;padding-right: 20px;">
-          <div style="display: flex;justify-content: center;width: 100%;padding-top: 15px;">
+          <div style="logoContainer">
             <img id="logo" class="logo"
             src="{{ .Logo.Url }}" alt="">
           </div>

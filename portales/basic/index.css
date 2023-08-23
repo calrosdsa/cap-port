@@ -53,7 +53,7 @@ body{
   .hr{
     height:1px;
     margin:15px 0 15px 0;
-    background:{{ .Content.ButtonColor }};
+    background: aquamarine;
     /* position: absolute; */
     /* max-width: 525px; */
     width: 100%;

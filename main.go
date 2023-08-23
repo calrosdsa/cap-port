@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	_ws "portal/ws"
+	// _ws "portal/ws"
 	"time"
 
 	"os"
@@ -86,75 +86,22 @@ func main() {
 		fmt.Println(challenge)
 		return c.String(http.StatusOK, challenge)
 	})
-	timeout := time.Duration(2) * time.Second
+	timeout := time.Duration(20) * time.Second
 
 	portalR := repo.NewPortalRepo(db)
-	portalU := ucase.NewPortalUcase(timeout,portalR)
+	portalU := ucase.NewPortalUcase(timeout,portalR,sess)
 	handler.NewPortalHandler(e,sess,portalU)
 	handler.NewMediaHandler(e,sess)
 	handler.NewS3Handler(e,sess)
 	// handler.NewTemplateHandler(e)
 	// handler.NewHandlerProvider(e,client)
-	_ws.NewWebsocketHanlder(e)
-	go _ws.H.Run()
-	e.GET("/room/:roomId", func(c echo.Context)(err error) {
-		return c.File("homeweb.html")
-	})
-	e.GET("/v1/ws/:roomId", func(c echo.Context)(err error) {
-		roomId := c.Param("roomId")
-		_ws.ServeWs(c.Response(), c.Request(), roomId)
-		return nil
-	})
-
-	// Route => handler
-
-	// Start the Echo server
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
-// package main
+// mysql -u teclu912_userExt -p'O#S~#UjSRxz?' -h 192.254.234.204 -P 3306 -D teclu912_radius > /etc/freeradius/mods-config/sql/main/mysql/schema.sql
 
-// import (
-// 	"fmt"
-// 	"os"
-// 	"portal/util"
-// 	"github.com/aws/aws-sdk-go/aws"
-// 	"github.com/aws/aws-sdk-go/aws/credentials"
-// 	"github.com/aws/aws-sdk-go/aws/session"
-// )
+// ln -s /etc/freeradius/mods-available/sql /etc/freeradius/mods-enabled/
 
-// func main() {
-//     // Initialize a session in us-west-2 that the SDK will use to load
-//     // credentials from the shared credentials file ~/.aws/credentials.
-// 	// if len(os.Args) != 2 {
-//     //     exitErrorf("Bucket name required\nUsage: %s bucket_name",
-//     //         os.Args[0])
-//     // }
-
-//     // bucket := os.Args[1]
-// 	creds := credentials.NewStaticCredentials("AKIAUDAYME7K3ZBHIAUP", "tXGbK/mI05E7jAiv0PuiYZeMC051ljmWu+rHpHC9", "")
-//     sess, err := session.NewSession(&aws.Config{
-//         Region: aws.String("sa-east-1"),
-// 		Credentials: creds,
-// 	},)
-// 	if err != nil {
-//         exitErrorf("%v", err)
-//     }
-//     // Create S3 service client
-// 	// util.ListObjects(bucket,sess)
-// 	util.UplaodObject("teclu-portal",sess)
-//     // result, err := svc.ListBuckets(nil)
-//     // if err != nil {
-//     //     exitErrorf("Unable to list buckets, %v", err)
-//     // }
-
-//     // fmt.Println("Buckets:")
-
-//     // for _, b := range result.Buckets {
-//     //     fmt.Printf("* %s created on %s\n",
-//     //         aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
-//     // }
-// }
 
 func exitErrorf(msg string, args ...interface{}) {
     fmt.Fprintf(os.Stderr, msg+"\n", args...)

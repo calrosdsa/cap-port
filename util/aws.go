@@ -78,6 +78,7 @@ package util
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"mime/multipart"
 	"os"
@@ -125,10 +126,11 @@ func UplaodHtmlTemplate(file *os.File,bucket string, sess *session.Session)(err 
 	return
 }
 
-func UplaodHtmlTemplateAsBytes(b []byte,dest string,bucket string, sess *session.Session)(err error) {
+func UplaodHtmlTemplateAsBytes(ctx context.Context,b []byte,dest string,bucket string, sess *session.Session)(
+	url string,err error) {
     uploader := s3manager.NewUploader(sess)
 	reader := bytes.NewReader(b)
-    _, err = uploader.Upload(&s3manager.UploadInput{
+    output, err := uploader.UploadWithContext(ctx,&s3manager.UploadInput{
         Bucket: aws.String(bucket),
         Key: aws.String(dest),
         Body: reader,
@@ -142,7 +144,7 @@ func UplaodHtmlTemplateAsBytes(b []byte,dest string,bucket string, sess *session
     }
 
     fmt.Printf("Successfully uploaded %q to %q\n", dest, bucket)
-	return
+	return output.Location,nil
 }
 
 func UplaodObject(file *multipart.FileHeader,bucket string, sess *session.Session)(url string,err error) {

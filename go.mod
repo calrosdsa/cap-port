@@ -8,6 +8,8 @@ require (
 	github.com/spf13/viper v1.15.0
 )
 
+require github.com/google/uuid v1.3.0 // indirect
+
 require (
 	github.com/aws/aws-sdk-go v1.44.204 // indirect
 	github.com/dsnet/compress v0.0.1 // indirect

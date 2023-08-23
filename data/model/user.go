@@ -7,5 +7,4 @@ type User struct{
 	Birth string`json:"birth"`
 	CreatedOn string `json:"created_on"`
 	Gender string `json:"gender"`
-	
 }
