@@ -2,11 +2,13 @@ package use_cases
 
 import (
 	"context"
+	"fmt"
 	"portal/data/model/portal"
 	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/spf13/viper"
 
 	"bytes"
 	"html/template"
@@ -62,6 +64,8 @@ func (u *portalUcase) CreatePortal(ctx context.Context, d portal.PortalRequest) 
 		Settings: portal.PortalSettings{
 			ProviderUrl: util.GetProvider(d.Provider),
 			UrlRedirect: d.UrlRedirect,
+			// PortalType: d.PortalType,
+			PortalTypeName: util.GetPortalTypeName(d.PortalType),
 		},
 	}
 
@@ -89,6 +93,7 @@ func (u *portalUcase) GetSplashPage(ctx context.Context, code string) (res porta
 	defer cancel()
 	res, err = u.portalRepo.GetSplashPage(ctx, code)
 	res.Settings.ProviderUrl = util.GetProvider(res.Settings.Provider)
+	res.Settings.PortalTypeName = util.GetPortalTypeName(res.Settings.PortalType)
 	return
 }
 
@@ -117,8 +122,9 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	if data.Properties.ImageBackground != "" {
 		data.Properties.BackgroundColor = "#00000066"
 	}	
-	csstmlp, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.css")
-	// csstmlp, err := template.ParseFiles("portales/basic/index2.css")
+	path := viper.GetString("PATH")
+	// csstmlp, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.css")
+	csstmlp, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.css",path,data.Settings.PortalTypeName))
 	log.Println(data.Base.BucketName,data.Base.PathName)
 	if err != nil {
 		log.Println(err)
@@ -135,8 +141,8 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	data.StyleCss = css
 
 
-	jstmpl, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.js")
-	// jstmpl, err := template.ParseFiles("portales/basic/index2.js")
+	// jstmpl, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.js")
+	jstmpl, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.js",path,data.Settings.PortalTypeName))
 	if err != nil {
 		log.Println(err)
 		return
@@ -152,8 +158,8 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	data.JsCode = js
 
 
-	t, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.html")
-	// t, err := template.ParseFiles("portales/basic/index2.html")
+	// t, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.html")
+	t, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.html",path,data.Settings.PortalTypeName))
 	if err != nil {
 		log.Println(err)
 		return

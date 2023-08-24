@@ -56,18 +56,19 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 		Settings: portal.PortalSettings{
 			UrlRedirect: "https://www.facebook.com/HeladosYogenFruzBolivia/?locale=es_LA",
 			ProviderUrl: util.GetProvider(portal.Cisco),
+			PortalTypeName: util.GetPortalTypeName(1),
 		},
 		Properties: portal.Properties{
 			Color:           "#21611d",
 			BackgroundColor: "#ffffff",
 			TextColor: "#000000",
-			// ImageBackground: "https://teclu-portal.s3.sa-east-1.amazonaws.com/5/yogem/media/yogem.jpg",
+			ImageBackground: "https://teclu-portal.s3.sa-east-1.amazonaws.com/5/yogem/media/yogem.jpg",
 		},
 	}
 	if data.Properties.ImageBackground != "" {
 		data.Properties.BackgroundColor = "#00000066"
 	}
-	csstmlp, err := template.ParseFiles("./portales/basic/index2.css")
+	csstmlp, err := template.ParseFiles("./portales/validate-like/index.css")
 	if err != nil {
 		log.Println(err)
 		return
@@ -82,7 +83,7 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 	css := template.CSS(bodyCss.String())
 	data.StyleCss = css
 
-	jstmpl, err := template.ParseFiles("./portales/basic/index2.js")
+	jstmpl, err := template.ParseFiles("./portales/validate-like/index.js")
 	if err != nil {
 		log.Println(err)
 		return
@@ -97,7 +98,7 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 	data.JsCode = js
 
 
-	t, err := template.ParseFiles("./portales/basic/index2.html")
+	t, err := template.ParseFiles("./portales/validate-like/index.html")
 	if err != nil {
 		log.Println(err)
 		return

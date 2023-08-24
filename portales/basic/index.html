@@ -1,346 +1,177 @@
-<html lang="es">
-    <head>
-         <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link
-      rel="stylesheet"
-      href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/intlTelInput.css"
-    />
-    <!-- <link rel="stylesheet" href="index.css"> -->
-    <script src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/intlTelInput.min.js"></script>
-    <!-- <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
-/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script> -->
-      <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/formulario-teclu.v2.js"></script> -->
-      <!-- <script defer src="../teclu/formulario-teclu/formulario-common.js"></script> -->
-      <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/formulario-common.js"></script>
-      <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
-      <script defer src="{{ .Image.Url }}"></script>
-         <style>
-         {{ .StyleCss }}
-         </style>
-      </head>
-      <body>
-          
-      <div id="form" class="login-html">
-
-        <div class="">
-       
-        <div class="imageContainer">
-          <img src="{{ .Image.Url }}" class="image" alt="">
-        </div>
-
-        <div class="hr"></div>
-        <div style="width: 100%; margin-left:auto;margin-right: auto;padding-left: 10px;padding-right: 10px;">
-          
-            <h4  style="text-align: center;">Elije tu metodo de conexion</h4>
-            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));gap: 5px;">
-
-              <div style="background-color:#4267B2; width: 100%;color: white;
-              display: flex;justify-content: center;flex-direction: column; align-items: center;">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 48 48" width="48px" height="48px"><path fill="#fff" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"/>
-                 <path fill="#4267B2" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/></svg>
-              </div>
-              <div style="background-color:#039be5; width: 100%;color: white;
-              display: flex;justify-content: center;flex-direction: column; align-items: center;">
-              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#ffff" d="M42,12.429c-1.323,0.586-2.746,0.977-4.247,1.162c1.526-0.906,2.7-2.351,3.251-4.058c-1.428,0.837-3.01,1.452-4.693,1.776C34.967,9.884,33.05,9,30.926,9c-4.08,0-7.387,3.278-7.387,7.32c0,0.572,0.067,1.129,0.193,1.67c-6.138-0.308-11.582-3.226-15.224-7.654c-0.64,1.082-1,2.349-1,3.686c0,2.541,1.301,4.778,3.285,6.096c-1.211-0.037-2.351-0.374-3.349-0.914c0,0.022,0,0.055,0,0.086c0,3.551,2.547,6.508,5.923,7.181c-0.617,0.169-1.269,0.263-1.941,0.263c-0.477,0-0.942-0.054-1.392-0.135c0.94,2.902,3.667,5.023,6.898,5.086c-2.528,1.96-5.712,3.134-9.174,3.134c-0.598,0-1.183-0.034-1.761-0.104C9.268,36.786,13.152,38,17.321,38c13.585,0,21.017-11.156,21.017-20.834c0-0.317-0.01-0.633-0.025-0.945C39.763,15.197,41.013,13.905,42,12.429"/></svg>
-              </div>
-              <div style="background-color:green; width: 100%;color: white;
-              display: flex;justify-content: center;flex-direction: column; align-items: center;">
-               <svg version="1.0"  id="Layer_1" width="48px"  height="48px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-               x="0px" y="0px"
-               viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;padding: 6px;" xml:space="preserve">
-             <style type="text/css">
-               .st0{fill:#ffffff;}
-               .st1{fill:none;stroke:#ffffff;stroke-width:2;stroke-miterlimit:10;}
-               .st2{fill:none;}
-
-             </style>
-             <g>
-               <path class="st0" d="M14.2,1.8v12.4H1.8V1.8H14.2 M15.2,0.8H0.8v14.4h14.4V0.8L15.2,0.8z"/>
-             </g>
-             <line class="st1" x1="3.2" y1="4.3" x2="12.8" y2="4.3"/>
-             <line class="st1" x1="3.2" y1="7.8" x2="12.8" y2="7.8"/>
-             <line class="st1" x1="3.2" y1="11.6" x2="12.8" y2="11.6"/>
-             <rect class="st2" width="15.8" height="16"/>
-             </svg>
-              </div>
-              <div style="background-color:#0288D1; width: 100%;color: white;
-              display: flex;justify-content: center;flex-direction: column; align-items: center;">
-              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#fff" d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"/><path fill="#0288D1" d="M12 19H17V36H12zM14.485 17h-.028C12.965 17 12 15.888 12 14.499 12 13.08 12.995 12 14.514 12c1.521 0 2.458 1.08 2.486 2.499C17 15.887 16.035 17 14.485 17zM36 36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698-1.501 0-2.313 1.012-2.707 1.99C24.957 25.543 25 26.511 25 27v9h-5V19h5v2.616C25.721 20.5 26.85 19 29.738 19c3.578 0 6.261 2.25 6.261 7.274L36 36 36 36z"/></svg>
-              </div>
-
-            </div>
-        </div>
-
-        </div>
-
-        <div style="padding-left: 20px;padding-right: 20px;">
-          <div style="logoContainer">
-            <img id="logo" class="logo"
-            src="{{ .Logo.Url }}" alt="">
-          </div>
-          <div class="hr"></div>
-        <div>
-
-          <h3 style="text-align: center;">Welcome to my website</h3>
-          <p>Welcome to Purple.
-          You're only a few short steps away from getting online by choosing from any of the login methods available. Whichever 
-          you choose,rest assured we take privacy 
-          and data protection very seriously. Our WiFi is secure and encrypted and we'll never post anything on your behalf.
-        </p>
-
-        
-      </div>
-      </div>
-
-          <form id="formulario" style="display: none;">
-            <div style="margin-top: 20px;"></div>
-          <div class="group">
-              <label for="name" class="label">Nombre</label>
-              <input id="name" type="text" class="input" required>
-          </div>
-          <div class="group">
-            <label for="apellido" class="label">apellido</label>
-            <input id="apellido" type="text" class="input" required>
-        </div>
-          <div class="group">
-              <label for="mail" class="label">Email</label>
-              <input id="mail" type="email" class="input" required>
-          </div>
-          <div class="group">
-              <label for="phone" class="label">Numero de Telefono</label>
-              <!-- <input id="movil"  type="tel" class="input" required> -->
-              <input id="phone" type="tel" name="phone" required/>
-          </div>
-          <div class="group">
-              <label for="birthday" class="label">Fecha de Nacimiento</label>
-              <input id="birthday"  type="date" class="input" required>
-          </div>
-  
-          <div class="group">
-              <label for="gender" class="label">Genero</label>
-
-              <div style="padding: 10px;display: flex;">
-                <input id="checkH" type="radio" class="check" name="gender" required>
-                <label for="checkH" class="label" style="padding-right: 10px;display: flex;align-items: center;">
-                  <span class="icon"></span>
-                  
-                  <span style="padding-left: 5px;">Masculino</span>
-                </label>
-                <!-- <br> -->
-                <input id="checkM" type="radio" class="check" name="gender" required>
-                <label for="checkM" class="label" style="display: flex;align-items: center;">
-                  <span class="icon"></span>
-                  <span  style="padding-left: 5px;">Femenino</span>
-                </label>
-
-                <!--   <input type="radio" id="male" name="gender" value="Masculino">
-                  <label for="male">Masculino</label><br>
-                  <input type="radio" id="famele" name="gender" value="Femenino">
-                  <label for="famele">Femenino</label><br> -->
-              </div>
-            
-            </div>
-
-          <!-- <div class="group">
-          <input id="check" type="checkbox" class="check" checked>
-          <label for="check"><span class="icon"></span> Aceptar</label>
-          </div> -->
-
-
-          <div class="group">
-          <input id="submitButton" type="submit" style="display: none;" >
-          <label for="submitButton" class="button" style="display: flex;justify-content: center;font-weight: 500;">
-              <span id="submitText">Acceder</span> 
-              <div id="loader" style="display: none;" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-          </label>
-          </div>
-        </form>
-        
-      
-
-
-        <div class="hr" >
-          <div style="display: flex;justify-content: center;padding-top: 15px">
-            <a href="https://teclu.com" style="padding-bottom: 10px; font-size: 13px; font-weight: 400;">Elaborado por Teclu</a>
-          </div>
-        </div>
-        <div id="snackbar"></div>
-      
-      </div>
-      </body>
-      <script>
-   
-      function getParams(){
-          const urlSearchParams = new URLSearchParams(window.location.search);
-          const params = Object.fromEntries(urlSearchParams.entries());
-          return params
-      }
-      const phoneInputField = document.querySelector("#phone");
-      const params = getParams()
-      const clientMac = params.clientMac
-      const apMac = params.apMac
-      const ssid = params.essidName
-      const phoneInput = window.intlTelInput(phoneInputField, {
-          initialCountry: "bo",
-          utilsScript:"https://teclu-portal.s3.sa-east-1.amazonaws.com/js/utils.js",
-        });
-      document.getElementById("form").addEventListener("submit", myFunction);
-      let isAllowedSubmit = true;
-      const submitUrl = "http://" + params.target + ":" + params.targetPort + "/portal/radius/browserauth";   
-
-      async function showFormulario(){
-      const submitText ="#accessText"
-      const loader = "#loaderAccess"
-      try{   
-          showLoadingButton(loader,submitText)
-          await getUserByMacAddress(params.clientMac)
-          hiddenLoading(loader,submitText)
-
-      }catch(err){
-          hiddenLoading(loader,submitText)
-      }
-    }
-
-    
-      function sendRequestToAp(id) {
-      let form = document.createElement("form");
-      form.style="visibility: hidden;display: none;";
-      let element1 = document.createElement("input"); 
-      let element2 = document.createElement("input");  
-      let element3 = document.createElement("input");
-      let element4 = document.createElement("input"); 
-      let element5 = document.createElement("input"); 
-      let element6 = document.createElement("input"); 
-      let element7 = document.createElement("input"); 
-      let element8 = document.createElement("input"); 
-      // var submitUrl = "http://" + params.target + ":" + params.targetPort + "/portal/radius/browserauth";
-
-      form.method = "POST";
-      // form.action = "https://securelogin.arubanetworks.com/swarm.cgi";   
-      form.action = submitUrl;
-      form.id= "login-form"
-      element1.value=id;
-      element1.type = "text"
-      element1.name="username";
-      element1.id="username";
-      form.appendChild(element1);  
-
-      element2.value="27kkrY3cqF";
-      element2.type = "password"
-      element2.name="password";
-      element2.id="password";
-      form.appendChild(element2);
-
-      element3.value=params.clientMac;
-      // element3.type = "hidden";
-      element3.name="clientMac";
-      element3.id="clientMac";
-      form.appendChild(element3);
-
-      element4.value=params.clientIp;
-      // element4.type = "hidden";
-      element4.name="clientIp";
-      element4.id="clientIp";
-      form.appendChild(element4);
-
-      element4.value=params.ssidName;
-      // element4.type = "hidden";
-      element4.name="ssidName";
-      element4.id="ssidName";
-      form.appendChild(element4);
-
-      element5.value=params.radioId;
-      // element5.type = "hidden";
-      element5.name="radioId";
-      element5.id="radioId";
-      form.appendChild(element5);
-
-      element6.value=2;
-      // element6.type = "hidden";
-      element6.name="authType";
-      element6.id="authType";
-      form.appendChild(element6);
-
-      element7.value=params.originUrl;
-      // element7.type = "hidden";
-      element7.name="originUrl";
-      element7.id="originUrl";
-      form.appendChild(element7);
-
-      element8.value=params.apMac;
-      // element7.type = "hidden";
-      element8.name="apMac";
-      element8.id="apMac";
-      form.appendChild(element8);
-
-      document.body.appendChild(form);
-      form.submit();
-      }
-
-
+<!DOCTYPE html>
+<html>
+  <head>
+     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    rel="stylesheet"
+    href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/intlTelInput.css"
+  />
+  <script src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/intlTelInput.min.js"></script>
+  <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
+  <script defer src=" {{ .Settings.ProviderUrl }}"></script>
+  <script defer src="https://portal-default.s3.sa-east-1.amazonaws.com/template/basic/index.js"></script>
+    <style>
+        {{ .StyleCss }}
+    </style>
      
-      async function myFunction(event) {
-        event.preventDefault();
-        try{
-        const male = document.querySelector("#checkH")
-        const famele = document.querySelector("#checkM")
-        let genero;
-       
-        if(male.checked){
-          genero = "Masculino"
-        }else if(famele.checked) {
-          genero = "Femenino"
-        }else{
-          showSnackBar("Porfavor seleccione su genero");
-          // showSnackBar();
-          return
-        }
-        // console.log(typeof male.checked)
-        // console.log(famele.value)
-        const macAddress = params.clientMac
-        const submitText ="#submitText"
-        const loader = "#loader"
-        const birthday = document.querySelector("#birthday");
-        // const movil = document.querySelector("#movil");
-              const phoneNumber = phoneInput.getNumber();
+    </head>
+    <body>
+        <div class="login-wrap">
+<div class="login-html">
+  <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" style="display: none;" class="tab">Form</label>
+  <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab" style="display: none;">Sign Up</label>
+  <div class="login-form">
+    <form id="form" class="sign-in-html">
+      <div class="logoContainer">
+        <img id="logo" class="logo" src="{{ .Logo.Url }}" alt="">
+      </div>
+      <div class="imageContainer">
+        <img src="{{ .Image.Url }}" class="image" alt="">
+      </div>
 
-        // const gender = document.querySelector("#gender");
-        // console.log(genero)
-        const mail = document.querySelector("#mail");
-        const name = document.querySelector("#name");
-        const apellido = document.querySelector("#apellido");
-        const fullName = name.value + " " + apellido.value
-          showLoadingButton(loader,submitText)
-          console.log(`phone number es ${phoneNumber}`)
+          <div id="buttonAccess" class="group">
+            <button onclick="showFormulario()"
+             class="button" style="display: flex;justify-content: center;font-weight: 500;margin-top: 50px;">
+                <span id="accessText">Acceder</span> 
+                <div id="loaderAccess" style="display: none;" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+            </button>
+            </div>
+
+        <div id="formulario" style="display: none;">
+          <div style="margin-top: 20px;"></div>
+        <div class="group">
+            <label for="name" class="label">Nombre*</label>
+            <input id="name" type="text" class="input" required>
+        </div>
+        <div class="group">
+          <label for="apellido" class="label">Apellido*</label>
+          <input id="apellido" type="text" class="input" required>
+      </div>
+        <div class="group">
+            <label for="mail" class="label">Email*</label>
+            <input id="mail" type="email" class="input" required>
+        </div>
+        <div class="group">
+            <label for="phone" class="label">Numero de Telefono*</label>
+            <input id="phone" type="tel" name="phone" class="inputNumber" required/>
+        </div>
+        <div class="group">
+            <label for="birthday" class="label">Fecha de Nacimiento*</label>
+            <input id="birthday"  type="date" class="input" required>
+        </div>
+
+        <div class="group">
+            <label for="gender" class="label">Genero*</label>
+
+            <div style="padding: 10px;display: flex;width: 90%;justify-content: space-between;">
+           
+         
+              <div style="padding: 10px;display: flex;width: 90%;justify-content: space-between;">
+           
+                <label style="display: flex;align-items: center;justify-content: center;">
+                  <input id="male" type="radio" name="genero" value="male" required/>
+                <span style="font-size: 14px;margin-left: 2px;">
+                  Masculino
+                </span> 
+                </label>
+  
+                <label style="display: flex;align-items: center;justify-content: center;">
+                  <input id="famele" type="radio" name="genero" value="famele" required/>
+                <span style="font-size: 14px;margin-left: 2px;">
+                  Femenino
+                </span> 
+                </label>
+  
+                <label style="display: flex;align-items: center;justify-content: center;">
+                  <input id="other" type="radio" name="genero" value="other" required/>
+                <span  style="font-size: 14px;margin-left: 2px;">
+                  Otro
+                </span> 
+                </label>
+                
+              </div>
+
+             
+            </div>
           
-          await saveUser(mail.value,fullName);
-          await addUser(fullName,mail.value,mail.value,genero,birthday.value,phoneNumber,macAddress);
-          await addConnexionWifi(fullName,mail.value,macAddress,params.apMac,params.ssidName)
-          sendRequestToAp(mail.value)
-          hiddenLoading(loader,submitText)
+        </div>
 
-          // loader.style = "display: none;";
-          // submitText.style = "";
-        }catch(err){
-            console.log(err)
-          hiddenLoading(loader,submitText)
-          // loader.style = "display: none;";
-          // submitText.style = "";
+        <div class="group">
+        <input id="submitButton" type="submit" style="display: none;" >
+        <label for="submitButton" class="button" style="display: flex;justify-content: center;font-weight: 500;">
+            <span id="submitText">Acceder</span> 
+            <div id="loader" style="display: none;" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        </label>
+        </div>
+      </div>
+      
+     
+
+
+      <div class="hr" >
+        <div style="display: flex;justify-content: center;padding-top: 15px;font-size: 13px;">
+          <a href="https://teclu.com">By Teclu</a>
+        </div>
+      </div>
+      <div id="snackbar"></div>
+    
+    </form>
+
+
+    </div>
+</div>
+</div>
+    </body>
+    <script>
+        {{ .JsCode }}
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+        initialCountry: "bo",
+        utilsScript: "https://teclu-portal.s3.sa-east-1.amazonaws.com/js/utils.js"
+        });
+        document.getElementById("form").addEventListener("submit", myFunction);
+        let isAllowedSubmit = true;
+        async function myFunction(event) {
+        event.preventDefault();
+        try {
+            if(clientMac == undefined) return;
+            let genero;
+            const male = document.querySelector("#male");
+            const famele = document.querySelector("#famele");
+            const other = document.querySelector("#other");
+            if (male.checked) {
+            genero = "Masculino";
+            } else if (famele.checked) {
+            genero = "Femenino";
+            } else if (other.checked){
+              genero = "Otro"
+            }
+
+            const macAddress = clientMac;
+            const submitText = "#submitText";
+            const loader = "#loader";
+            const birthday = document.querySelector("#birthday");
+            const phoneNumber = phoneInput.getNumber();
+            const mail = document.querySelector("#mail");
+            const name = document.querySelector("#name");
+            const apellido = document.querySelector("#apellido");
+            const fullName = name.value + " " + apellido.value;
+            showLoadingButton(loader, submitText);
+            console.log(`phone number es ${phoneNumber}`);
+            await saveUser(mail.value, fullName);
+            await addUser(fullName, mail.value, mail.value, genero, birthday.value, phoneNumber, macAddress);
+            hiddenLoading(loader, submitText);
+            loader.style = "display: none;";
+            submitText.style = "";
+            await addConnexionWifi(idUserWifi,fullName, mail.value, clientMac, apMac, ssid);
+            sendRequestToAp(mail.value);
+        } catch (err) {
+            console.log(err);
+            hiddenLoading(loader, submitText);
         }
-      }
-
-      // window.onload = function(){
-      //   const phoneInputField = document.querySelector("#phone");
-      //   const phoneInput = window.intlTelInput(phoneInputField, {
-      //     initialCountry: "bo",
-      //   });
-      // }
-      </script>
-  </html>
+        }
+    </script>
+</html>
 
 

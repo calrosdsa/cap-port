@@ -6,19 +6,18 @@ import (
 	"time"
 )
 
-
-
 type BasicPortal struct {
-	Base PortalBase `json:"portal"`
+	Base     PortalBase     `json:"portal"`
 	Settings PortalSettings `json:"settings"`
 	// Title           Title           `json:"title"`
 	// Description     Description     `json:"description"`
-	Image           Image           `json:"image"`
+	Image Image `json:"image"`
 	// Content         Content         `json:"content"`
-	Logo       Logo         `json:"logo"`
-	StyleCss   template.CSS `json:"style,omitempty"`
-	JsCode     template.JS  `json:"js_code,omitempty"`
-	Properties Properties   `json:"properties"`
+	Logo              Logo                     `json:"logo"`
+	StyleCss          template.CSS             `json:"style,omitempty"`
+	JsCode            template.JS              `json:"js_code,omitempty"`
+	Properties        Properties               `json:"properties"`
+	ConnectionMethods []PortalConnectionMethod `json:"connection_methods"`
 }
 
 type SplashPages struct {
@@ -34,7 +33,7 @@ type PortalRepository interface {
 	GetSplashPages(ctx context.Context, id int) (res []SplashPages, err error)
 	GetSplashPage(ctx context.Context, code string) (res BasicPortal, err error)
 	UpdateSplashPage(ctx context.Context, d BasicPortal) (err error)
-	UpdateSplashPageSettings(ctx context.Context,d PortalSettings)(err error)
+	UpdateSplashPageSettings(ctx context.Context, d PortalSettings) (err error)
 	CreatePortal(ctx context.Context, d PortalRequest) (err error)
 }
 
@@ -42,19 +41,20 @@ type PortalUseCase interface {
 	GetSplashPages(ctx context.Context, id int) (res []SplashPages, err error)
 	GetSplashPage(ctx context.Context, code string) (res BasicPortal, err error)
 	UpdateSplashPage(ctx context.Context, d BasicPortal) (err error)
-	UpdateSplashPageSettings(ctx context.Context,d BasicPortal)(err error)
+	UpdateSplashPageSettings(ctx context.Context, d BasicPortal) (err error)
 	CreatePortal(ctx context.Context, d PortalRequest) (err error)
 
 	BasicPortal(ctx context.Context, d BasicPortal) (res []byte, err error)
 }
 
 type PortalRequest struct {
-	Code        string   `json:"code"`
-	Name        string   `json:"name"`
-	IdClient    int      `json:"id_client"`
-	UrlPath     string   `json:"url_path"`
-	UrlSplash   string   `json:"url_splash,omitempty"`
-	BucketName  string   `json:"bucket_name,omitempty"`
-	Provider    Provider `json:"provider"`
-	UrlRedirect string   `json:"url_redirect"`
+	Code        string     `json:"code"`
+	Name        string     `json:"name"`
+	IdClient    int        `json:"id_client"`
+	UrlPath     string     `json:"url_path"`
+	UrlSplash   string     `json:"url_splash,omitempty"`
+	BucketName  string     `json:"bucket_name,omitempty"`
+	Provider    Provider   `json:"provider"`
+	UrlRedirect string     `json:"url_redirect"`
+	PortalType  PortalType `json:"portal_type"`
 }

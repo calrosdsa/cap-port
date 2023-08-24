@@ -1,10 +1,14 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
-	"net/http"
+	// "net/http"
 	"net/url"
+	"path/filepath"
+	"runtime"
+
 	// _ws "portal/ws"
 	"time"
 
@@ -30,9 +34,9 @@ import (
 )
 
 func init() {
-	viper.SetConfigFile(`/home/rootuser/cap-port/.env`)
-	// viper.SetConfigFile(`.env`)
+	// viper.SetConfigFile(`/home/rootuser/cap-port/.env`)
 
+	viper.SetConfigFile(`.env`)
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Println(err)
@@ -40,9 +44,26 @@ func init() {
 
 	}
 
+	func Filename() (string, error) {
+		_, filename, _, ok := runtime.Caller(1)
+		if !ok {
+			return "", errors.New("unable to get the current filename")
+		}
+		return filename, nil
+	}
+	
+	
+	// Dirname is the __dirname equivalent
+	func Dirname() (string, error) {
+		filename, err := Filename()
+		if err != nil {
+			return "", err
+		}
+		return filepath.Dir(filename), nil
+	}
+
 
 func main() {
-
 	creds := credentials.NewStaticCredentials(viper.GetString("AWS_ID"), viper.GetString("AWS_SECRET"), "")
     sess, err := session.NewSession(&aws.Config{
         Region: aws.String("sa-east-1"),
@@ -83,14 +104,9 @@ func main() {
 		AllowHeaders: []string{"*"},
 		// AllowMethods: []string{"*"},
 	}))
-	e.GET("/v1/webhook/", func(c echo.Context) (err error) {
-		// hub := c.QueryParam("hub.mode")
-		fmt.Println("Received")
-		challenge := c.QueryParam("hub.challenge")
-		// token := c.QueryParam("hub.verification_token")
-		fmt.Println(challenge)
-		return c.String(http.StatusOK, challenge)
-	})
+	dir,err := Dirname()
+	log.Println(dir)
+	
 	timeout := time.Duration(20) * time.Second
 
 	portalR := repo.NewPortalRepo(db)

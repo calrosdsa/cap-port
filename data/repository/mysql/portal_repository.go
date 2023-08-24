@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"log"
 	r "portal/data/model/portal"
+	"portal/util"
 )
 
 type portalRepo struct {
@@ -54,8 +55,8 @@ func (m *portalRepo)CreatePortal(ctx context.Context,d r.PortalRequest)(err erro
 	if err != nil {
 		return
 	}
-	query = `insert into portal_settings(id_portal,url_redirect,provider)values(?,?,?)`
-	_,err = conn.ExecContext(ctx,query,lastID,d.UrlRedirect,d.Provider)
+	query = `insert into portal_settings(id_portal,url_redirect,provider,portal_type)values(?,?,?,?)`
+	_,err = conn.ExecContext(ctx,query,lastID,d.UrlRedirect,d.Provider,d.PortalType)
 	if err != nil {
 		return
 	}
@@ -95,7 +96,7 @@ func(m *portalRepo) GetSplashPage(ctx context.Context,code string)(res r.BasicPo
 	logo.id,logo.height,logo.width,logo.url,logo.object_fit,
 	portada.id,portada.height,portada.width,portada.url,portada.object_fit,
 	properties.id,properties.color,properties.background,properties.image_background,properties.text_color,
-	setting.id,setting.provider,setting.url_redirect
+	setting.id,setting.provider,setting.url_redirect,setting.portal_type
 	from splashpage as p
 	inner join portal_logo as logo on logo.id_portal = p.id
 	inner join portal_img as portada on portada.id_portal = p.id
@@ -109,12 +110,19 @@ func(m *portalRepo) GetSplashPage(ctx context.Context,code string)(res r.BasicPo
 		&res.Image.Id,&res.Image.Height,&res.Image.Width,&res.Image.Url,&res.Image.ObjectFit,
 		&res.Properties.Id,&res.Properties.Color,&res.Properties.BackgroundColor,&res.Properties.ImageBackground,
 		&res.Properties.TextColor,
-		&res.Settings.Id,&res.Settings.Provider,&res.Settings.UrlRedirect,
+		&res.Settings.Id,&res.Settings.Provider,&res.Settings.UrlRedirect,&res.Settings.PortalType,
 	)
 	if err != nil{
 		log.Println(err)
 	}
+	res.ConnectionMethods,err  =  m.getConnectionMethod(ctx,res.Base.IdPortal)
 	return
+}
+
+func (m *portalRepo)getConnectionMethod (ctx context.Context,idPortal int)(res []r.PortalConnectionMethod,err error){
+	query := `select id_portal,type_connection from portal_type_connection where id_portal = ?`
+	res,err = m.fetchTypeConnection(ctx,query,idPortal)
+	return 
 }
 
 func(m *portalRepo) GetSplashPages(ctx context.Context,id int)(res []r.SplashPages,err error){
@@ -152,6 +160,39 @@ func (m *portalRepo) fetch(ctx context.Context, query string, args ...interface{
 			&t.CreatedAt,
 			&t.UrlSplash,
 		)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		result = append(result, t)
+	}
+
+	return result, nil
+}
+
+func (m *portalRepo) fetchTypeConnection(ctx context.Context, query string, args ...interface{}) (
+	result []r.PortalConnectionMethod, err error) {
+	rows, err := m.Conn.QueryContext(ctx, query, args...)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	defer func() {
+		errRow := rows.Close()
+		if errRow != nil {
+			log.Println(err)
+		}
+	}()
+
+	result = make([]r.PortalConnectionMethod, 0)
+	for rows.Next() {
+		t := r.PortalConnectionMethod{}
+		err = rows.Scan(
+			&t.IdPortal,
+			&t.Method,
+		)
+		t.Label = util.GetMethodConnectionLabel(t.Method)
 		if err != nil {
 			log.Println(err)
 			return nil, err

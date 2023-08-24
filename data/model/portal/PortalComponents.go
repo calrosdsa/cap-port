@@ -56,10 +56,18 @@ type PortalBase struct {
 	Url        string `json:"url"`
 }
 type PortalSettings struct {
-	Id          int      `json:"id"`
-	UrlRedirect string   `json:"url_redirect"`
-	ProviderUrl string   `json:"provider_url"`
-	Provider    Provider `json:"provider"`
+	Id             int        `json:"id"`
+	UrlRedirect    string     `json:"url_redirect"`
+	ProviderUrl    string     `json:"provider_url"`
+	Provider       Provider   `json:"provider"`
+	PortalType     PortalType `json:"portal_type"`
+	PortalTypeName string     `json:"portal_type_name"`
+}
+
+type PortalConnectionMethod struct {
+	IdPortal int `json:"id_portal"`
+	Method PortalTypeConnection `json:"method"`
+	Label string `json:"label"`
 }
 
 type Provider int8
@@ -68,4 +76,20 @@ const (
 	CiscoMeraki Provider = 1
 	Cisco       Provider = 2
 	Aruba       Provider = 3
+)
+
+type PortalType int8
+
+const (
+	BasicType        PortalType = 0
+	ValidateLikeType PortalType = 1
+)
+
+
+type PortalTypeConnection  int8
+
+const (
+	BasicForm PortalTypeConnection = 0
+	FacebookValidateLike PortalTypeConnection = 1
+	EmailSolicitud PortalTypeConnection = 2
 )
