@@ -91,7 +91,7 @@ body{
 
 .image_placeholder{
     text-align: center;
-    width: {{ .Portada.Width }}%;
+    width: 100%;
     height: {{ .Portada.Height }}px;
     object-fit: {{ .Portada.ObjectFit }};    
     /* filter: brightness(80%); */

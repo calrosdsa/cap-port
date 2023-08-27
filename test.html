@@ -140,7 +140,7 @@ body{
 }
 .image{
   text-align: center;
-  width: 100%;
+  width: 50%;
   height: 225px;
   object-fit: cover;
   filter: brightness(60%);
@@ -469,7 +469,7 @@ body{
             <video class="image"
 		controls>
 		<source src="https://teclu-portal.s3.sa-east-1.amazonaws.com/video/Arctic+Monkeys+-+Do+I+Wanna+Know+(Official+Video).mp4"
-		type="video/mp4">
+		type="video/mp4" style="width: 50%;">
 	  </video>
         </div>
         <h4>Bienvenido a YPFB Transporte</h4>
@@ -509,7 +509,8 @@ body{
   </div>
   <div style="position: absolute;width: 100%;bottom: 10px;">
     <div style="display: flex;width: 100%;justify-content: center;margin-bottom: 10px;">
-      <a  href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"  
+      
+      <a  href="%3cnil%3e"    
       style="padding-right: 15px;" 
       >Políticas de privacidad</a>
       <a href="https://teclu.com">By Teclu Mobility</a>
@@ -531,6 +532,12 @@ body{
         <button class="button button2" onclick="omitirGuia()">Omitir</button>
   </div>
 </div>
+<script>
+        let urlRedirect ="https://www.facebook.com/HeladosYogenFruzBolivia/?locale=es_LA"
 
+function loginForm(){
+    window.open(`https://portal-default.s3.sa-east-1.amazonaws.com/form/cisco/formulario.html${window.location.search}`)
+}
+</script>
 </body>
 </html>

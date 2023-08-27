@@ -26,6 +26,8 @@ const (
 	class="button button1">Continuar con Email</button>`
 	FacebookValidateLikeButton = `<button id="buttonLoginFacebook" onclick="loginFacebook()"
 	class="button button1">Continuar con Facebook</button>`
+	FormButton = `<button id="buttonLoginForm" onclick="loginForm()"
+	class="button button1">Acceso con Formulario</button>`
 )
 
 func GetMethodConnectionHtml(portalType portal.PortalTypeConnection) string {
@@ -34,6 +36,8 @@ func GetMethodConnectionHtml(portalType portal.PortalTypeConnection) string {
 		return EmailSolicitudButton
 	case portal.FacebookValidateLike:
 		return FacebookValidateLikeButton
+	case portal.BasicForm:
+		return FormButton
 	default:
 		return ""
 	}
