@@ -1,5 +1,7 @@
 package portal
 
+import "html/template"
+
 type Title struct {
 	Content string `json:"content"`
 	Color   string `json:"color"`
@@ -19,11 +21,12 @@ type Content struct {
 	ButtonColor string `json:"button_color"`
 }
 
-type Image struct {
-	Id     int    `json:"id"`
-	Height string `json:"height"`
-	Width  string `json:"width"`
-	Url    string `json:"url"`
+type Portada struct {
+	Id       int     `json:"id"`
+	Height   string  `json:"height"`
+	Width    string  `json:"width"`
+	Url      string  `json:"url"`
+	VideoUrl *string `json:"video_url"`
 	// BorderRadius string `json:"border_radius"`
 	ObjectFit string `json:"object_fit"`
 }
@@ -33,11 +36,13 @@ type ImageBackground struct {
 }
 
 type Properties struct {
-	Id              int    `json:"id"`
-	Color           string `json:"color"`
-	TextColor       string `json:"text_color"`
-	BackgroundColor string `json:"background"`
-	ImageBackground string `json:"image_background"`
+	Id              int           `json:"id"`
+	Color           string        `json:"color"`
+	TextColor       string        `json:"text_color"`
+	BackgroundColor string        `json:"background"`
+	ImageBackground string        `json:"image_background"`
+	ShowVideo       bool          `json:"show_video"`
+	PortadaHtmlCode template.HTML `json:"portada_html_code,omitempty"`
 }
 
 type Logo struct {
@@ -59,15 +64,19 @@ type PortalSettings struct {
 	Id             int        `json:"id"`
 	UrlRedirect    string     `json:"url_redirect"`
 	ProviderUrl    string     `json:"provider_url"`
+	PolicyUrl      *string     `json:"policy_url"`
 	Provider       Provider   `json:"provider"`
 	PortalType     PortalType `json:"portal_type"`
 	PortalTypeName string     `json:"portal_type_name"`
 }
 
 type PortalConnectionMethod struct {
-	IdPortal int `json:"id_portal"`
-	Method PortalTypeConnection `json:"method"`
-	Label string `json:"label"`
+	IdPortal int                  `json:"id_portal,omitempty"`
+	Method   PortalTypeConnection `json:"method"`
+	Label    string               `json:"label"`
+	Enabled  bool                 `json:"enabled"`
+	HtmlCode template.HTML        `json:"html_code,omitempty"`
+	// Enabled bool `json:"enabled"`
 }
 
 type Provider int8
@@ -85,11 +94,10 @@ const (
 	ValidateLikeType PortalType = 1
 )
 
-
-type PortalTypeConnection  int8
+type PortalTypeConnection int8
 
 const (
-	BasicForm PortalTypeConnection = 0
+	BasicForm            PortalTypeConnection = 0
 	FacebookValidateLike PortalTypeConnection = 1
-	EmailSolicitud PortalTypeConnection = 2
+	EmailSolicitud       PortalTypeConnection = 2
 )

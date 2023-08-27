@@ -11,7 +11,7 @@ type BasicPortal struct {
 	Settings PortalSettings `json:"settings"`
 	// Title           Title           `json:"title"`
 	// Description     Description     `json:"description"`
-	Image Image `json:"image"`
+	Portada Portada `json:"portada"`
 	// Content         Content         `json:"content"`
 	Logo              Logo                     `json:"logo"`
 	StyleCss          template.CSS             `json:"style,omitempty"`
@@ -35,6 +35,8 @@ type PortalRepository interface {
 	UpdateSplashPage(ctx context.Context, d BasicPortal) (err error)
 	UpdateSplashPageSettings(ctx context.Context, d PortalSettings) (err error)
 	CreatePortal(ctx context.Context, d PortalRequest) (err error)
+	GetConnectionMethods(ctx context.Context, portalType PortalType) ([]PortalConnectionMethod, error)
+	UpdateConnectionMethod(ctx context.Context, d []PortalConnectionMethod, portalId int) (err error)
 }
 
 type PortalUseCase interface {
@@ -45,6 +47,8 @@ type PortalUseCase interface {
 	CreatePortal(ctx context.Context, d PortalRequest) (err error)
 
 	BasicPortal(ctx context.Context, d BasicPortal) (res []byte, err error)
+	GetConnectionMethods(ctx context.Context, portalType PortalType) ([]PortalConnectionMethod, error)
+	UpdateConnectionMethod(ctx context.Context, d []PortalConnectionMethod, portalId int) (err error)
 }
 
 type PortalRequest struct {

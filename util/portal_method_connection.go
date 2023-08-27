@@ -20,3 +20,21 @@ func GetMethodConnectionLabel(method portal.PortalTypeConnection) string {
 		return ""
 	}
 }
+
+const (
+	EmailSolicitudButton = `<button id="buttonLoginEmail" onclick="loginEmail()"
+	class="button button1">Continuar con Email</button>`
+	FacebookValidateLikeButton = `<button id="buttonLoginFacebook" onclick="loginFacebook()"
+	class="button button1">Continuar con Facebook</button>`
+)
+
+func GetMethodConnectionHtml(portalType portal.PortalTypeConnection) string {
+	switch portalType {
+	case portal.EmailSolicitud:
+		return EmailSolicitudButton
+	case portal.FacebookValidateLike:
+		return FacebookValidateLikeButton
+	default:
+		return ""
+	}
+}

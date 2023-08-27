@@ -6,16 +6,16 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"portal/util"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
 	"github.com/nickalie/go-webpbin"
-	
 	// const (
-		// base_url = "https://teclu-portal.s3.sa-east-1.amazonaws.com/"
-// )
+	// base_url = "https://teclu-portal.s3.sa-east-1.amazonaws.com/"
+	// )
 )	
 
 type MediaHandler struct {
@@ -80,59 +80,70 @@ func (m *MediaHandler)UplaodAndConverter(c echo.Context) (err error) {
 	}
 	filename := c.FormValue("filename")
 	pathName := c.FormValue("pathName")
+	isVideo,_:=strconv.ParseBool(c.FormValue("isVideo"))
 	bucketName := c.FormValue("bucketName")
-	src, err := file.Open()
-	if err != nil {
-		return err
-	}
-	dst, err := os.Create(file.Filename)
-	if err != nil {
-		return err
-	}
-	if _, err = io.Copy(dst, src); err != nil {
-		log.Println(err)
-	}
-	err = webpbin.NewCWebP().
-	Quality(40).
-	InputFile(dst.Name()).
-	OutputFile(filename).
-	Run()
-	if err != nil{
-		log.Println(err)
-		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
-	}
 	
-	fileWebp,err := os.Open(filename)
-	if err != nil{
-		log.Println(err)
-		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
-	}
-	log.Println(pathName)
-	url,err := util.UplaodObjectWebp(fileWebp, bucketName,pathName, m.sess)
-	if err != nil {
-		return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
-	}
-	defer func() {
-		src.Close()
-		if err := dst.Close(); err != nil {
-			fmt.Println(err)
+	if isVideo {
+		log.Println("SUBMITTING VIDEO")
+		url,err := util.UplaodObjectS3(file, bucketName,pathName, m.sess,filename)
+		if err != nil {
+			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 		}
-		err :=os.Remove(dst.Name())
+		return c.String(http.StatusOK, url)
+	}else {
+		src, err := file.Open()
+		if err != nil {
+			return err
+		}
+		dst, err := os.Create(file.Filename)
+		if err != nil {
+		return err
+		}
+		if _, err = io.Copy(dst, src); err != nil {
+			log.Println(err)
+		}
+		err = webpbin.NewCWebP().
+		Quality(40).
+		InputFile(dst.Name()).
+		OutputFile(filename).
+		Run()
 		if err != nil{
-			fmt.Println(err)
-		}	
-		if err := fileWebp.Close(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
+			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 		}
-		err1 :=os.Remove(filename)
-		if err1 != nil{
-			fmt.Println(err1)
+		
+		fileWebp,err := os.Open(filename)
+		if err != nil{
+			log.Println(err)
+			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
 		}
-		}()
-	// return c.File(filename)
-	return c.String(http.StatusOK, url)
-}
-
+		log.Println(pathName)
+		url,err := util.UplaodObjectWebp(fileWebp, bucketName,pathName, m.sess)
+		if err != nil {
+			return c.JSON(http.StatusUnprocessableEntity, ResponseError{Message: err.Error()})
+		}
+		defer func() {
+			src.Close()
+			if err := dst.Close(); err != nil {
+				fmt.Println(err)
+			}
+			err :=os.Remove(dst.Name())
+			if err != nil{
+				fmt.Println(err)
+				}	
+				if err := fileWebp.Close(); err != nil {
+					fmt.Println(err)
+				}
+				err1 :=os.Remove(filename)
+				if err1 != nil{
+					fmt.Println(err1)
+				}
+				}()
+				// return c.File(filename)
+				return c.String(http.StatusOK, url)
+			}
+	}
+		
 func (m *MediaHandler)UploadMedia(c echo.Context) (err error) {
 	file, err := c.FormFile("file")
 	if err != nil {

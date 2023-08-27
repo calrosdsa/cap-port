@@ -1,6 +1,9 @@
 package util
 
-import "portal/data/model/portal"
+import (
+	"fmt"
+	"portal/data/model/portal"
+)
 
 const (
 	Basic        = "basic"
@@ -15,5 +18,33 @@ func GetPortalTypeName(portalType portal.PortalType) string {
 		return ValidateLike
 	default:
 		return Basic
+	}
+}
+
+const (
+	ImageHtml = `<img src="{{ .Portada.Url }}" 
+	class="image"
+	alt="image"   
+	>`
+	VideoHtml = `<video class="image"
+	controls>
+	<source src="{{ .Portada.Url }}"
+	type="video/mp4">
+  </video>`
+)
+
+func GetPortadaSource(showVideo bool,url string) string {
+	if showVideo {
+		return fmt.Sprintf(`<video class="image"
+		controls>
+		<source src="%s"
+		type="video/mp4">
+	  </video>`,url)
+	} else {
+		return fmt.Sprintf(`
+		<img src="%s" 
+	    class="image"
+	    alt="image"   
+	    >`,url)
 	}
 }

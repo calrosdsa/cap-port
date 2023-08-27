@@ -96,25 +96,38 @@ filter: blur(px);" alt=""> -->
     >
     <div class="portal">
       <div class="image_placeholder" style="position: relative;">
-      <h3 id="titulo" class="title">Bienvenido a YPFB Transporte</h3>    
+      <!-- <h3 id="titulo" class="title">Bienvenido a YPFB Transporte</h3>     -->
             <!-- <img src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/ypfb-trnasporte-sa%28webp%29.webp" 
             id="image-main" 
             class="image_placeholder"
             style="object-fit: contain;width: 100%;filter: brightness(60%);"> -->
-            <img src="{{ .Image.Url }}" 
-              id="image-main" 
+
+            <!-- <img src="{{ .Portada.Url }}" 
               class="image"
-              alt="ypfb-transporte-sa"
-              
-              >
+              alt="image"   
+              > -->
+              <!-- <video class="image"
+              controls>
+              <source src="{{ .Portada.Url }}"
+              type="video/mp4">
+            </video> -->
+            {{ .Properties.PortadaHtmlCode }}
         </div>
-        <h4>Conéctate a nuestra red</h4>
+        <h4>Bienvenido a YPFB Transporte</h4>
+
+        <h4>Conectate a nuestra red</h4>
+
         <div class="wrapperButton"> 
+<!-- 
               <button id="buttonLoginEmail" onclick="loginEmail()"
-              class="button button1">Continuar con Email</button>
-              <button id="buttonLoginFacebook" onclick="loginFacebook()"
-              class="button button1">Continuar con Facebook</button>
-              
+              class="button button1">Continuar con Email</button> -->
+
+              <!-- <button id="buttonLoginFacebook" onclick="loginFacebook()"
+              class="button button1">Continuar con Facebook</button> -->
+              {{ range .ConnectionMethods }}
+              {{.HtmlCode}}
+              {{ end }}
+              <br>
               <button id="buttonLogout" onclick="cerrarSessionButton()" style="display: none;"  class="button button1">
                 <div style="display: flex;align-items: center; justify-content:center;">
                   <span>Cerrar sesión</span>
@@ -134,7 +147,8 @@ filter: blur(px);" alt=""> -->
   </div>
   <div style="position: absolute;width: 100%;bottom: 10px;">
     <div style="display: flex;width: 100%;justify-content: center;margin-bottom: 10px;">
-      <a  href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"  
+      <!-- <a  href="https://www.freeprivacypolicy.com/live/83964b85-328e-46c5-a236-33e4fd63a5a6"   -->
+      <a  href="{{ .Settings.PolicyUrl }}"    
       style="padding-right: 15px;" 
       >Políticas de privacidad</a>
       <a href="https://teclu.com">By Teclu Mobility</a>

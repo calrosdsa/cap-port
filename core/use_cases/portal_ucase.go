@@ -19,6 +19,7 @@ import (
 	"portal/util"
 
 	"github.com/google/uuid"
+	"golang.org/x/sync/errgroup"
 )
 
 type portalUcase struct {
@@ -42,7 +43,7 @@ func (u *portalUcase) CreatePortal(ctx context.Context, d portal.PortalRequest) 
 	clientId := strconv.Itoa(d.IdClient)
 	d.UrlPath = clientId + "/" + d.Name
 	data := portal.BasicPortal{
-		Image: portal.Image{
+		Portada: portal.Portada{
 			Width:     "100",
 			Height:    "225",
 			Url:       "https://teclu-portal.s3.sa-east-1.amazonaws.com/default/basic/portada.webp",
@@ -55,8 +56,8 @@ func (u *portalUcase) CreatePortal(ctx context.Context, d portal.PortalRequest) 
 			ObjectFit: "contain",
 		},
 		Base: portal.PortalBase{
-			BucketName:  d.BucketName,
-			PathName: d.UrlPath,
+			BucketName: d.BucketName,
+			PathName:   d.UrlPath,
 		},
 		Properties: portal.Properties{
 			Color: "#21611d",
@@ -104,28 +105,75 @@ func (u *portalUcase) UpdateSplashPage(ctx context.Context, d portal.BasicPortal
 	if err != nil {
 		return
 	}
-	_,err = u.uploadBasicPortal(ctx,d)
+	_, err = u.uploadBasicPortal(ctx, d)
 	return
 }
 func (u *portalUcase) UpdateSplashPageSettings(ctx context.Context, d portal.BasicPortal) (err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.timeout)
 	defer cancel()
-	err = u.portalRepo.UpdateSplashPageSettings(ctx, d.Settings)
-	if err != nil {
-		return
+	g, ctx := errgroup.WithContext(ctx)
+	g.Go(func() error {
+		c, cancel := context.WithTimeout(context.Background(), u.timeout)
+		defer cancel()
+		err = u.portalRepo.UpdateSplashPageSettings(c, d.Settings)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	g.Go(func() error {
+		c, cancel := context.WithTimeout(context.Background(), u.timeout)
+		defer cancel()
+		err = u.portalRepo.UpdateConnectionMethod(c, d.ConnectionMethods, d.Base.IdPortal)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	// go func() {
+	// 	err := g.Wait()
+	// 	if err != nil{
+	// 		return
+	// 	}
+	// }()
+	_, err = u.uploadBasicPortal(ctx, d)
+	if err := g.Wait(); err != nil {
+		return err
 	}
-	_,err = u.uploadBasicPortal(ctx,d)
+	return
+}
+
+func (u *portalUcase) GetConnectionMethods(ctx context.Context, portalType portal.PortalType) (
+	res []portal.PortalConnectionMethod, err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.timeout)
+	defer cancel()
+	res, err = u.portalRepo.GetConnectionMethods(ctx, portalType)
 	return
 }
 
 func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) (res []byte, err error) {
 	if data.Properties.ImageBackground != "" {
 		data.Properties.BackgroundColor = "#00000066"
-	}	
+	}
+	if data.Settings.PortalType == portal.ValidateLikeType{
+		for i, connection := range data.ConnectionMethods {
+			if connection.Enabled {
+				data.ConnectionMethods[i].HtmlCode = template.HTML(util.GetMethodConnectionHtml(connection.Method))
+			}
+		}
+		if (data.Properties.ShowVideo){
+			if data.Portada.VideoUrl != nil {
+				data.Properties.PortadaHtmlCode = template.HTML(util.GetPortadaSource(data.Properties.ShowVideo,*data.Portada.VideoUrl))
+			}
+		}else {
+			data.Properties.PortadaHtmlCode = template.HTML(util.GetPortadaSource(data.Properties.ShowVideo,data.Portada.Url))
+		}
+	}
+	log.Println(data.ConnectionMethods)
 	path := viper.GetString("PATH")
 	// csstmlp, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.css")
-	csstmlp, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.css",path,data.Settings.PortalTypeName))
-	log.Println(data.Base.BucketName,data.Base.PathName)
+	csstmlp, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.css", path, data.Settings.PortalTypeName))
+	log.Println(data.Base.BucketName, data.Base.PathName)
 	if err != nil {
 		log.Println(err)
 		return
@@ -140,9 +188,8 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	css := template.CSS(bodyCss.String())
 	data.StyleCss = css
 
-
 	// jstmpl, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.js")
-	jstmpl, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.js",path,data.Settings.PortalTypeName))
+	jstmpl, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.js", path, data.Settings.PortalTypeName))
 	if err != nil {
 		log.Println(err)
 		return
@@ -157,9 +204,8 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	js := template.JS(bodyJs.String())
 	data.JsCode = js
 
-
 	// t, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.html")
-	t, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.html",path,data.Settings.PortalTypeName))
+	t, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.html", path, data.Settings.PortalTypeName))
 	if err != nil {
 		log.Println(err)
 		return
@@ -177,12 +223,12 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 	// 	log.Println(err)
 	// 	return
 	// }
-	return 
+	return
 }
 
-func (u *portalUcase)uploadBasicPortal(ctx context.Context,data portal.BasicPortal)(url string,err error){
-	res,err := u.BasicPortal(ctx,data)
-	if err != nil{
+func (u *portalUcase) uploadBasicPortal(ctx context.Context, data portal.BasicPortal) (url string, err error) {
+	res, err := u.BasicPortal(ctx, data)
+	if err != nil {
 		return
 	}
 	url, err = util.UplaodHtmlTemplateAsBytes(ctx, res, data.Base.PathName, data.Base.BucketName, u.sess)
@@ -191,4 +237,10 @@ func (u *portalUcase)uploadBasicPortal(ctx context.Context,data portal.BasicPort
 		return
 	}
 	return
+}
+
+func (u *portalUcase) UpdateConnectionMethod(ctx context.Context, d []portal.PortalConnectionMethod, portalId int) (err error) {
+	ctx, cancel := context.WithTimeout(ctx, u.timeout)
+	defer cancel()
+	return u.UpdateConnectionMethod(ctx, d, portalId)
 }

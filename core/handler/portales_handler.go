@@ -1,24 +1,18 @@
 package handler
 
 import (
-	"bytes"
-	// "context"
-	"html/template"
+	// "bytes"
+	"context"
+	// "html/template"
 	"log"
 	"net/http"
 	"os"
-	// "time"
-
-	"portal/util"
-
 	"portal/data/model/portal"
+	"portal/util"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/labstack/echo/v4"
-	// "github.com/nickalie/go-webpbin"
-	// const (
-	// base_url = "https://teclu-portal.s3.sa-east-1.amazonaws.com/"
-	// )
 )
 
 type PortalHandler struct {
@@ -38,14 +32,18 @@ func NewPortalHandler(e *echo.Echo, sess *session.Session, ucase portal.PortalUs
 	e.GET("v1/portal/splash-pages/", handler.GetSplashPages)
 	e.POST("v1/portal/create-portal/", handler.CreatePortal)
 	e.GET("v1/portal/test/", handler.TestPortal)
+	e.GET("v1/portal/connection-methods/:portalType/", handler.GetPortalConnectionMethods)
 }
+
 func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
+	video_url := "https://teclu-portal.s3.sa-east-1.amazonaws.com/video/Arctic+Monkeys+-+Do+I+Wanna+Know+(Official+Video).mp4"
 	data := portal.BasicPortal{
-		Image: portal.Image{
+		Portada: portal.Portada{
 			Width:     "100",
 			Height:    "225",
 			Url:       "https://teclu-portal.s3.sa-east-1.amazonaws.com/default/basic/portada.webp",
 			ObjectFit: "cover",
+			VideoUrl: &video_url,
 		},
 		Logo: portal.Logo{
 			Width:     "70",
@@ -54,64 +52,38 @@ func (h *PortalHandler) TestPortal(c echo.Context) (err error) {
 			ObjectFit: "contain",
 		},
 		Settings: portal.PortalSettings{
-			UrlRedirect: "https://www.facebook.com/HeladosYogenFruzBolivia/?locale=es_LA",
-			ProviderUrl: util.GetProvider(portal.Cisco),
+			UrlRedirect:    "https://www.facebook.com/HeladosYogenFruzBolivia/?locale=es_LA",
+			ProviderUrl:    util.GetProvider(portal.Cisco),
 			PortalTypeName: util.GetPortalTypeName(1),
+			PortalType: 1,
 		},
 		Properties: portal.Properties{
 			Color:           "#21611d",
 			BackgroundColor: "#ffffff",
-			TextColor: "#000000",
+			TextColor:       "#000000",
 			ImageBackground: "https://teclu-portal.s3.sa-east-1.amazonaws.com/5/yogem/media/yogem.jpg",
+			ShowVideo: true,
+		},
+		ConnectionMethods: []portal.PortalConnectionMethod{
+			{
+				HtmlCode: `
+				<button id="buttonLoginEmail" onclick="loginEmail()"
+				class="button button1">Continuar con Email</button>`,
+			},
+			{
+				HtmlCode: `
+				<button id="buttonLoginFacebook" onclick="loginFacebook()"
+              class="button button1">Continuar con Facebook</button>`,
+			},
 		},
 	}
-	if data.Properties.ImageBackground != "" {
-		data.Properties.BackgroundColor = "#00000066"
+	body,err := h.portalUcase.BasicPortal(context.Background(),data)
+	if err != nil{
+		return c.JSON(http.StatusBadRequest,err.Error())
 	}
-	csstmlp, err := template.ParseFiles("./portales/validate-like/index.css")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	var bodyCss bytes.Buffer
-	err = csstmlp.Execute(&bodyCss, data)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	// os.WriteFile("index.css",bodyCss.Bytes(),0755)
-	css := template.CSS(bodyCss.String())
-	data.StyleCss = css
-
-	jstmpl, err := template.ParseFiles("./portales/validate-like/index.js")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	var bodyJs bytes.Buffer
-	err = jstmpl.Execute(&bodyJs, data)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	js := template.JS(bodyJs.String())
-	data.JsCode = js
-
-
-	t, err := template.ParseFiles("./portales/validate-like/index.html")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	var body bytes.Buffer
-	err = t.Execute(&body, data)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	os.WriteFile("test.html", body.Bytes(), 0755)
-	log.Println(string(body.Bytes()))
-	return c.JSON(http.StatusOK, string(body.Bytes()))
+	os.WriteFile("test.html", body, 0755)
+	log.Println(string(body))
+	return c.JSON(http.StatusOK, string(body))
 }
 func (h *PortalHandler) CreatePortal(c echo.Context) (err error) {
 	ctx := c.Request().Context()
@@ -152,7 +124,8 @@ func (h *PortalHandler) SavePortal(c echo.Context) (err error) {
 	if err != nil {
 		log.Println(err)
 	}
-	ctxR := c.Request().Context()	
+
+	ctxR := c.Request().Context()
 	err = h.portalUcase.UpdateSplashPage(ctxR, data)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
@@ -166,26 +139,39 @@ func (h *PortalHandler) SavePortalSettings(c echo.Context) (err error) {
 	if err != nil {
 		log.Println(err)
 	}
-	ctxR := c.Request().Context()	
+	ctxR := c.Request().Context()
 	err = h.portalUcase.UpdateSplashPageSettings(ctxR, data)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
 	}
+
 	// os.WriteFile("page.html",body.Bytes(),0755)
 	return c.JSON(http.StatusOK, "Se han guardado los cambios")
 }
 func (h *PortalHandler) UpdatePortal(c echo.Context) (err error) {
-	log.Println("UPDATE")
 	var data portal.BasicPortal
-	
+
 	err = c.Bind(&data)
 	if err != nil {
 		log.Println(err)
 	}
 	ctx := c.Request().Context()
-	res,err := h.portalUcase.BasicPortal(ctx,data)
+	res, err := h.portalUcase.BasicPortal(ctx, data)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest,ResponseError{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
 	}
 	return c.String(http.StatusOK, string(res))
+}
+
+func (h *PortalHandler) GetPortalConnectionMethods(c echo.Context) (err error) {
+	portalType, err := strconv.Atoi(c.Param("portalType"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
+	}
+	ctx := c.Request().Context()
+	res, err := h.portalUcase.GetConnectionMethods(ctx, portal.PortalType(portalType))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
+	}
+	return c.JSON(http.StatusOK, res)
 }

@@ -91,16 +91,16 @@ body{
 
 .image_placeholder{
     text-align: center;
-    width: {{ .Image.Width }}%;
-    height: {{ .Image.Height }}px;
-    object-fit: {{ .Image.ObjectFit }};    
+    width: {{ .Portada.Width }}%;
+    height: {{ .Portada.Height }}px;
+    object-fit: {{ .Portada.ObjectFit }};    
     /* filter: brightness(80%); */
 }
 .image{
   text-align: center;
-  width: {{ .Image.Width }}%;
-  height: {{ .Image.Height }}px;
-  object-fit: {{ .Image.ObjectFit }};
+  width: {{ .Portada.Width }}%;
+  height: {{ .Portada.Height }}px;
+  object-fit: {{ .Portada.ObjectFit }};
   filter: brightness(60%);
   
   /* filter: brightness(80%); */
