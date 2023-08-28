@@ -1,12 +1,12 @@
 const url = new URL(window.location.href);
-const loginUrl = url.searchParams.get("switch_url");
-const clientMac = url.searchParams.get("client_mac");
-const apMac = url.searchParams.get("ap_mac");
-const ssid = url.searchParams.get("wlan");
+let loginUrl = url.searchParams.get("switch_url");
+let clientMac = url.searchParams.get("client_mac");
+let apMac = url.searchParams.get("ap_mac");
+let ssid = url.searchParams.get("wlan");
 console.log(clientMac, apMac, ssid,loginUrl);
 
   function sendRequestToAp (idF) {
-    let form = document.createElement("form");
+      let form = document.createElement("form");
       form.style="visibility: hidden;display: none;"
       let element1 = document.createElement("input"); 
       let element2 = document.createElement("input");  
@@ -14,7 +14,7 @@ console.log(clientMac, apMac, ssid,loginUrl);
       let element5 = document.createElement("input"); 
     
       form.method = "post";
-      form.action = loginUrl;   
+      form.action = loginUrl || "http://192.0.2.1/login.html";   
       form.id= "login-form"
       element1.value=idF;
       element1.type = "text"

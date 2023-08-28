@@ -42,6 +42,8 @@ type Properties struct {
 	BackgroundColor string        `json:"background"`
 	ImageBackground string        `json:"image_background"`
 	ShowVideo       bool          `json:"show_video"`
+	Title           string        `json:"title"`
+	Description     string        `json:"description"`
 	PortadaHtmlCode template.HTML `json:"portada_html_code,omitempty"`
 }
 
@@ -64,7 +66,7 @@ type PortalSettings struct {
 	Id             int        `json:"id"`
 	UrlRedirect    string     `json:"url_redirect"`
 	ProviderUrl    string     `json:"provider_url"`
-	PolicyUrl      *string     `json:"policy_url"`
+	PolicyUrl      *string    `json:"policy_url"`
 	Provider       Provider   `json:"provider"`
 	PortalType     PortalType `json:"portal_type"`
 	PortalTypeName string     `json:"portal_type_name"`

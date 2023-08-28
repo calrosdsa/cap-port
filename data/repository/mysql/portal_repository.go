@@ -76,10 +76,11 @@ func (m *portalRepo) UpdateSplashPage(ctx context.Context, d r.BasicPortal) (err
 	if err != nil {
 		log.Println(err)
 	}
+	// log.Println(d.Properties.Title,"Title text")
 	query = `update portal_properties set color = ?,background = ?,image_background = ?,text_color = ?,
-	show_video = ? where id = ?`
+	show_video = ?,title = ?,description = ? where id = ?`
 	_, err = m.Conn.ExecContext(ctx, query, d.Properties.Color, d.Properties.BackgroundColor, d.Properties.ImageBackground,
-		d.Properties.TextColor,d.Properties.ShowVideo, d.Properties.Id)
+		d.Properties.TextColor,d.Properties.ShowVideo,d.Properties.Title,d.Properties.Description, d.Properties.Id)
 	if err != err {
 		log.Println(err)
 	}
@@ -138,7 +139,7 @@ func (m *portalRepo) GetSplashPage(ctx context.Context, code string) (res r.Basi
 	logo.id,logo.height,logo.width,logo.url,logo.object_fit,
 	portada.id,portada.height,portada.width,portada.url,portada.object_fit,portada.video_url,
 	properties.id,properties.color,properties.background,properties.image_background,properties.text_color,
-	properties.show_video,
+	properties.show_video,properties.title,properties.description,
 	setting.id,setting.provider,setting.url_redirect,setting.portal_type,setting.policy_url
 	from splashpage as p
 	inner join portal_logo as logo on logo.id_portal = p.id
@@ -152,7 +153,7 @@ func (m *portalRepo) GetSplashPage(ctx context.Context, code string) (res r.Basi
 		&res.Logo.Id, &res.Logo.Height, &res.Logo.Width, &res.Logo.Url, &res.Logo.ObjectFit,
 		&res.Portada.Id, &res.Portada.Height, &res.Portada.Width, &res.Portada.Url, &res.Portada.ObjectFit,&res.Portada.VideoUrl,
 		&res.Properties.Id, &res.Properties.Color, &res.Properties.BackgroundColor, &res.Properties.ImageBackground,
-		&res.Properties.TextColor,&res.Properties.ShowVideo,
+		&res.Properties.TextColor,&res.Properties.ShowVideo,&res.Properties.Title,&res.Properties.Description,
 		&res.Settings.Id, &res.Settings.Provider, &res.Settings.UrlRedirect, &res.Settings.PortalType,
 		&res.Settings.PolicyUrl,
 	)

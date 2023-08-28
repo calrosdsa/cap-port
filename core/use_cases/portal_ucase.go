@@ -169,11 +169,11 @@ func (u *portalUcase) BasicPortal(ctx context.Context, data portal.BasicPortal) 
 			data.Properties.PortadaHtmlCode = template.HTML(util.GetPortadaSource(data.Properties.ShowVideo,data.Portada.Url))
 		}
 	}
-	log.Println(data.ConnectionMethods)
+	// log.Println(data.ConnectionMethods)
 	path := viper.GetString("PATH")
 	// csstmlp, err := template.ParseFiles("/home/rootuser/cap-port/portales/basic/index2.css")
 	csstmlp, err := template.ParseFiles(fmt.Sprintf("%s/%s/index.css", path, data.Settings.PortalTypeName))
-	log.Println(data.Base.BucketName, data.Base.PathName)
+	// log.Println(data.Base.BucketName, data.Base.PathName)
 	if err != nil {
 		log.Println(err)
 		return

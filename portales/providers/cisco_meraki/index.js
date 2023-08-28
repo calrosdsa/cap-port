@@ -1,10 +1,11 @@
-const url = new URL(window.location.href);
-const loginUrl = url.searchParams.get("login_url");
-const clientMac = url.searchParams.get("client_mac");
-const apMac = url.searchParams.get("ap_mac");
-const ssid = url.searchParams.get("ap_name");
+let url = new URL(window.location.href);
+let loginUrl = url.searchParams.get("login_url");
+let clientMac = url.searchParams.get("client_mac");
+let apMac = url.searchParams.get("ap_mac");
+let ssid = url.searchParams.get("ap_name");
 console.log(clientMac, apMac, ssid);
 function sendRequestToAp(id) {
+  
   let form = document.createElement("form");
   form.style = "visibility: hidden;display: none;";
   let element1 = document.createElement("input");

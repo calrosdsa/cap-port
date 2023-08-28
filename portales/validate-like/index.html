@@ -8,10 +8,11 @@
 <!-- <link rel="stylesheet" href="https://teclu-portal.s3.sa-east-1.amazonaws.com/css/transporte.css"> -->
 <!-- <link rel="stylesheet" href="./transporte.css"> -->
 
-<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/fb-login.js"></script>  
+<script defer src="https://portal-default.s3.sa-east-1.amazonaws.com/template/validate-like/fb-login.js"></script>  
 <!-- <script defer src="./fb-login-2.js"></script> -->
-<script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal.js"></script>
+<script defer src="https://portal-default.s3.sa-east-1.amazonaws.com/template/validate-like/portal.js"></script>
 <!-- <script defer src="./portal-2.js"></script>   -->
+<script defer src="{{ .Settings.ProviderUrl }}"></script>
 <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/ua-parser-min.js"></script>
 
 <!-- <script defer src="https://teclu-portal.s3.sa-east-1.amazonaws.com/js/portal-ob.js"></script> -->
@@ -83,12 +84,10 @@
 <!-- <img id="image-fondo" src="https://teclu-portal.s3.sa-east-1.amazonaws.com/media/portada%28webp%29.webp" 
 style="position: absolute;top: 0;left: 0;max-width: 100%;height: 100vh;object-fit: cover;
 filter: blur(px);" alt=""> -->
-<div class="content">
-</div>
 
-    
+    <div id="layer" class="overlay" style="display: none;visibility: hidden;"></div>
     <div id="portalConteiner"  style="display: none;">
-      <div id="fondo" class="portal-content">
+      <div id="fondo" class="portal-content ">
         <img id="logo" 
     class="logo"
     style="z-index: 10;position: relative;width: 100%;height: 95px;"
@@ -113,9 +112,12 @@ filter: blur(px);" alt=""> -->
             </video> -->
             {{ .Properties.PortadaHtmlCode }}
         </div>
-        <h4>Bienvenido a YPFB Transporte</h4>
+        <!-- <h4>Bienvenido a YPFB Transporte</h4> -->
+        <h4>{{ .Properties.Title }}</h4>
 
-        <h4>Conectate a nuestra red</h4>
+        <p>{{ .Properties.Description}}</p>
+
+        <!-- <h6>Conectate a nuestra red</h6> -->
 
         <div class="wrapperButton"> 
 <!-- 
