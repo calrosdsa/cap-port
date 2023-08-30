@@ -92,6 +92,7 @@ func (u *portalUcase) GetSplashPages(ctx context.Context, id int) (res []portal.
 func (u *portalUcase) GetSplashPage(ctx context.Context, code string) (res portal.BasicPortal, err error) {
 	ctx, cancel := context.WithTimeout(ctx, u.timeout)
 	defer cancel()
+	// time.Sleep(1)
 	res, err = u.portalRepo.GetSplashPage(ctx, code)
 	res.Settings.ProviderUrl = util.GetProvider(res.Settings.Provider)
 	res.Settings.PortalTypeName = util.GetPortalTypeName(res.Settings.PortalType)

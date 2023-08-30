@@ -23,7 +23,7 @@ type MediaHandler struct {
 }
 
 type ResponseError struct{
-	Message  string
+	Message  string `json:"message"`
 }
 
 func NewMediaHandler(e *echo.Echo, sess *session.Session) {

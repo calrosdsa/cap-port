@@ -211,7 +211,7 @@ async function loginEmail() {
       }
     }).catch(err => {
       console.log(err);
-      window.location.href = 'https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login';
+      window.location.href = 'https://portal-default.s3.sa-east-1.amazonaws.com/connect/mail-solicitud/email.html#login';
     });
   } else {
     // PopupCenter('https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login', 'google.com', screen.width / 3, screen.height, {
@@ -221,7 +221,7 @@ async function loginEmail() {
     //   menubar: 1,
     //   status: 1
     // });
-    window.location.href = 'https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login';
+    window.location.href = 'https://portal-default.s3.sa-east-1.amazonaws.com/connect/mail-solicitud/email.html#login';
   }
   // window.location.replace("https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login")
 }

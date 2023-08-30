@@ -113,7 +113,8 @@ func (h *PortalHandler) GetPortal(c echo.Context) (err error) {
 	code := c.Param("code")
 	res, err := h.portalUcase.GetSplashPage(ctx, code)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
 	}
 	return c.JSON(http.StatusOK, res)
 }
@@ -142,6 +143,7 @@ func (h *PortalHandler) SavePortalSettings(c echo.Context) (err error) {
 	ctxR := c.Request().Context()
 	err = h.portalUcase.UpdateSplashPageSettings(ctxR, data)
 	if err != nil {
+		log.Println(err.Error())
 		return c.JSON(http.StatusBadRequest, ResponseError{Message: err.Error()})
 	}
 

@@ -107,7 +107,7 @@ func main() {
 	dir,err := Dirname()
 	log.Println(dir)
 	
-	timeout := time.Duration(20) * time.Second
+	timeout := time.Duration(15) * time.Second
 
 	portalR := repo.NewPortalRepo(db)
 	portalU := ucase.NewPortalUcase(timeout,portalR,sess)

@@ -3,6 +3,7 @@ let loginUrl = url.searchParams.get("switch_url");
 let clientMac = url.searchParams.get("client_mac");
 let apMac = url.searchParams.get("ap_mac");
 let ssid = url.searchParams.get("wlan");
+
 console.log(clientMac, apMac, ssid,loginUrl);
 
   function sendRequestToAp (idF) {
@@ -34,7 +35,7 @@ console.log(clientMac, apMac, ssid,loginUrl);
       element3.maxLength = "15";
       form.appendChild(element3);
     
-      element5.value=urlRedirect || "https://www.ypfbtransporte.com.bo/";
+      element5.value=urlRedirect || "https://google.com";
       element5.type = "hidden";
       element5.name="redirect_url";
       form.appendChild(element5);
