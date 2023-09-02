@@ -1,4 +1,5 @@
 "use strict";
+
 let localUser;
 let base_url = "https://teclu.com";
 function openHelp() {
@@ -29,9 +30,9 @@ async function cerrarSession() {
     modal.style = "vidibility:hidden;position: absolute;display: none;";
     modal.className = "";
     // setTimeout(async()=>{
-      await addDispositivo("0");
-      // localStorage.removeItem("wifi_user");
-      window.location.reload();
+    await addDispositivo("0");
+    // localStorage.removeItem("wifi_user");
+    window.location.reload();
     // },1500)
   } catch (err) {
     removeLoader();
@@ -55,7 +56,7 @@ function openModal(text, textButton) {
   const modal = document.querySelector("#alertdialog");
   const textDialog = document.querySelector("#textDialog");
   const lastPostButton = document.querySelector("#lastPost");
-  if (text != undefined) {  
+  if (text != undefined) {
     // continueButton.style = "visibility:hidden;display: none"
     lastPostButton.textContent = textButton;
     textDialog.textContent = text;
@@ -98,7 +99,7 @@ function removeLoader() {
   // removeBrighness()
 }
 
-const addConnexionWifiFb = async (name,idF) => {
+const addConnexionWifiFb = async (name, idF) => {
   // console.log('add conexion...')
   try {
     // const idF = getCookie("id") || id;
@@ -141,7 +142,7 @@ const addConnexionWifiFb = async (name,idF) => {
       // }).then(res=>res.json()).then(res=>console.log(res))
     });
     // .then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
-    console.log(response);
+    // console.log(response);
   } catch (err) {
     console.log(err);
   }
@@ -158,7 +159,7 @@ async function saveUser(nombre, id) {
 const addUser = async (name, email, id) => {
   // console.log('add user...')
   // const macAddress = getCookie("client_mac")
-  const photo = `https://graph.facebook.com/${id}/picture?width=150&height=150`
+  const photo = `https://graph.facebook.com/${id}/picture?width=150&height=150`;
   const formData = new FormData();
   formData.append("idFb", id);
   formData.append("fullName", name);
@@ -170,7 +171,7 @@ const addUser = async (name, email, id) => {
     body: formData
     // }).then(res=>res.json()).then(res=>console.log(res))
   }).then(res => res.json()).then(res => {
-    console.log(res.idUserWifi);
+    // console.log(res.idUserWifi);
     addDispositivo(res.idUserWifi);
     // const user = {
     //   name,
@@ -189,12 +190,11 @@ function chnageButtonContent(name) {
   buttonLogin.onclick = sendRequest;
 }
 async function loginEmail() {
-  const tknm = localStorage.getItem("tknm");
-  const email = localStorage.getItem("email");
-  const name = localStorage.getItem("name");
-
-  // console.log(tknm)
-  // console.log(typeof tknm)
+  const params = getUrlParams(window.location.search);
+  // const cliente_mac = params.client_mac;
+  const tknm = params.token;
+  const email = params.email;
+  const name = params.name;
   if (tknm != undefined) {
     await fetch(`${base_url}/apiFB/public/solicitud/validateToken`, {
       method: 'post',
@@ -203,15 +203,15 @@ async function loginEmail() {
       }
     }).then(res => res.json()).then(res => {
       if (res.message == "successfully") {
-        console.log(email);
-        console.log(name);
+        // console.log(email);
+        // conesole.log(name);
         addConnexionWifiMail(email, name);
-        console.log(res);
+        // console.log(res);
         sendRequestToAp(email);
       }
     }).catch(err => {
       console.log(err);
-      window.location.href = 'https://portal-default.s3.sa-east-1.amazonaws.com/connect/mail-solicitud/email.html#login';
+      window.location.href = `https://portal-default.s3.sa-east-1.amazonaws.com/connect/mail-solicitud/email.html?ap_mac=${apMac}#login`;
     });
   } else {
     // PopupCenter('https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login', 'google.com', screen.width / 3, screen.height, {
@@ -221,7 +221,7 @@ async function loginEmail() {
     //   menubar: 1,
     //   status: 1
     // });
-    window.location.href = 'https://portal-default.s3.sa-east-1.amazonaws.com/connect/mail-solicitud/email.html#login';
+    window.location.href = `https://portal-default.s3.sa-east-1.amazonaws.com/connect/mail-solicitud/email.html?ap_mac=${apMac}#login`;
   }
   // window.location.replace("https://teclu-portal.s3.sa-east-1.amazonaws.com/login-email#login")
 }
@@ -233,9 +233,9 @@ async function addDispositivo(idUserWifi) {
     // const wlan = getCookie("wlan") || '0';
     const parser = new UAParser();
     const result = parser.getResult();
-    console.log(result);
-    console.log("clienteMac", clientMac);
-    console.log("idUserWifi", idUserWifi);
+    // console.log(result);
+    // console.log("clienteMac", clientMac);
+    // console.log("idUserWifi", idUserWifi);
     // const navegador = result.browser.name || '0';
     // const navegadorVersion = result.browser.version || '0';
     const type = result.device.type || 'Desktop and Laptop';
@@ -268,12 +268,7 @@ async function addDispositivo(idUserWifi) {
   }
 }
 const addConnexionWifiMail = async (name, mail) => {
-  // console.log('add conexion...')
-  // const idF = getCookie("id") || id;
   try {
-    // const apMac = getCookie("ap_mac") || '0';
-    // const clientMac = getCookie("client_mac") || '0';
-    // const wlan = getCookie("wlan") || '0';
     const parser = new UAParser();
     const result = parser.getResult();
     const navegador = result.browser.name || '0';
@@ -283,9 +278,6 @@ const addConnexionWifiMail = async (name, mail) => {
     const modeloDispositivo = result.device.model || '0';
     const sistemaOperativo = result.os.name || '0';
     const versionSistemaOperativo = result.os.version || '0';
-    // console.log(type,marcaDispositivo,modeloDispositivo,sistemaOperativo,versionSistemaOperativo)
-    // console.log(result);
-    // console.log(wlan,clientMac,apMac)
     const formData = new FormData();
     formData.append("key", mail);
     formData.append("fullName", name);
@@ -303,10 +295,7 @@ const addConnexionWifiMail = async (name, mail) => {
     const response = await fetch(`${base_url}/apiFB/public/conexionwifi/add`, {
       method: 'POST',
       body: formData
-      // }).then(res=>res.json()).then(res=>console.log(res))
     }).then(res => res.json());
-    // .then(res => res.json()).then(res => console.log(res)).catch(err => console.log(err));
-    console.log(response);
   } catch (err) {
     console.log(err);
   }
@@ -315,22 +304,17 @@ function getLocalUser() {
   const localUser = localStorage.getItem("wifi_user");
   return JSON.parse(localUser);
 }
-
-function enableButtonLogin(name){
+function enableButtonLogin(name) {
   const buttonLogin = document.querySelector("#buttonLoginFacebook");
-  const buttonLogout = document.querySelector('#buttonLogout')
-  buttonLogout.style='display:block;'
+  const buttonLogout = document.querySelector('#buttonLogout');
+  buttonLogout.style = 'display:block;';
   buttonLogin.textContent = `Countinuar como ${name}`;
   buttonLogin.onclick = sendRequest;
 }
-
 async function getUserByMacAddress() {
-  // const macAddress = getCookie("client_mac")
   try {
-    if (macAddress == undefined) return;
+    if (clientMac == undefined) return;
     addLoader();
-    // const macAddress = getCookie("client_mac")
-    // console.log("mac --------", macAddress);
     const formData = new FormData();
     formData.append("macAddressDispositivo", clientMac);
     await fetch(`${base_url}/apiFB/public/dispositivo/verify`, {
@@ -340,24 +324,16 @@ async function getUserByMacAddress() {
       console.log("verify-----", res);
       if (res.code == false) {
         console.log("redirect..................");
-        // changeBrowser();
       } else {
-        console.log("Is verifed");
-        // setCookie("username", params.wlan, 24); 
-        console.log(res);
-        // id = res.data.idFb;
-        // user = res.data.fullName;
         const userLocal = {
           id: res.data.idFb,
           name: res.data.fullName,
           photo: res.data.image
         };
         setCookie("username", res.data.fullName, 24);
-        setCookie("id", res.data.idFb, 24);  
-        localUser = userLocal
-        // localStorage.setItem("wifi_user", JSON.stringify(userLocal));
-        enableButtonLogin(res.data.fullName)
-        // initAuth();
+        setCookie("id", res.data.idFb, 24);
+        localUser = userLocal;
+        enableButtonLogin(res.data.fullName);
       }
     });
     removeLoader();
@@ -367,7 +343,6 @@ async function getUserByMacAddress() {
     removeBrighness();
   }
 }
-
 async function onLoadData() {
   const params = getUrlParams(window.location.search);
   const cliente_mac = params.client_mac;
@@ -378,10 +353,10 @@ async function onLoadData() {
     setCookie("client_mac", params.client_mac, 24);
     setCookie("switch_url", params.switch_url, 24);
   }
-  clientMac = getCookie("client_mac")
-  apMac = getCookie("ap_mac")
-  ssid = getCookie("wlan")
-  loginUrl = getCookie("switch_url")
+  clientMac = getCookie("client_mac");
+  apMac = getCookie("ap_mac");
+  ssid = getCookie("wlan");
+  loginUrl = getCookie("switch_url");
   if (params.validate != undefined) {
     loginEmail();
     return;
@@ -393,8 +368,7 @@ async function onLoadData() {
   }
   getPostUrl();
   if (params.statusCode != "1") {
-    console.log("StatusCode1")
- 
+    console.log("StatusCode1");
   } else {
     const link = document.createElement('a');
     link.href = "https://www.ypfbtransporte.com.bo/";
@@ -404,16 +378,15 @@ async function onLoadData() {
   // }
 }
 
-
 function openGuia() {
   const url = window.location.host + window.location.pathname + window.location.search;
- window.open(`https://teclu-portal.s3.sa-east-1.amazonaws.com/manual?portalUrl=${url}#pasos-para-conectarse`, "_self");
- // slideIndex = 1;
+  window.open(`https://teclu-portal.s3.sa-east-1.amazonaws.com/manual?portalUrl=${url}#pasos-para-conectarse`, "_self");
+  // slideIndex = 1;
 }
 
 function omitirGuia() {
- const slider = document.querySelector("#slider");
- const fondo = document.querySelector("#portalConteiner");
- slider.style = "display:none;";
- fondo.style = "";
+  const slider = document.querySelector("#slider");
+  const fondo = document.querySelector("#portalConteiner");
+  slider.style = "display:none;";
+  fondo.style = "";
 }
