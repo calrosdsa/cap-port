@@ -275,12 +275,13 @@
   
   .logo {
     /* width: 150px;height: 90px;object-fit: contain;padding: 10px; */
-    width: {{ .Logo.Width }}px;
+    width: {{ .Logo.Width }}%;
     height: {{ .Logo.Height }}px;
     object-fit: {{ .Logo.ObjectFit }};
   }
 
   .logoContainer {
-    display: flex;justify-content: center;width: 100%;padding-top: 15px;
+    display: flex;justify-content: center;
+    width: 100%;padding-top: 15px;
     margin-bottom: 15px;
   }

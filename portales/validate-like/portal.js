@@ -62,7 +62,7 @@ function openModal(text, textButton) {
     textDialog.textContent = text;
     lastPostButton.onclick = cerrarSession;
   } else {
-    textDialog.textContent = "Por favor, antes de continuar, asegúrese de haber dado 'me gusta'a nuestras últimas publicaciónes en Facebook.";
+    textDialog.textContent = "Por favor, antes de continuar, asegúrese de haber dado 'me gusta' a nuestras dos últimas publicaciones en Facebook.";
     lastPostButton.textContent = "Ir a la publicación más reciente";
     lastPostButton.onclick = navigateToPostUrl;
   }
