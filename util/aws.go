@@ -174,6 +174,7 @@ func UplaodObjectWebp(file *os.File,bucket string,dest string,sess *session.Sess
     output, err := uploader.Upload(&s3manager.UploadInput{
         Bucket: aws.String(bucket),
         Key: aws.String(dest+file.Name()),
+		CacheControl: aws.String("max-age=10"),
         Body: file,
     })
     if err != nil {
